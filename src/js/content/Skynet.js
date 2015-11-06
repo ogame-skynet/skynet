@@ -576,9 +576,6 @@ const Skynet = (function () {
 								new Date(_i($('meta[name="ogame-timestamp"]').prop('content') + '000'));
 						}
 						_s.deltaT = _s.loadTS.getTime() - _s.ogameTS.getTime();
-						console.log('Timezone offset:', _s.loadTS.getTimezoneOffset());
-						console.log('Server time:', DF.EXTENDED.format(_s.ogameTS));
-						console.log('Lokal time:', DF.EXTENDED.format(_s.loadTS));
 						_s.uni.donutGalaxy = $('meta[name="ogame-donut-galaxy"]').prop('content') === '1';
 						_s.uni.donutSystem = $('meta[name="ogame-donut-system"]').prop('content') === '1';
 						_s.uni.speed = _i($('meta[name="ogame-universe-speed"]').prop('content'));
