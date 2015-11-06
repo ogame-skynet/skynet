@@ -709,10 +709,15 @@ const Skynet = (function () {
 			{name : 'BuEnO'}
 		];
 		this.translator = [
-			{lang : 'Italian', name : 'Scappe', link : 'http://board.it.ogame.gameforge.com/user/139835-scappe/'},
-			{lang : 'Polish', name : 'Greg'},
-			{lang : 'Spanish', name : 'Sora'},
-			{lang : 'Swedish', name : 'HenkeG', link : 'http://board.origin.ogame.gameforge.com/user/8777-henkeg/'}
+			{
+				lang : 'Hungarian', details : '<a href="http://board.origin.ogame.gameforge.com/user/9094-norand/" target="_blank">Norand</a>' +
+			' &amp; <a href="http://board.hu.ogame.gameforge.com/user/1495-peti258/" target="_blank">Peti</a>'
+			},
+			{lang : 'Italian', details : '<a href="http://board.it.ogame.gameforge.com/user/139835-scappe/" target="_blank">Scappe</a>'},
+			{lang : 'Polish', details : 'Greg'},
+			{lang : 'Portuguese', details : '<a href="http://board.pt.ogame.gameforge.com/user/112319-maxpayne/" target="_blank">MaxPayne</a>'},
+			{lang : 'Spanish', details : 'Sora'},
+			{lang : 'Swedish', details : '<a href="http://board.origin.ogame.gameforge.com/user/8777-henkeg/" target="_blank">HenkeG</a>'}
 		];
 		this.history = _s.history;
 

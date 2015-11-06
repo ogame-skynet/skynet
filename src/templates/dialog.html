@@ -50,18 +50,12 @@
 					<li data-bind="text: name"></li>
 					<!-- /ko -->
 					<!-- ko if: typeof link !== 'undefined' -->
-					<li><a data-bind="text: name, href: link"></a></li>
+					<li><a data-bind="text: name, href: link" target="_blank"></a></li>
 					<!-- /ko -->
 				</ul>
 				<h2 style="margin-top: 1em; font-weight: bold;" data-bind="text: _('translator')"></h2>
 				<ul data-bind="foreach: translator">
-					<!-- ko if: typeof link === 'undefined' -->
-					<li data-bind="text: _(lang) + ': ' + name"></li>
-					<!-- /ko -->
-					<!-- ko if: typeof link !== 'undefined' -->
-					<li><span data-bind="text: _(lang)"></span>: <a data-bind="text: name, href: link"></a>
-					</li>
-					<!-- /ko -->
+					<li data-bind="html: _(lang) + ': ' + details"></li>
 				</ul>
 
 				<p style="margin-top: 2em;">Ein Thread zu Skynet ist im <a
