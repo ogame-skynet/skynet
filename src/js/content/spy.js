@@ -1,5 +1,5 @@
 /* global Skynet, Q, $, parseCoords, parseDT, getTextNodesText, MESSAGES, extend, ocalc, RESOURCES,
- _i, _, _h, SHIPS_BY_ID, NF, RESOURCES, PAGES, getResource, ko, Timer, parseNumber, formatNumber */
+ _i, _, _h, SHIPS_BY_ID, nf, RESOURCES, PAGES, getResource, ko, Timer, parseNumber, formatNumber */
 
 (function (_s) {
 	const cfg = {
@@ -401,7 +401,7 @@
 			me.next().css({'text-align' : 'right'});
 			const val = production[RESOURCES[index]];
 			me.next().append($(_h('span', {
-				text : NF.D0.format(val), 'class' : (val > -1 ? 'undermark' : 'overmark'),
+				text : nf().format(val), 'class' : (val > -1 ? 'undermark' : 'overmark'),
 				style : {'float' : 'right', 'padding-right' : '20px', display : 'inline-block', width : '50px'}
 			})));
 		});
@@ -413,7 +413,7 @@
 		r = Math.floor(r / 60);
 		var m = r % 60;
 		r = Math.floor(r / 60);
-		return r + ':' + NF.DIG2.format(m) + ":" + NF.DIG2.format(s);
+		return r + ':' + nf(0, 2).format(m) + ":" + nf(0, 2).format(s);
 	}
 
 	function getPlanetByType(arr, planet) {

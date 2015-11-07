@@ -1,6 +1,5 @@
-/* global self, chrome, $, ko, _, _h, getResource, Promise, MessageBus, MESSAGES,
- extend, OFFICERS, formatDate, Q, _i, PAGES, ocalc, Timer, NF, formatTime, RESOURCES, parseCoords,
- TECHS_BY_ID */
+/* global self, chrome, $, ko, _, _h, getResource, Promise, MessageBus, MESSAGES, extend, OFFICERS,
+ formatDate, Q, _i, PAGES, ocalc, Timer, formatTime, RESOURCES, parseCoords, TECHS_BY_ID, nf */
 /* exported Skynet */
 
 const Skynet = (function () {
@@ -340,7 +339,7 @@ const Skynet = (function () {
 				if (r > 0) {
 					hasRes = true;
 				}
-				res += (res ? ', ' : '') + _(key) + ': ' + NF.D0.format(r);
+				res += (res ? ', ' : '') + _(key) + ': ' + nf().format(r);
 			});
 			if (hasRes) {
 				result += '<br>' + res;
@@ -826,14 +825,14 @@ const Skynet = (function () {
 		var _res = planet.resources;
 		var _resTra;
 		//noinspection JSUnusedGlobalSymbols
-		this.prod = ocalc.format(ocalc.product(planet.production, 3600), NF.D0);
+		this.prod = ocalc.format(ocalc.product(planet.production, 3600), nf());
 		this.res = {
 			metal : ko.observable(),
 			crystal : ko.observable(),
 			deuterium : ko.observable()
 		};
 		//noinspection JSUnusedGlobalSymbols
-		this.sto = ocalc.format(planet.storage, NF.D0);
+		this.sto = ocalc.format(planet.storage, nf());
 		this.stoCap = {
 			metal : ko.observable(),
 			crystal : ko.observable(),
@@ -933,19 +932,19 @@ const Skynet = (function () {
 			const pH = ocalc.product(op, 3600);
 			const pD = ocalc.product(pH, 24);
 			const pW = ocalc.product(pD, 7);
-			const h = ocalc.format(pH, NF.D0);
+			const h = ocalc.format(pH, nf());
 			self.prodH.metal(h.metal);
 			self.prodH.crystal(h.crystal);
 			self.prodH.deuterium(h.deuterium);
-			const d = ocalc.format(pD, NF.D0);
+			const d = ocalc.format(pD, nf());
 			self.prodD.metal(d.metal);
 			self.prodD.crystal(d.crystal);
 			self.prodD.deuterium(d.deuterium);
-			const w = ocalc.format(pW, NF.D0);
+			const w = ocalc.format(pW, nf());
 			self.prodW.metal(w.metal);
 			self.prodW.crystal(w.crystal);
 			self.prodW.deuterium(w.deuterium);
-			const r = ocalc.format(ocalc.quotient(op, op.deuterium), NF.D2);
+			const r = ocalc.format(ocalc.quotient(op, op.deuterium), nf(2));
 			self.rate.metal(r.metal);
 			self.rate.crystal(r.crystal);
 			self.rate.deuterium(r.deuterium);
@@ -956,7 +955,7 @@ const Skynet = (function () {
 			const now = new Date();
 			const delta = (now.getTime() - planet.resourcesTimeStamp - _s.deltaT) / 1000;
 			_res = ocalc.resources(planet, delta);
-			const r = ocalc.format(_res, NF.D0);
+			const r = ocalc.format(_res, nf());
 			self.res.metal(r.metal);
 			self.res.crystal(r.crystal);
 			self.res.deuterium(r.deuterium);
@@ -977,7 +976,7 @@ const Skynet = (function () {
 				const delta = (now.getTime() - pl.resourcesTimeStamp) / 1000;
 				r = ocalc.sum(r, ocalc.resources(pl, delta));
 			});
-			const t = ocalc.format(r, NF.D0);
+			const t = ocalc.format(r, nf());
 			self.sta.metal(t.metal);
 			self.sta.crystal(t.crystal);
 			self.sta.deuterium(t.deuterium);
@@ -992,12 +991,12 @@ const Skynet = (function () {
 				if (!_resTra) {
 					_resTra = ocalc.toRes(0);
 				}
-				const resFormatted = ocalc.format(_resTra, NF.D0);
+				const resFormatted = ocalc.format(_resTra, nf());
 				self.tra.metal(resFormatted.metal);
 				self.tra.crystal(resFormatted.crystal);
 				self.tra.deuterium(resFormatted.deuterium);
 			}
-			const resOvFormatted = ocalc.format(ocalc.sum(r, _resTra), NF.D0);
+			const resOvFormatted = ocalc.format(ocalc.sum(r, _resTra), nf());
 			self.resOv.metal(resOvFormatted.metal);
 			self.resOv.crystal(resOvFormatted.crystal);
 			self.resOv.deuterium(resOvFormatted.deuterium);

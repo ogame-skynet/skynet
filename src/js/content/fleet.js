@@ -1,4 +1,4 @@
-/* global Skynet, $, Promise, _, _h, extend, MESSAGES, SHIPS_BY_ID, NF, Q, _i, Timer, DF */
+/* global Skynet, $, Promise, _, _h, extend, MESSAGES, SHIPS_BY_ID, Q, _i, Timer, DF, nf */
 
 (function (_s) {
 	const cfg = {
@@ -107,12 +107,12 @@
 						text : _("overall resources") + ':', style : {display : 'inline-block', width : '130px'}
 					}],
 				['span',
-					{text : NF.D0.format(result.sumRes), style : {display : 'inline-block', width : '100px', 'text-align' : 'right'}}])));
+					{text : nf().format(result.sumRes), style : {display : 'inline-block', width : '100px', 'text-align' : 'right'}}])));
 			result.fleet.forEach(function (elem) {
 				me.append($(_h('div', {style : {margin : '0 auto', width : '230px'}}, ['span',
 						{text : elem.name + ':', style : {display : 'inline-block', width : '130px'}}],
 					['span',
-						{text : NF.D0.format(elem.amount), style : {display : 'inline-block', width : '100px', 'text-align' : 'right'}}])));
+						{text : nf().format(elem.amount), style : {display : 'inline-block', width : '100px', 'text-align' : 'right'}}])));
 			});
 		});
 		$("#buttonz").find("span.send_all").each(function () {
@@ -123,12 +123,12 @@
 				width += 37;
 				const c1 = result.sumRes > result.cap ? 'overmark' : 'undermark';
 				const html = [
-					{"h" : _("overall resources") + ":", "v" : NF.D0.format(result.sumRes), "c" : c1},
-					{"h" : _("transport capacity") + ":", "v" : NF.D0.format(result.cap), "c" : c1}
+					{"h" : _("overall resources") + ":", "v" : nf().format(result.sumRes), "c" : c1},
+					{"h" : _("transport capacity") + ":", "v" : nf().format(result.cap), "c" : c1}
 				];
 				result.fleet.forEach(function (elem) {
 					html.push({
-						h : elem.name + ':', v : NF.D0.format(elem.amount), c : elem.amount >
+						h : elem.name + ':', v : nf().format(elem.amount), c : elem.amount >
 						elem.available ? 'overmark' : ''
 					});
 				});
@@ -213,13 +213,13 @@
 					const p = maxPoints - points;
 					const html = [
 						{
-							h : _('expo points') + ':', v : NF.D0.format(p) +
-						(uniMaxPoints - points > 0 ? ' (' + NF.D0.format(p - uniMaxPoints) + ')' : ''),
+							h : _('expo points') + ':', v : nf().format(p) +
+						(uniMaxPoints - points > 0 ? ' (' + nf().format(p - uniMaxPoints) + ')' : ''),
 							c : points > 0 ? 'overmark' : ''
 						}
 					];
 					fleet.forEach(function (elem) {
-						html.push({h : elem.name + ':', v : NF.D0.format(elem.amount)});
+						html.push({h : elem.name + ':', v : nf().format(elem.amount)});
 					});
 					_s.renderHTMLTooltip('expedition', html, eBtn);
 					eBtn.click(function () {

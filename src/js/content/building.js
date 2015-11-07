@@ -1,4 +1,4 @@
-/* global Skynet, PAGES, $, Q, _i, TECHS_BY_ID, isNumeric, ocalc, _h, NF */
+/* global Skynet, PAGES, $, Q, _i, TECHS_BY_ID, isNumeric, ocalc, _h, nf */
 
 (function (_s) {
 	const cfg = {
@@ -107,7 +107,7 @@
 			case '212':
 				const prodSat = ocalc.production(TECHS_BY_ID[212], amount, player, planet, _s.uni.speed);
 				const out = $('#content').find('ul.production_info li:last span.undermark');
-				out.text(' (+' + NF.D0.format(prodSat.energy) + ')');
+				out.text(' (+' + nf().format(prodSat.energy) + ')');
 				break;
 			default:
 				break;
@@ -119,7 +119,7 @@
 				return;
 			}
 			const out = cont.find('li.' + key + ' div.cost');
-			out.text(NF.D0.format(costs[key]));
+			out.text(nf().format(costs[key]));
 			if (planet.resources[key] < costs[key]) {
 				out.addClass('overmark');
 			} else {

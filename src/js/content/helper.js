@@ -1,5 +1,5 @@
 /* global $, ko, getI18n, _i */
-/* exported _, _h, formatDate, getTimer, profiler, formatTime, getTextNodesText, isNumeric */
+/* exported _, _h, formatDate, formatTime, getTextNodesText, isNumeric, nf */
 
 /**
  *
@@ -128,9 +128,8 @@ const DF = {
  * @param {string} pattern
  */
 function DateFormatter(pattern) {
-	// dd.MM.yyyy HH:mm:ss.S
-	var f = new NumberFormatter(0, null, null, 2);
-	var f2 = new NumberFormatter(0, null, null, 3);
+	var f = nf(0, 2);
+	var f2 = nf(0, 3);
 
 	/**
 	 * @param {Date} date
@@ -145,70 +144,78 @@ function DateFormatter(pattern) {
 	};
 }
 
-const NF = {
-	D0 : new NumberFormatter(0, ',', '.'),
-	D2 : new NumberFormatter(2, ',', '.'),
-	DIG2 : new NumberFormatter(0, ',', '.', 2),
-	de : {
-		D0 : new NumberFormatter(0, ',', '.')
-	},
-	en : {
-		D0 : new NumberFormatter(0, '.', ',')
-	}
-};
-
-/**
- *
- * @param {number} [d] decimal places
- * @param {string} [dS] decimal separator
- * @param {string} [tS] String tousend separator
- * @param {number} [dig] Number digits > creates leading zeros if needed
- */
-function NumberFormatter(d, dS, tS, dig) {
-	d = d || 0;
-	dS = dS || ".";
-	dig = dig || 0;
-	var dF = Math.pow(10, d);
-	var lZ = Math.pow(10, dig).toString(10);
-	var digF = Math.pow(10, dig - 1);
-
-	/**
-	 * @param {number} num
-	 * @returns {string}
-	 */
-	this.format = function (num) {
-		var r = Math.round(num * dF) / dF;
-		var sNum = r.toFixed(d);
-		if (sNum.match(/^(-)?(\d+)(?:\.(\d+))?$/)) {
-			var s = RegExp.$1;
-			var n = RegExp.$2;
-			var dec = RegExp.$3;
-
-			if (dig && num < digF) {
-				n = lZ + n;
-				n = n.substr(n.length - dig);
-			}
-
-			if (tS) {
-				var o = [];
-				do {
-					if (n.length >= 3) {
-						o.push(n.substr(n.length - 3));
-						n = n.substr(0, n.length - 3);
-					} else {
-						o.push(n);
-						n = "";
-					}
-				} while (n);
-				o.reverse();
-				n = o.join(tS);
-			}
-
-			return s + n + (dec ? dS + dec : "");
-		}
-		return sNum;
-	};
+function nf(maximumFractionDigits, minimumIntegerDigits) {
+	//noinspection JSUnresolvedVariable,JSUnresolvedFunction
+	return new Intl.NumberFormat(navigator.languages[0], {
+		maximumFractionDigits : maximumFractionDigits || 0,
+		minimumIntegerDigits : minimumIntegerDigits || 1
+	});
 }
+
+//const NF = {
+//	D0 : new NumberFormatter(0, ',', '.'),
+//	D2 : new NumberFormatter(2, ',', '.'),
+//	DIG2 : new NumberFormatter(0, ',', '.', 2),
+//	de : {
+//		D0 : new NumberFormatter(0, ',', '.')
+//	},
+//	en : {
+//		D0 : new NumberFormatter(0, '.', ',')
+//	}
+//};
+
+///**
+// *
+// * @param {number} [d] decimal places
+// * @param {string} [dS] decimal separator
+// * @param {string} [tS] String tousend separator
+// * @param {number} [dig] Number digits > creates leading zeros if needed
+// */
+//function NumberFormatter(d, dS, tS, dig) {
+//	d = d || 0;
+//	dS = dS || ".";
+//	dig = dig || 0;
+//	var dF = Math.pow(10, d);
+//	var lZ = Math.pow(10, dig).toString(10);
+//	var digF = Math.pow(10, dig - 1);
+//
+//	/**
+//	 * @param {number} num
+//	 * @returns {string}
+//	 */
+//	this.format = function (num) {
+//		var r = Math.round(num * dF) / dF;
+//		var sNum = r.toFixed(d);
+//		if (sNum.match(/^(-)?(\d+)(?:\.(\d+))?$/)) {
+//			var s = RegExp.$1;
+//			var n = RegExp.$2;
+//			var dec = RegExp.$3;
+//
+//			if (dig && num < digF) {
+//				n = lZ + n;
+//				n = n.substr(n.length - dig);
+//			}
+//
+//			if (tS) {
+//				var o = [];
+//				do {
+//					if (n.length >= 3) {
+//						o.push(n.substr(n.length - 3));
+//						n = n.substr(0, n.length - 3);
+//					} else {
+//						o.push(n);
+//						n = "";
+//					}
+//				} while (n);
+//				o.reverse();
+//				n = o.join(tS);
+//			}
+//
+//			return s + n + (dec ? dS + dec : "");
+//		}
+//		return sNum;
+//	};
+//}
 
 /**
  *
@@ -263,39 +270,8 @@ function getTextNodesText(node, whiteSpace, deep) {
 	}
 }
 
-/**
- *
- * @param {Date} end
- * @param {Date} [now]
- * @returns {string}
- */
-function getTimer(end, now) {
-	now = now || new Date();
-	var x = Math.round((end.getTime() - now.getTime()) / 1000);
-	if (x <= 0) {
-		return '';
-	}
-	var s = x % 60;
-	x = (x - s) / 60;
-	var m = x % 60;
-	x = (x - m) / 60;
-	return x + ':' + NF.DIG2.format(m) + ':' + NF.DIG2.format(s);
-}
-
 function isNumeric(obj) {
 	return !Array.isArray(obj) && (obj - parseFloat(obj) + 1) >= 0;
-}
-
-function profiler(prefix, ts) {
-	var first;
-	var previous;
-	Object.keys(ts).forEach(function (txt) {
-		var d = ts[txt];
-		first = first || d;
-		previous = previous || d;
-		console.log(prefix + ':', txt, d.getTime() - first.getTime(), d.getTime() - previous.getTime());
-		previous = d;
-	});
 }
 
 ko.bindingHandlers.color = {

@@ -1,4 +1,4 @@
-/* global extend, _i, NF, NumberFormatter */
+/* global extend, _i, nf */
 /* exported OFFICERS, RESOURCES, SHIPS_BY_ID, TECHS, TECHS_BY_ID, ocalc, parseCoords, parseDT,
  parseNumber, formatNumber */
 
@@ -122,7 +122,8 @@ function parseNumber(txt, lang) {
 		var mod = RegExp.$2;
 		if (mod) {
 			return parseFloat(num.replace(/,/, '.')) *
-				(mod === 'M' ? 1000000 : (mod === 'Mrd' || mod === 'Bn' ? 1000000000 : 1));
+				(mod === 'M' || mod === 'Mio' ? 1000000 :
+					(mod === 'Mrd' || mod === 'Bn' || mod === 'B' ? 1000000000 : 1));
 		}
 		return _i(num.replace(/[^\d-]/g, ''));
 	}
@@ -130,7 +131,7 @@ function parseNumber(txt, lang) {
 }
 
 function formatNumber(num, lang) {
-	var formatter = NF[lang] ? NF[lang].D0 : NF.D0;
+	var formatter = nf();
 	var val = num;
 	var mod = '';
 	if (Math.abs(val) > 1000000) {
@@ -141,9 +142,7 @@ function formatNumber(num, lang) {
 			val = val / 1000000;
 			mod = ' M';
 		}
-		const dp = val > 100 ? 2 : 3;
-		formatter =
-			lang === 'en' ? new NumberFormatter(dp, '.', ',') : new NumberFormatter(dp, ',', '.');
+		formatter = nf(val > 100 ? 2 : 3);
 	}
 	return formatter.format(val) + mod;
 }

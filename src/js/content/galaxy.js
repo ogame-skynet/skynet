@@ -1,4 +1,4 @@
-/* global $, Q, Skynet, _i, MESSAGES, NF, extend, STATUS, hexToRgb */
+/* global $, Q, Skynet, _i, MESSAGES, extend, STATUS, hexToRgb, nf */
 
 (function (_s) {
 	const cfg = {
@@ -163,7 +163,7 @@
 					const rank = td.find('div.htmlTooltip li.rank a').text();
 					if (rank) {
 						td.append($('<span>',
-							{css : {float : 'right'}, text : NF.D0.format(_i(rank))}));
+							{css : {float : 'right'}, text : nf().format(_i(rank))}));
 					}
 					fixWidth(td);
 				});
