@@ -819,7 +819,8 @@
 				}
 				return location.href.replace(/\?page=.+$/,
 					'?page=fleet1&galaxy=' + planet.position[0] + '&system=' + planet.position[1] +
-					'&position=' + planet.position[2] + '&type=1&mission=1' + param);
+					'&position=' + planet.position[2] + '&type=' + (planet.type === 'm' ? 3 : 1) +
+					'&mission=1' + param);
 			}, this);
 
 			this.age = ko.computed(function () {
