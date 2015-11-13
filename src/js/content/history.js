@@ -10,7 +10,9 @@
 			'Change report handling to solve problems if Skynet had not seen the galaxy view',
 			'Hungarian translation',
 			'Portuguese translation',
-			'Add abbreviated number format in summary']
+			'Add abbreviated number format in summary',
+			'Fix Raidar attack to moons',
+			'Fix Raidar detect fleet and defense']
 	}, {
 		'date' : '27.10.2015 :: v4.1.0',
 		summary : 'Fehlerkorrekturen und Verbesserung nach User Feedback',

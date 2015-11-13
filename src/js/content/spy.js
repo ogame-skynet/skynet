@@ -308,19 +308,19 @@
 					['td', {text : ship.name}],
 					['td', {text : formatSeconds(fTime)}],
 					['td', '', ['a', {
-						text : f.format(amount, _s.lang), href : btnAttack.attr('href') + '&am' + ship.id +
+						text : f.format(amount), href : btnAttack.attr('href') + '&am' + ship.id +
 						'=' +
 						amount
 					}]],
 					['td', {colspan : 2}, [
 						'span', {
-							text : f.format(m, _s.lang) + ' ' + _('metal') + ', ' + f.format(c, _s.lang) +
+							text : f.format(m) + ' ' + _('metal') + ', ' + f.format(c) +
 							' ' +
 							_('crystal') + ', '
 						}
 					], [
 						'span', {
-							text : f.format(d - usage, _s.lang),
+							text : f.format(d - usage),
 							'class' : d - usage < 0 ? 'overmark' : ''
 						}
 					], [
@@ -389,7 +389,7 @@
 				me.find('span').css('line-height', 'normal');
 				me.append($(_h('br', '')));
 				me.append($(_h('span', {
-					text : nf(0, 0, 0, true).format(val, _s.lang), 'class' : 'res_value ' +
+					text : nf(0, 0, 0, true).format(val), 'class' : 'res_value ' +
 					(val > -1 ? 'undermark' : 'overmark'),
 					style : {'line-height' : 'normal'}
 				})));
@@ -554,12 +554,15 @@
 					planet.resourcesTimeStamp = parseDT(me.find('span.msg_date').text()).getTime();
 					planet.detailLink = me.find('div.msg_actions a:last').prop('href');
 					planet.lf = calcLoot(me);
-					planet.fleetUnits =
-						parseNumber(me.find('span.msg_content div.compacting:last span:first').text().trim().replace(/^.+ /,
-							''), _s.lang);
-					planet.defenseUnits =
-						parseNumber(me.find('span.msg_content div.compacting:last span:last').text().trim().replace(/^.+ /,
-							''), _s.lang);
+					planet.fleetUnits = -1;
+					planet.defenseUnits = -1;
+					me.find('span.msg_content div.compacting:last span').each(function (index) {
+						if (index === 0) {
+							planet.fleetUnits = parseNumber($(this).text().trim().replace(/^.+ /, ''));
+						} else if (index === 1) {
+							planet.defenseUnits = parseNumber($(this).text().trim().replace(/^.+ /, ''));
+						}
+					});
 					planet.underAttack = me.find('a span.icon_attack img').length > 0;
 					Promise.all([
 						_s.port.get(MESSAGES.getPlayer, {name : playerName}),
@@ -577,7 +580,7 @@
 							planetData.resources = planetData.resources || {};
 							me.find('span.resspan').each(function (index) {
 								planetData.resources[RESOURCES[index]] =
-									parseNumber($(this).text().trim().replace(/^.+ /, ''), _s.lang);
+									parseNumber($(this).text().trim().replace(/^.+ /, ''));
 							});
 						}
 						planetData.deleteLink = me.find('div.msg_head a:last span');
@@ -662,7 +665,7 @@
 					const me = $(this);
 					const id = oI18n.tbn[me.text().trim()];
 					if (id) {
-						current[id] = parseNumber(me.next().text().trim(), _s.lang);
+						current[id] = parseNumber(me.next().text().trim());
 					}
 				});
 			}
@@ -677,7 +680,7 @@
 			if (!txt) {
 				txt = me.find('span.res_value').text().trim();
 			}
-			res[RESOURCES[index]] = parseNumber(txt, _s.lang);
+			res[RESOURCES[index]] = parseNumber(txt);
 		});
 		return res;
 	}
@@ -781,13 +784,13 @@
 			ocalc.storageCapacity(planet);
 			this.metal = ko.observable();
 			//noinspection JSUnusedGlobalSymbols
-			this.metalProd = f.format(production.metal, _s.lang);
+			this.metalProd = f.format(production.metal);
 			this.crystal = ko.observable();
 			//noinspection JSUnusedGlobalSymbols
-			this.crystalProd = f.format(production.crystal, _s.lang);
+			this.crystalProd = f.format(production.crystal);
 			this.deuterium = ko.observable();
 			//noinspection JSUnusedGlobalSymbols
-			this.deuteriumProd = f.format(production.deuterium, _s.lang);
+			this.deuteriumProd = f.format(production.deuterium);
 			this.newReport = planet.newReport;
 			this.position = '[' + planet.position.join(':') + ']';
 			//noinspection JSUnusedGlobalSymbols
@@ -802,8 +805,8 @@
 				}
 				parent.reports.remove(self);
 			};
-			this.fleetUnits = f.format(planet.fleetUnits, _s.lang);
-			this.defenseUnits = f.format(planet.defenseUnits, _s.lang);
+			this.fleetUnits = planet.fleetUnits < 0 ? '-' : f.format(planet.fleetUnits);
+			this.defenseUnits = planet.defenseUnits < 0 ? '-' : f.format(planet.defenseUnits);
 			this.underAttack = planet.underAttack;
 
 			const distance = ocalc.distance(ownPlanet.position, planet.position, _s.uni);
@@ -835,9 +838,9 @@
 					this.ships(Math.ceil(s / ship.cap));
 				}
 				this.ratio = m / ratio[0] + c / ratio[1] + d / ratio[2];
-				this.metal(f.format(m, _s.lang));
-				this.crystal(f.format(c, _s.lang));
-				this.deuterium(f.format(d, _s.lang));
+				this.metal(f.format(m));
+				this.crystal(f.format(c));
+				this.deuterium(f.format(d));
 				sortReports();
 				return formatSeconds(dt);
 			}, this);
