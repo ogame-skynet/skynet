@@ -2,14 +2,15 @@
 
 (function (_s) {
 	_s.history.push({
-		'date' : '06.11.2015 :: v4.1.1',
+		'date' : '13.11.2015 :: v4.1.1',
 		summary : 'Changes and improvements from user feedback',
 		changes : ['The history is henceforth English, because of the large number of international users',
 			'Update for Swedish translation',
 			'Fix bug during player storage from galaxy view',
 			'Change report handling to solve problems if Skynet had not seen the galaxy view',
 			'Hungarian translation',
-			'Portuguese translation']
+			'Portuguese translation',
+			'Add abbreviated number format in summary']
 	}, {
 		'date' : '27.10.2015 :: v4.1.0',
 		summary : 'Fehlerkorrekturen und Verbesserung nach User Feedback',

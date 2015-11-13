@@ -1,5 +1,5 @@
 /* global $, ko, getI18n, _i */
-/* exported _, _h, formatDate, formatTime, getTextNodesText, isNumeric, nf */
+/* exported _, _h, formatDate, formatTime, getTextNodesText, isNumeric, nf, gl */
 
 /**
  *
@@ -144,79 +144,6 @@ function DateFormatter(pattern) {
 	};
 }
 
-function nf(maximumFractionDigits, minimumIntegerDigits) {
-	//noinspection JSUnresolvedVariable,JSUnresolvedFunction
-	return new Intl.NumberFormat(navigator.languages[0], {
-		maximumFractionDigits : maximumFractionDigits || 0,
-		minimumIntegerDigits : minimumIntegerDigits || 1
-	});
-}
-
-//const NF = {
-//	D0 : new NumberFormatter(0, ',', '.'),
-//	D2 : new NumberFormatter(2, ',', '.'),
-//	DIG2 : new NumberFormatter(0, ',', '.', 2),
-//	de : {
-//		D0 : new NumberFormatter(0, ',', '.')
-//	},
-//	en : {
-//		D0 : new NumberFormatter(0, '.', ',')
-//	}
-//};
-
-///**
-// *
-// * @param {number} [d] decimal places
-// * @param {string} [dS] decimal separator
-// * @param {string} [tS] String tousend separator
-// * @param {number} [dig] Number digits > creates leading zeros if needed
-// */
-//function NumberFormatter(d, dS, tS, dig) {
-//	d = d || 0;
-//	dS = dS || ".";
-//	dig = dig || 0;
-//	var dF = Math.pow(10, d);
-//	var lZ = Math.pow(10, dig).toString(10);
-//	var digF = Math.pow(10, dig - 1);
-//
-//	/**
-//	 * @param {number} num
-//	 * @returns {string}
-//	 */
-//	this.format = function (num) {
-//		var r = Math.round(num * dF) / dF;
-//		var sNum = r.toFixed(d);
-//		if (sNum.match(/^(-)?(\d+)(?:\.(\d+))?$/)) {
-//			var s = RegExp.$1;
-//			var n = RegExp.$2;
-//			var dec = RegExp.$3;
-//
-//			if (dig && num < digF) {
-//				n = lZ + n;
-//				n = n.substr(n.length - dig);
-//			}
-//
-//			if (tS) {
-//				var o = [];
-//				do {
-//					if (n.length >= 3) {
-//						o.push(n.substr(n.length - 3));
-//						n = n.substr(0, n.length - 3);
-//					} else {
-//						o.push(n);
-//						n = "";
-//					}
-//				} while (n);
-//				o.reverse();
-//				n = o.join(tS);
-//			}
-//
-//			return s + n + (dec ? dS + dec : "");
-//		}
-//		return sNum;
-//	};
-//}
-
 /**
  *
  * @param {Date} date
@@ -270,8 +197,47 @@ function getTextNodesText(node, whiteSpace, deep) {
 	}
 }
 
+function gl() {
+	//noinspection JSUnresolvedVariable
+	return navigator.languages[0];
+}
+
 function isNumeric(obj) {
 	return !Array.isArray(obj) && (obj - parseFloat(obj) + 1) >= 0;
+}
+
+function nf(maximumFractionDigits, minimumIntegerDigits, maximumSignificantDigits, abbr) {
+	if (abbr) {
+		return {
+			format : function (num) {
+				var val = num;
+				var mod = '';
+				if (Math.abs(val) > 1000000) {
+					if (Math.abs(val) > 1000000000) {
+						val = val / 1000000000;
+						mod = gl().match(/^de/) ? ' Bn' : ' Mrd';
+					} else {
+						val = val / 1000000;
+						mod = ' M';
+					}
+				}
+				return nf(3, 0, val >= 10 ? 5 : 4).format(val) + mod;
+			}
+		};
+	}
+	if (maximumSignificantDigits) {
+		//noinspection JSUnresolvedVariable,JSUnresolvedFunction
+		return new Intl.NumberFormat(gl, {
+			maximumFractionDigits : maximumFractionDigits || 0,
+			minimumIntegerDigits : minimumIntegerDigits || 1,
+			maximumSignificantDigits : maximumSignificantDigits
+		});
+	}
+	//noinspection JSUnresolvedVariable,JSUnresolvedFunction
+	return new Intl.NumberFormat(gl, {
+		maximumFractionDigits : maximumFractionDigits || 0,
+		minimumIntegerDigits : minimumIntegerDigits || 1
+	});
 }
 
 ko.bindingHandlers.color = {

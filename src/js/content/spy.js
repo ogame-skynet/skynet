@@ -1,5 +1,5 @@
 /* global Skynet, Q, $, parseCoords, parseDT, getTextNodesText, MESSAGES, extend, ocalc, RESOURCES,
- _i, _, _h, SHIPS_BY_ID, nf, RESOURCES, PAGES, getResource, ko, Timer, parseNumber, formatNumber */
+ _i, _, _h, SHIPS_BY_ID, nf, RESOURCES, PAGES, getResource, ko, Timer, parseNumber */
 
 (function (_s) {
 	const cfg = {
@@ -269,6 +269,7 @@
 	 * @param {*} player
 	 */
 	function dspPlunder(parent, planet, player) {
+		const f = nf(0, 0, 0, true);
 		Promise.all([_s.player, _s.planet, _s.config]).then(function (args) {
 			const currentPlayer = args[0];
 			const ownPlanet = args[1];
@@ -307,19 +308,19 @@
 					['td', {text : ship.name}],
 					['td', {text : formatSeconds(fTime)}],
 					['td', '', ['a', {
-						text : formatNumber(amount, _s.lang), href : btnAttack.attr('href') + '&am' + ship.id +
+						text : f.format(amount, _s.lang), href : btnAttack.attr('href') + '&am' + ship.id +
 						'=' +
 						amount
 					}]],
 					['td', {colspan : 2}, [
 						'span', {
-							text : formatNumber(m, _s.lang) + ' ' + _('metal') + ', ' + formatNumber(c, _s.lang) +
+							text : f.format(m, _s.lang) + ' ' + _('metal') + ', ' + f.format(c, _s.lang) +
 							' ' +
 							_('crystal') + ', '
 						}
 					], [
 						'span', {
-							text : formatNumber(d - usage, _s.lang),
+							text : f.format(d - usage, _s.lang),
 							'class' : d - usage < 0 ? 'overmark' : ''
 						}
 					], [
@@ -388,7 +389,7 @@
 				me.find('span').css('line-height', 'normal');
 				me.append($(_h('br', '')));
 				me.append($(_h('span', {
-					text : formatNumber(val, _s.lang), 'class' : 'res_value ' +
+					text : nf(0, 0, 0, true).format(val, _s.lang), 'class' : 'res_value ' +
 					(val > -1 ? 'undermark' : 'overmark'),
 					style : {'line-height' : 'normal'}
 				})));
@@ -773,19 +774,20 @@
 		}
 
 		function Report(planet, otherPlayer, ownPlanet, player, parent) {
+			const f = nf(0, 0, 0, true);
 			const self = this;
 			const production = ocalc.planetProduction(planet, otherPlayer, _s.uni);
 			planet.production = ocalc.quotient(production, 3600);
 			ocalc.storageCapacity(planet);
 			this.metal = ko.observable();
 			//noinspection JSUnusedGlobalSymbols
-			this.metalProd = formatNumber(production.metal, _s.lang);
+			this.metalProd = f.format(production.metal, _s.lang);
 			this.crystal = ko.observable();
 			//noinspection JSUnusedGlobalSymbols
-			this.crystalProd = formatNumber(production.crystal, _s.lang);
+			this.crystalProd = f.format(production.crystal, _s.lang);
 			this.deuterium = ko.observable();
 			//noinspection JSUnusedGlobalSymbols
-			this.deuteriumProd = formatNumber(production.deuterium, _s.lang);
+			this.deuteriumProd = f.format(production.deuterium, _s.lang);
 			this.newReport = planet.newReport;
 			this.position = '[' + planet.position.join(':') + ']';
 			//noinspection JSUnusedGlobalSymbols
@@ -800,8 +802,8 @@
 				}
 				parent.reports.remove(self);
 			};
-			this.fleetUnits = formatNumber(planet.fleetUnits, _s.lang);
-			this.defenseUnits = formatNumber(planet.defenseUnits, _s.lang);
+			this.fleetUnits = f.format(planet.fleetUnits, _s.lang);
+			this.defenseUnits = f.format(planet.defenseUnits, _s.lang);
 			this.underAttack = planet.underAttack;
 
 			const distance = ocalc.distance(ownPlanet.position, planet.position, _s.uni);
@@ -832,9 +834,9 @@
 					this.ships(Math.ceil(s / ship.cap));
 				}
 				this.ratio = m / ratio[0] + c / ratio[1] + d / ratio[2];
-				this.metal(formatNumber(m, _s.lang));
-				this.crystal(formatNumber(c, _s.lang));
-				this.deuterium(formatNumber(d, _s.lang));
+				this.metal(f.format(m, _s.lang));
+				this.crystal(f.format(c, _s.lang));
+				this.deuterium(f.format(d, _s.lang));
 				sortReports();
 				return formatSeconds(dt);
 			}, this);

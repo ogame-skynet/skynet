@@ -1,6 +1,6 @@
-/* global extend, _i, nf */
+/* global extend, _i */
 /* exported OFFICERS, RESOURCES, SHIPS_BY_ID, TECHS, TECHS_BY_ID, ocalc, parseCoords, parseDT,
- parseNumber, formatNumber */
+ parseNumber */
 
 const OFFICERS = ['commander', 'admiral', 'engineer', 'geologist', 'technocrat'];
 
@@ -116,7 +116,7 @@ function parseDT(dt) {
 	return null;
 }
 
-function parseNumber(txt, lang) {
+function parseNumber(txt) {
 	if (txt.match(/([\d,\.]+) ?(\S*)$/)) {
 		var num = RegExp.$1;
 		var mod = RegExp.$2;
@@ -128,23 +128,6 @@ function parseNumber(txt, lang) {
 		return _i(num.replace(/[^\d-]/g, ''));
 	}
 	return 0;
-}
-
-function formatNumber(num, lang) {
-	var formatter = nf();
-	var val = num;
-	var mod = '';
-	if (Math.abs(val) > 1000000) {
-		if (Math.abs(val) > 1000000000) {
-			val = val / 1000000000;
-			mod = lang === 'en' ? ' Bn' : ' Mrd';
-		} else {
-			val = val / 1000000;
-			mod = ' M';
-		}
-		formatter = nf(val > 100 ? 2 : 3);
-	}
-	return formatter.format(val) + mod;
 }
 
 const ocalc = (function () {
