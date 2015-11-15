@@ -560,28 +560,26 @@ const Skynet = (function () {
 	function pageLoaded(resolve) {
 		if (location.href.match(/.+\/game\/index\.php(?:(?:\?page|.*?&page)=(.+?)(?:#|&|$)|$)/)) {
 			const p = (RegExp.$1 || 'overview').toLowerCase();
-			_s.config.then(function (_c) {
-				$(function () {
-					if (_c[cfg.skynet_active]) {
-						_s.lang = $('meta[name="ogame-language"]').prop('content');
-						_s.ogameVersion = $('meta[name="ogame-version"]').prop('content');
-						const script = getScript();
-						const m = script.match(/var serverTime=new Date\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\);/);
-						if (m) {
-							_s.ogameTS =
-								new Date(m[1], m[2], m[3], m[4], m[5], m[6]);
-						} else {
-							_s.ogameTS =
-								new Date(_i($('meta[name="ogame-timestamp"]').prop('content') + '000'));
-						}
-						_s.deltaT = _s.loadTS.getTime() - _s.ogameTS.getTime();
-						_s.uni.donutGalaxy = $('meta[name="ogame-donut-galaxy"]').prop('content') === '1';
-						_s.uni.donutSystem = $('meta[name="ogame-donut-system"]').prop('content') === '1';
-						_s.uni.speed = _i($('meta[name="ogame-universe-speed"]').prop('content'));
-						_s.uni.speedFleet = _i($('meta[name="ogame-universe-speed-fleet"]').prop('content'));
-						resolve(p);
-					}
-					if (p !== 'empire') {
+			$(function () {
+				_s.lang = $('meta[name="ogame-language"]').prop('content');
+				_s.ogameVersion = $('meta[name="ogame-version"]').prop('content');
+				const script = getScript();
+				const m = script.match(/var serverTime=new Date\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\);/);
+				if (m) {
+					_s.ogameTS =
+						new Date(m[1], m[2], m[3], m[4], m[5], m[6]);
+				} else {
+					_s.ogameTS =
+						new Date(_i($('meta[name="ogame-timestamp"]').prop('content') + '000'));
+				}
+				_s.deltaT = _s.loadTS.getTime() - _s.ogameTS.getTime();
+				_s.uni.donutGalaxy = $('meta[name="ogame-donut-galaxy"]').prop('content') === '1';
+				_s.uni.donutSystem = $('meta[name="ogame-donut-system"]').prop('content') === '1';
+				_s.uni.speed = _i($('meta[name="ogame-universe-speed"]').prop('content'));
+				_s.uni.speedFleet = _i($('meta[name="ogame-universe-speed-fleet"]').prop('content'));
+				resolve(p);
+				if (p !== 'empire') {
+					_s.config.then(function (_c) {
 						$('#menuTableTools').append(_h('li', '',
 							['span', {
 								'class' : 'menu_icon skynet_icon', style : {
@@ -594,8 +592,8 @@ const Skynet = (function () {
 									'class' : 'textlabel', text : _('DialogTitle', [_('ExtensionName'), ''])
 								}]]));
 						$('#skynet_menu_setup').click(openDialog);
-					}
-				});
+					});
+				}
 			});
 		}
 	}

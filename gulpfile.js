@@ -15,7 +15,7 @@ const merge = require('merge-stream');
 
 const chrome_dir = 'build/chrome';
 const ff_dir = 'build/firefox';
-const dist = false;
+const dist = true;
 
 function lint(src) {
 	var streams = src;
