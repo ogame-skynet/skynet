@@ -141,6 +141,9 @@ const Skynet = (function () {
 	Promise.all([_s.page, _s.config]).then(function (args) {
 		const page = args[0];
 		const config = args[1];
+		if (!config[cfg.skynet_active]) {
+			return;
+		}
 		if (config[cfg.change_layout_planetlist]) {
 			const x = $('#rechts');
 			x.find('div.smallplanet a.constructionIcon').each(function () {
@@ -170,6 +173,9 @@ const Skynet = (function () {
 
 	Promise.all([_s.page, _s.config, _s.player, _s.planet]).then(function (args) {
 		const config = args[1];
+		if (!config[cfg.skynet_active]) {
+			return;
+		}
 		if (args[0] === PAGES.overview && config[cfg.show_summary]) {
 			showSummarySmall(config, args[2], args[3]);
 		}

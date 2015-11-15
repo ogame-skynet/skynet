@@ -35,6 +35,9 @@
 		try {
 			const page = args[0];
 			const config = args[1];
+			if (!config['feature.active']) {
+				return;
+			}
 			var version = 5;
 			if (_s.ogameVersion.match(/^6/)) {
 				version = 6;

@@ -14,6 +14,9 @@
 		const config = args[1];
 		const player = args[2];
 		const planet = args[3];
+		if (!config['feature.active']) {
+			return;
+		}
 		if (page === PAGES.research && config[cfg.deactivate_finished_research]) {
 			disableResearch();
 		}

@@ -41,6 +41,9 @@
 		const config = args[1];
 		const player = args[2];
 		const planet = args[3];
+		if (!config['feature.active']) {
+			return;
+		}
 		if (page.match(/^(?:fleet1|fleet2|movement)$/)) {
 			handler[page].call(null, config, player, planet);
 		}
