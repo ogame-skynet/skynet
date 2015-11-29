@@ -296,7 +296,9 @@ ko.extenders.trackChanges = function (target, initial) {
 		}
 		// if an observableArray is change tracked, sort and stringify it before the comparison
 		if ($.isArray(initialValue) && $.isArray(newValue)) {
-			target.isChanged(JSON.stringify(initialValue.sort()) !== JSON.stringify(newValue.sort()));
+			var iV = extend([], initialValue).sort();
+			var nV = extend([], newValue).sort();
+			target.isChanged(JSON.stringify(iV) !== JSON.stringify(nV));
 		} else {
 			target.isChanged(initialValue !== newValue);
 		}
