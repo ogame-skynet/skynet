@@ -1,4 +1,4 @@
-/* global $, ko, getI18n, _i */
+/* global $, ko, getI18n, _i, extend */
 /* exported _, _h, formatDate, formatTime, getTextNodesText, isNumeric, nf, gl */
 
 /**
@@ -215,7 +215,7 @@ function nf(maximumFractionDigits, minimumIntegerDigits, maximumSignificantDigit
 				if (Math.abs(val) > 1000000) {
 					if (Math.abs(val) > 1000000000) {
 						val = val / 1000000000;
-						mod = gl().match(/^de/) ? ' Bn' : ' Mrd';
+						mod = gl().match(/^de/i) ? ' Mrd' : ' Bn';
 					} else {
 						val = val / 1000000;
 						mod = ' M';

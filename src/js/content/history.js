@@ -2,7 +2,7 @@
 
 (function (_s) {
 	_s.history.push({
-		'date' : '13.11.2015 :: v4.1.1',
+		'date' : '29.11.2015 :: v4.1.1',
 		summary : 'Changes and improvements from user feedback',
 		changes : ['The history is henceforth English, because of the large number of international users',
 			'Update for Swedish translation',
@@ -12,7 +12,9 @@
 			'Portuguese translation',
 			'Add abbreviated number format in summary',
 			'Fix Raidar attack to moons',
-			'Fix Raidar detect fleet and defense']
+			'Fix Raidar detect fleet and defense',
+			'Fix Skynet lost techs and buildings after scan with insufficient probes',
+			'Danish translation']
 	}, {
 		'date' : '27.10.2015 :: v4.1.0',
 		summary : 'Fehlerkorrekturen und Verbesserung nach User Feedback',
