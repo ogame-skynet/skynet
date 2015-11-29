@@ -169,16 +169,16 @@
 				width += 37;
 				_s.port.get(MESSAGES.expoPoints).then(function (uniMaxPoints) {
 					var points = Math.min(uniMaxPoints, config[cfg.expo_max_points] || 25000);
-					const maxPoints = points;
-					const ships = planet.ships || {};
-					const fleet = [];
+					var maxPoints = points;
+					var ships = planet.ships || {};
+					var fleet = [];
 					if (config[cfg.expo_espionage] && ships[210]) {
 						fleet.push({ref : 210, amount : 1, name : SHIPS_BY_ID[210].name});
 						points -= SHIPS_BY_ID[210].expo;
 					}
 					if (!config[cfg.expo_transport_only]) {
-						const strongest = _i(config[cfg.expo_strong_ship] || '213');
-						const test = [213, 211, 215, 207, 206, 205, 204];
+						var strongest = _i(config[cfg.expo_strong_ship] || '213');
+						var test = [213, 211, 215, 207, 206, 205, 204];
 						test.every(function (/*number*/ ref) {
 							if (strongest === 215 && (ref === 213 || ref === 211)) {
 								return true;
@@ -192,7 +192,7 @@
 							if (ref === 204 && ships[203]) {
 								return true;
 							}
-							const available = ships[ref] || 0;
+							var available = ships[ref] || 0;
 							if (available > 0) {
 								fleet.push({ref : ref, amount : 1, name : SHIPS_BY_ID[ref].name});
 								points -= SHIPS_BY_ID[ref].expo;
@@ -202,10 +202,10 @@
 						});
 					}
 					['203', '202'].forEach(function (ref) {
-						const available = ships[ref] || 0;
+						var available = ships[ref] || 0;
 						if (points > 0 && available > 0) {
-							const needed = Math.ceil(points / SHIPS_BY_ID[ref].expo);
-							const o = {
+							var needed = Math.ceil(points / SHIPS_BY_ID[ref].expo);
+							var o = {
 								ref : ref, amount : needed > available ? available :
 									needed, name : SHIPS_BY_ID[ref].name
 							};
@@ -213,8 +213,8 @@
 							points -= SHIPS_BY_ID[ref].expo * o.amount;
 						}
 					});
-					const p = maxPoints - points;
-					const html = [
+					var p = maxPoints - points;
+					var html = [
 						{
 							h : _('expo points') + ':', v : nf().format(p) +
 						(uniMaxPoints - points > 0 ? ' (' + nf().format(p - uniMaxPoints) + ')' : ''),
