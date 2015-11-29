@@ -655,11 +655,10 @@
 		root.find('div.section_title').each(function (index) {
 			const me = $(this);
 			if (index > 0) {
-				const dList = me.next().find('span.detail_list_txt');
-				if (!dList.length) {
+				const type = types[index - 1];
+				if (me.next().find('li.detail_list_fail').length) {
 					return;
 				}
-				const type = types[index - 1];
 				var current;
 				if (index < 4) {
 					planet[type] = {};
@@ -668,7 +667,7 @@
 					player[type] = {};
 					current = player[type];
 				}
-				dList.each(function () {
+				me.next().find('span.detail_list_txt').each(function () {
 					const me = $(this);
 					const id = oI18n.tbn[me.text().trim()];
 					if (id) {
