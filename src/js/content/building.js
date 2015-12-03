@@ -1,4 +1,4 @@
-/* global Skynet, PAGES, $, Q, _i, TECHS_BY_ID, isNumeric, ocalc, _h, nf */
+/* global Skynet, PAGES, $, Q, _i, TECHS_BY_ID, isNumeric, ocalc, _h, nf, parseNumber */
 
 (function (_s) {
 	const cfg = {
@@ -80,14 +80,13 @@
 						const item = TECHS_BY_ID[ref];
 						if (item.p && isNumeric(item.p.energy) && item.p.energy < 0) {
 							const elem = me.find('ul.production_info li:last span');
-							const enrg = _i($('#resources_energy').text().trim().replace(/\./, '')) -
-								_i(elem.text().trim());
+							const enrg = parseNumber($('#resources_energy').text().trim()) - parseNumber(elem.text().trim());
 							if (enrg < 0) {
 								const prodSat = ocalc.production(TECHS_BY_ID[212], 1, player, planet, _s.uni.speed);
 								const amount = Math.ceil(-enrg / prodSat.energy);
 								elem.parent().append($(_h('b', '', '(',
-									['b', {text : enrg, 'class' : 'overmark'}],
-									' &#8793; ' + amount + ' ' + TECHS_BY_ID[212].name, ')')));
+									['b', {text : nf().format(enrg), 'class' : 'overmark'}],
+									' &#8793; ' + nf().format(amount) + ' ' + TECHS_BY_ID[212].name, ')')));
 							}
 						}
 					}

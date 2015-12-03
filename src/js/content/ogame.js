@@ -117,7 +117,7 @@ function parseDT(dt) {
 }
 
 function parseNumber(txt) {
-	if (txt.match(/([\d,\.]+) ?(\S*)$/)) {
+	if (txt.match(/^([\d,.-]+) ?(\S*)$/)) {
 		var num = RegExp.$1;
 		var mod = RegExp.$2;
 		if (mod) {
