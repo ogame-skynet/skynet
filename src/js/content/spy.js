@@ -843,7 +843,7 @@
 				if (ship) {
 					this.ships(Math.ceil(s / ship.cap));
 				}
-				this.ratio = m / ratio[0] + c / ratio[1] + d / ratio[2];
+				this.ratio = Math.round((m / ratio[0] + c / ratio[1] + d / ratio[2]) * 1000);
 				this.metal(f.format(m));
 				this.crystal(f.format(c));
 				this.deuterium(f.format(d));
