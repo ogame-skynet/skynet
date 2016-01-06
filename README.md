@@ -27,6 +27,16 @@ The build system is Gulp.
 
 The first lines of the **gulpfile.js** define all the dependencies for the Gulp build system.
 
+To install all dependencies use:
+
+	npm install gulp@3.9.0 gulp-util@3.0.7 gulp-notify@2.2.0 gulp-concat@2.6.0 gulp-jshint@2.0.0 gulp-uglify@1.5.1 del@2.2.0 gulp-json-transform@0.3.0 gulp-rename@1.2.2 gulp-shell@0.5.1 gulp-wait@0.0.2 gulp-order@1.1.1 gulp-if@2.0.0 merge-stream@1.0.0 jpm@1.0.4
+
+Then you can call gulp to build the final source code for firefox or chrome.
+
+After switching to the build/firefox folder, you can use jpm xpi to create the Firefox addon.
+
+The file has a cryptic name. Please rename it to match the correct name.
+
 The current version used for the actual build can be seen in the **versions.npm**.  
 This file is a result of the command `npm list > versions.npm`.
 
