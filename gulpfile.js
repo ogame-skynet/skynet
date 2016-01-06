@@ -38,46 +38,46 @@ gulp.task('build packages', function () {
 	const author = 'Martin Burchard';
 	const homepage = 'http://www.martin-burchard.de/skynet';
 	const ff_pack = {
-		name : name.toLowerCase(),
-		title : name,
-		description : desc,
-		version : version,
-		id : 'jid1-j57LkwpAWjGJXw@jetpack',
-		icon : 'icon.png',
-		author : author,
-		homepage : homepage
+		name: name.toLowerCase(),
+		title: name,
+		description: desc,
+		version: version,
+		id: 'jid1-j57LkwpAWjGJXw@jetpack',
+		icon: 'icon.png',
+		author: author,
+		homepage: homepage
 	};
 	const chrome_man = {
-		manifest_version : 2,
-		name : name || '__MSG_ExtensionName__',
-		short_name : name || '__MSG_ExtensionName__',
-		description : desc || '__MSG_ExtensionDescription__',
-		version : versionChrome,
-		version_name : version,
-		author : author,
-		homepage_url : homepage,
-		default_locale : 'en',
-		icons : {
-			'16' : 'gfx/icon_16.png',
-			'48' : 'gfx/icon_48.png',
-			'128' : 'gfx/icon_128.png'
+		manifest_version: 2,
+		name: name || '__MSG_ExtensionName__',
+		short_name: name || '__MSG_ExtensionName__',
+		description: desc || '__MSG_ExtensionDescription__',
+		version: versionChrome,
+		version_name: version,
+		author: author,
+		homepage_url: homepage,
+		default_locale: 'en',
+		icons: {
+			'16': 'gfx/icon_16.png',
+			'48': 'gfx/icon_48.png',
+			'128': 'gfx/icon_128.png'
 		},
-		background : {
-			scripts : [
+		background: {
+			scripts: [
 				'js/background.js'
 			],
-			persistent : true
+			persistent: true
 		},
-		content_scripts : [
+		content_scripts: [
 			{
-				matches : ['http://*.ogame.gameforge.com/*', 'https://*.ogame.gameforge.com/*'],
-				exclude_globs : ['*board*', '*support*'],
-				run_at : 'document_start',
-				css : [
+				matches: ['http://*.ogame.gameforge.com/*', 'https://*.ogame.gameforge.com/*'],
+				exclude_globs: ['*board*', '*support*'],
+				run_at: 'document_start',
+				css: [
 					'ext/nanoscroller.css',
 					'css/standard.css'
 				],
-				js : [
+				js: [
 					'ext/jquery.min.js',
 					'ext/jquery-ui.min.js',
 					'ext/knockout.min.js',
@@ -86,13 +86,13 @@ gulp.task('build packages', function () {
 				]
 			}
 		],
-		permissions : [
+		permissions: [
 			'storage',
 			'tabs',
 			'http://*.ogame.gameforge.com/',
 			'https://*.ogame.gameforge.com/'
 		],
-		web_accessible_resources : [
+		web_accessible_resources: [
 			'ext/jquery-ui.min.css',
 			'ext/images/*',
 			'css/images.css',
@@ -110,7 +110,7 @@ gulp.task('build packages', function () {
 		.pipe(gulp.dest(ff_dir + '/data/gfx'));
 	//noinspection JSUnresolvedFunction
 	gulp.src('src/gfx/icon_128.png')
-		.pipe(rename({basename : 'icon'}))
+		.pipe(rename({basename: 'icon'}))
 		.pipe(gulp.dest(ff_dir));
 });
 
@@ -128,12 +128,12 @@ gulp.task('default', ['clean'], function () {
 gulp.task('i18n', function () {
 	//noinspection JSUnresolvedFunction
 	gulp.src(['src/i18n/**/*'])
-		.pipe(rename({prefix : 'messages_'}))
+		.pipe(rename({prefix: 'messages_'}))
 		.pipe(gulp.dest(ff_dir + '/data/i18n'))
 		.pipe(json_transform(function (data) {
 			const json = {};
 			Object.keys(data).forEach(function (key) {
-				json[key] = {message : data[key]};
+				json[key] = {message: data[key]};
 			});
 			return json;
 		}, '  '))
@@ -155,38 +155,38 @@ gulp.task('JS Backend', function () {
 
 	//noinspection JSUnresolvedFunction
 	merge(common, lint('src/js/backend/chrome/**/*'), backend)
-		//.pipe(notify('Found file: <%= file.path %>'))
+	//.pipe(notify('Found file: <%= file.path %>'))
 		.pipe(order(['**/common/**/*.js', '**/backend/chrome/**/!(main.js)', '**/Skynet.js',
-			'**/!(main.js)', '**/chrome/**/main.js'], {base : 'src/js'}))
+			'**/!(main.js)', '**/chrome/**/main.js'], {base: 'src/js'}))
 		//.pipe(notify('After order: <%= file.path %>'))
 		.pipe(concat('background.js'))
 		.pipe(uglify({
-			mangle : false,
-			compress : false,
-			output : {
-				beautify : true,
-				indent_level : 2
+			mangle: false,
+			compress: false,
+			output: {
+				beautify: true,
+				indent_level: 2
 			}
 		}))
-		.pipe(gulpif(dist, uglify()))
+		.pipe(gulpif(dist, uglify({mangle: true})))
 		.pipe(gulp.dest(chrome_dir + '/js'));
 
 	//noinspection JSUnresolvedFunction
 	merge(common, lint('src/js/backend/firefox/**/*'), backend)
-		//.pipe(notify('Found file: <%= file.path %>'))
+	//.pipe(notify('Found file: <%= file.path %>'))
 		.pipe(order(['**/common/**/*.js', '**/backend/firefox/**/!(main.js)', '**/Skynet.js',
-			'**/!(main.js)', '**/firefox/**/main.js'], {base : 'src/js'}))
+			'**/!(main.js)', '**/firefox/**/main.js'], {base: 'src/js'}))
 		//.pipe(notify('After order: <%= file.path %>'))
 		.pipe(concat('index.js'))
 		.pipe(uglify({
-			mangle : false,
-			compress : false,
-			output : {
-				beautify : true,
-				indent_level : 2
+			mangle: false,
+			compress: false,
+			output: {
+				beautify: true,
+				indent_level: 2
 			}
 		}))
-		.pipe(gulpif(dist, uglify()))
+		.pipe(gulpif(dist, uglify({mangle: true})))
 		.pipe(gulp.dest(ff_dir));
 });
 
@@ -201,38 +201,38 @@ gulp.task('JS Content', function () {
 
 	//noinspection JSUnresolvedFunction
 	merge(common, lint('src/js/content/chrome/**/*'), content)
-		//.pipe(notify('Found file: <%= file.path %>'))
+	//.pipe(notify('Found file: <%= file.path %>'))
 		.pipe(order(['**/common/**/*.js', '**/content/chrome/**/!(main.js)', '**/Skynet.js',
-			'**/!(main.js)', '**/chrome/**/main.js'], {base : 'src/js'}))
+			'**/!(main.js)', '**/chrome/**/main.js'], {base: 'src/js'}))
 		//.pipe(notify('After order: <%= file.path %>'))
 		.pipe(concat('content.js'))
 		.pipe(uglify({
-			mangle : false,
-			compress : false,
-			output : {
-				beautify : true,
-				indent_level : 2
+			mangle: false,
+			compress: false,
+			output: {
+				beautify: true,
+				indent_level: 2
 			}
 		}))
-		.pipe(gulpif(dist, uglify()))
+		.pipe(gulpif(dist, uglify({mangle: true})))
 		.pipe(gulp.dest(chrome_dir + '/js'));
 
 	//noinspection JSUnresolvedFunction
 	merge(common, lint('src/js/content/firefox/**/*'), content)
-		//.pipe(notify('Found file: <%= file.path %>'))
+	//.pipe(notify('Found file: <%= file.path %>'))
 		.pipe(order(['**/common/**/*.js', '**/content/firefox/**/!(main.js)', '**/Skynet.js',
-			'**/!(main.js)', '**/firefox/**/main.js'], {base : 'src/js'}))
+			'**/!(main.js)', '**/firefox/**/main.js'], {base: 'src/js'}))
 		//.pipe(notify('After order: <%= file.path %>'))
 		.pipe(concat('content.js'))
 		.pipe(uglify({
-			mangle : false,
-			compress : false,
-			output : {
-				beautify : true,
-				indent_level : 2
+			mangle: false,
+			compress: false,
+			output: {
+				beautify: true,
+				indent_level: 2
 			}
 		}))
-		.pipe(gulpif(dist, uglify()))
+		.pipe(gulpif(dist, uglify({mangle: true})))
 		.pipe(gulp.dest(ff_dir + '/data'));
 });
 
@@ -272,7 +272,7 @@ gulp.task('xpi', function () {
 		gulp.src('')
 			.pipe(wait(5000))
 			.pipe(shell(['jpm post --post-url http://localhost:8888/'], {
-				cwd : 'build/firefox'
+				cwd: 'build/firefox'
 			}));
 	});
 });
@@ -284,10 +284,11 @@ gulp.task('xpi', function () {
  * @returns {*}
  */
 function string_src(filename, string) {
-	var src = require('stream').Readable({objectMode : true});
+	var src = require('stream').Readable({objectMode: true});
 	src._read = function () {
 		//noinspection JSUnresolvedFunction
-		this.push(new gulp_util.File({cwd : "", base : "", path : filename, contents : new Buffer(string)}));
+		this.push(
+			new gulp_util.File({cwd: "", base: "", path: filename, contents: new Buffer(string)}));
 		this.push(null)
 	};
 	return src
