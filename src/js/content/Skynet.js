@@ -712,6 +712,7 @@ const Skynet = (function () {
 			{name : 'BuEnO'}
 		];
 		this.translator = [
+			{lang : 'Danish', details: '<a href="http://board.us.ogame.gameforge.com/user/31682-erikfyr/" target="_blank">ErikFyr</a>'},
 			{
 				lang : 'Hungarian', details : '<a href="http://board.origin.ogame.gameforge.com/user/9094-norand/" target="_blank">Norand</a>' +
 			' &amp; <a href="http://board.hu.ogame.gameforge.com/user/1495-peti258/" target="_blank">Peti</a>'
