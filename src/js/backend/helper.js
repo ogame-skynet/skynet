@@ -1,4 +1,4 @@
-/* global extend */
+/* global extend, self, chrome */
 /* exported KeyFunctionPair, prepareConfig, getCSS */
 
 /**
@@ -142,7 +142,6 @@ function getCSS(config) {
 	return result;
 }
 
-
 /**
  *
  * @param {{}} config
@@ -150,7 +149,9 @@ function getCSS(config) {
  * @returns {{}}
  */
 function prepareConfig(config, host) {
-	const _c = {};
+	var _c = {};
+	var versionIncreased = true;
+	var currentVersion = self.version || chrome.runtime.getManifest().version_name;
 	Object.keys(config).forEach(function (key) {
 		if (key === host) {
 			const elem = config[key];
@@ -163,6 +164,9 @@ function prepareConfig(config, host) {
 			return;
 		}
 		_c[key] = extend(_c[key], config[key]);
+		if (key === 'installed.version') {
+
+		}
 	});
 	return _c;
 }

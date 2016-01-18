@@ -134,7 +134,8 @@ const Skynet = (function () {
 		{key: cfg.show_summary, label: 'show summary', type: 'boolean', def: true, cat: 'layout'},
 		{key: cfg.enhance_eventlist, label: 'enhance event list', type: 'boolean', def: true, cat: 'layout'},
 		{key: cfg.collapse_header, label: 'collapse header', type: 'boolean', def: true, cat: 'layout'},
-		{key: cfg.current_summary, cat: 'hidden', scope: 'uni'}
+		{key: cfg.current_summary, cat: 'hidden', scope: 'uni'},
+		{key: 'installed.version', cat: 'hidden'}
 	];
 	_s.addSettings(cfg_def);
 
