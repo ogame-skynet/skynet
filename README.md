@@ -68,10 +68,6 @@ The destination directory is **build**.
 
 ###Firefox XPI
 
-In order to meet a requirement of the AMO Editors, the **jquery-ui.min.js** (100kB) that is used
-for Chrome and Firefox (previously), will be replaced by the full **jquery-ui.min.js** (240kB) prior
-to building the XPI package.
-
 After switching to the build/firefox folder, you can use `jpm xpi` to create the Firefox addon.
 
 The file has a cryptic name. Please rename it to match the correct name.
