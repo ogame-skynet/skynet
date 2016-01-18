@@ -280,7 +280,7 @@ const ocalc = (function () {
 						baseProd = Math.round(Math.floor((maxTemp + 140) / 6) * level * uf);
 						break;
 					default:
-						console.log('calcProduction: formula for', item.id, 'not implemented');
+						console.error('calcProduction: formula for', item.id, 'not implemented');
 						break;
 				}
 			} else if (base > 0) {

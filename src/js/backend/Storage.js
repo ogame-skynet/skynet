@@ -19,7 +19,7 @@ var Storage = (function () {
 	function getDB(uni) {
 		return new Promise(function (resolve, reject) {
 			if (!uni) {
-				console.log('Can\'t access database with empty uni!');
+				console.error('Can\'t access database with empty uni!');
 				reject();
 				return;
 			}
@@ -106,7 +106,6 @@ var Storage = (function () {
 		getDB(uni).then(function (db) {
 			db.transaction([stString], 'readwrite').objectStore(stString).delete(typeof obj === 'string' ?
 				obj : obj.id).onsuccess = function () {
-				console.log('Object deleted:', obj);
 			};
 		});
 	}
