@@ -15,6 +15,7 @@
   "collapse_header": "Collapse headers where possible",
   "colors": "Renkler",
   "crystal": "Kristal",
+  "Danish": "Danimarkalı",
   "deactivate_finished_research": "Gereksiz araştırmaları devre dışı bırak",
   "debris_color": "İşaretli harabeyi renklendir",
   "debris_size": "İşaretli enkaz için minimum boyut",
@@ -68,7 +69,7 @@
   "prefer_fast_transport": "Mümkün olduğunda küçük nakliyeyi kullanın",
   "problem": "Problem",
   "production": "Üretim",
-  "Raidar": "Casusluk Rapor Paneli",
+  "Raidar": "Raidar",
   "rate": "Oran",
   "required_capacity": "Gerekli Kapasite",
   "reset_config": "Ayarları Sil",
@@ -104,5 +105,6 @@
   "translator": "Çevirmen",
   "transport_capacity": "Taşıma Kapasitesi",
   "transport": "Nakliye",
+  "Turkish": "Türk",
   "update_needed": "Sayfanın yüklenmesi gerekiyor"
 }
