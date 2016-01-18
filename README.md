@@ -41,7 +41,6 @@ The build system is Gulp.
     - Dialog
     - Tabs
     - Tooltip
-
   Now add `.skynet` as **CSS Scope**
 
 ##Gulp
