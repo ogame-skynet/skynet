@@ -64,7 +64,6 @@ const Skynet = (function () {
 					});
 				}, 1000);
 			} else {
-				versionChangedReject();
 				resolve(config);
 			}
 		});
@@ -122,10 +121,9 @@ const Skynet = (function () {
 			}
 		});
 	});
-	var versionChangedResolve, versionChangedReject;
-	_s.versionChanged = new Promise(function (resolve, reject) {
+	var versionChangedResolve;
+	_s.versionChanged = new Promise(function (resolve) {
 		versionChangedResolve = resolve;
-		versionChangedReject = reject;
 	});
 	const cvm = new ConfigurationViewModel();
 	const cfg = {
