@@ -54,8 +54,19 @@ const Skynet = (function () {
 						location.reload();
 					});
 				});
+			} else if (config['installed.version'] !== _s.VERSION) {
+				console.log('Version has changed to', _s.VERSION);
+				versionChangedResolve(config, 'installed.version');
+				setTimeout(function () {
+					store['installed.version'] = _s.VERSION;
+					_s.port.post(MESSAGES.setConfig, store).then(function () {
+						location.reload();
+					});
+				}, 1000);
+			} else {
+				versionChangedReject();
+				resolve(config);
 			}
-			resolve(config);
 		});
 	});
 	_s.page = new Promise(pageLoaded);
@@ -110,6 +121,11 @@ const Skynet = (function () {
 				});
 			}
 		});
+	});
+	var versionChangedResolve, versionChangedReject;
+	_s.versionChanged = new Promise(function (resolve, reject) {
+		versionChangedResolve = resolve;
+		versionChangedReject = reject;
 	});
 	const cvm = new ConfigurationViewModel();
 	const cfg = {

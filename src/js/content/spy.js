@@ -1,34 +1,47 @@
 /* global Skynet, Q, $, parseCoords, parseDT, getTextNodesText, MESSAGES, extend, ocalc, RESOURCES,
- _i, _, _h, SHIPS_BY_ID, nf, RESOURCES, PAGES, getResource, ko, Timer, parseNumber */
+ _i, _, _h, SHIPS_BY_ID, nf, RESOURCES, PAGES, getResource, ko, Timer, parseNumber, Version */
 
 (function (_s) {
 	const cfg = {
-		enhance_spy : 'spyreport.enhance',
-		show_speedsim : 'spyreport.show.speedsim',
-		show_osimulate : 'spyreport.show.osimulate',
-		show_production : 'spyreport.show.production',
-		raidar_ratio : 'spyreport.raidar.ratio',
-		raidar_visible : 'spyreport.raidar.visible',
-		raidar_animation : 'spyreport.raidar.animation',
-		raidar_attack_ship : 'spyreport.raidar.attackShip'
+		enhance_spy: 'spyreport.enhance',
+		show_trashsim: 'spyreport.show.trashsim',
+		show_speedsim: 'spyreport.show.speedsim',
+		show_osimulate: 'spyreport.show.osimulate',
+		show_production: 'spyreport.show.production',
+		raidar_ratio: 'spyreport.raidar.ratio',
+		raidar_visible: 'spyreport.raidar.visible',
+		raidar_animation: 'spyreport.raidar.animation',
+		raidar_attack_ship: 'spyreport.raidar.attackShip'
 	};
 	const cfg_def = [
-		{key : cfg.enhance_spy, label : 'enhance spy', type : 'boolean', def : true, cat : 'spyreport'},
-		{key : cfg.show_speedsim, label : 'show speedsim', type : 'boolean', def : true, cat : 'spyreport'},
-		{key : cfg.show_osimulate, label : 'show osimulate', type : 'boolean', def : true, cat : 'spyreport'},
-		{key : cfg.show_production, label : 'show production', type : 'boolean', def : true, cat : 'spyreport'},
-		{key : cfg.raidar_visible, cat : 'hidden', scope : 'uni'},
-		{key : cfg.raidar_ratio, label : 'resource ratio', type : 'text', def : '3:2:1', cat : 'Raidar', scope : 'uni'},
-		{key : cfg.raidar_animation, label : 'animation', type : 'boolean', def : true, cat : 'Raidar'},
+		{key: cfg.enhance_spy, label: 'enhance spy', type: 'boolean', def: true, cat: 'spyreport'},
+		{key: cfg.show_trashsim, label: 'show trashsim', type: 'boolean', def: true, cat: 'spyreport'},
+		{key: cfg.show_speedsim, label: 'show speedsim', type: 'boolean', def: false, cat: 'spyreport'},
+		{key: cfg.show_osimulate, label: 'show osimulate', type: 'boolean', def: false, cat: 'spyreport'},
+		{key: cfg.show_production, label: 'show production', type: 'boolean', def: true, cat: 'spyreport'},
+		{key: cfg.raidar_visible, cat: 'hidden', scope: 'uni'},
+		{key: cfg.raidar_ratio, label: 'resource ratio', type: 'text', def: '3:2:1', cat: 'Raidar', scope: 'uni'},
+		{key: cfg.raidar_animation, label: 'animation', type: 'boolean', def: true, cat: 'Raidar'},
 		{
-			key : cfg.raidar_attack_ship, label : 'ship for instant attack', type : 'select', def : '202',
-			cat : 'Raidar', scope : 'uni', dataSrc : function () {
-			return [{value : '', text : _('no ship')}, {value : '202', text : SHIPS_BY_ID['202'].name},
-				{value : '203', text : SHIPS_BY_ID['203'].name}];
+			key: cfg.raidar_attack_ship, label: 'ship for instant attack', type: 'select', def: '202',
+			cat: 'Raidar', scope: 'uni', dataSrc: function () {
+			return [{value: '', text: _('no ship')}, {value: '202', text: SHIPS_BY_ID['202'].name},
+				{value: '203', text: SHIPS_BY_ID['203'].name}];
 		}
 		}
 	];
 	_s.addSettings(cfg_def);
+	_s.versionChanged.then(function (config, version_key) {
+		var oV = new Version(config[version_key]);
+		if (oV.compareTo(new Version('4.1.2')) < 0) {
+			var store = {};
+			config[cfg.show_osimulate] = false;
+			store[cfg.show_osimulate] = false;
+			config[cfg.show_speedsim] = false;
+			store[cfg.show_speedsim] = false;
+			_s.port.post(MESSAGES.setConfig, store);
+		}
+	});
 	var raidarVM = null;
 
 	Promise.all([_s.page, _s.config]).then(function (args) {
@@ -73,7 +86,7 @@
 										});
 									});
 									dialogObserver.observe(mutation.addedNodes[i], {
-										childList : true
+										childList: true
 									});
 								}
 							}
@@ -81,7 +94,7 @@
 					});
 				});
 				dlgObserver.observe(document.body, {
-					childList : true
+					childList: true
 				});
 			}
 		} catch (e) {
@@ -106,8 +119,8 @@
 		var target = Q('#vier div.mailWrapper');
 		if (target) {
 			mcObserver.observe(target, {
-				childList : true,
-				subtree : true
+				childList: true,
+				subtree: true
 			});
 			$(target).find('form[name="delMsg"]').each(function () {
 				handleMessages(this);
@@ -132,8 +145,8 @@
 				}
 			});
 			observer.observe(target, {
-				childList : true,
-				subtree : true
+				childList: true,
+				subtree: true
 			});
 		}
 	}
@@ -173,12 +186,12 @@
 			}
 			if (planet.id && planet.owner && planet.type === 'p') {
 				const btnIgnore = $(_h('a', {
-						'class' : 'btn_blue tooltip', style : {'margin-left' : '10px'},
-						text : txt, title : _('hint_ignore')
+						'class': 'btn_blue tooltip', style: {'margin-left': '10px'},
+						text: txt, title: _('hint_ignore')
 					}
 				)).insertAfter(btnAttack);
 				if (_s.ogameVersion.match(/^6/)) {
-					btnIgnore.css({'float' : 'left', 'margin-right' : 10, 'margin-left' : 0});
+					btnIgnore.css({'float': 'left', 'margin-right': 10, 'margin-left': 0});
 				}
 				btnIgnore.click(function () {
 					planet.status = (planet.status ? planet.status ^ 1 : 1);
@@ -240,12 +253,12 @@
 				arrP.push('enemy_crystal=' + res.crystal);
 				arrP.push('enemy_deut=' + res.deuterium);
 				const btnSpeedSim = $(_h('a', {
-					'class' : 'btn_blue', style : {'margin-right' : '10px'},
-					href : 'http://websim.speedsim.net/index.php?&referrer=skynet&' + arrP.join('&'),
-					target : '_blank', text : 'SpeedSim'
+					'class': 'btn_blue', style: {'margin-right': '10px'},
+					href: 'http://websim.speedsim.net/index.php?&referrer=skynet&' + arrP.join('&'),
+					target: '_blank', text: 'SpeedSim'
 				})).insertBefore(btnAttack);
 				if (_s.ogameVersion.match(/^6/)) {
-					btnSpeedSim.css({'float' : 'left'});
+					btnSpeedSim.css({'float': 'left'});
 				}
 			}
 			if (config[cfg.show_osimulate]) {
@@ -254,12 +267,12 @@
 				params.push('enemy_crystal=' + planet.resources.crystal);
 				params.push('enemy_deut=' + planet.resources.deuterium);
 				const btnOSimulate = $(_h('a', {
-					'class' : 'btn_blue', style : {'margin-right' : '10px'},
-					href : 'http://www.osimulate.com?&ref=skynet&' + params.join('&'),
-					target : '_blank', text : 'OSimulate'
+					'class': 'btn_blue', style: {'margin-right': '10px'},
+					href: 'http://www.osimulate.com?&ref=skynet&' + params.join('&'),
+					target: '_blank', text: 'OSimulate'
 				})).insertBefore(btnAttack);
 				if (_s.ogameVersion.match(/^6/)) {
-					btnOSimulate.css({'float' : 'left'});
+					btnOSimulate.css({'float': 'left'});
 				}
 			}
 		});
@@ -308,27 +321,27 @@
 				const usage = ocalc.usage(amount, ship.cSpeed, ship.usage, fTime, distance, _s.uni) + 1;
 
 				table.append($(_h('tr', '',
-					['td', {text : ship.name}],
-					['td', {text : formatSeconds(fTime)}],
+					['td', {text: ship.name}],
+					['td', {text: formatSeconds(fTime)}],
 					['td', '', ['a', {
-						text : f.format(amount), href : btnAttack.attr('href') + '&am' + ship.id +
+						text: f.format(amount), href: btnAttack.attr('href') + '&am' + ship.id +
 						'=' +
 						amount
 					}]],
-					['td', {colspan : 2}, [
+					['td', {colspan: 2}, [
 						'span', {
-							text : f.format(m) + ' ' + _('metal') + ', ' + f.format(c) +
+							text: f.format(m) + ' ' + _('metal') + ', ' + f.format(c) +
 							' ' +
 							_('crystal') + ', '
 						}
 					], [
 						'span', {
-							text : f.format(d - usage),
-							'class' : d - usage < 0 ? 'overmark' : ''
+							text: f.format(d - usage),
+							'class': d - usage < 0 ? 'overmark' : ''
 						}
 					], [
 						'span', {
-							text : ' ' + _('deuterium')
+							text: ' ' + _('deuterium')
 						}
 					]]
 				)));
@@ -337,35 +350,35 @@
 
 		function createTable(parent, cClass, planet) {
 			if (_s.ogameVersion.match(/^6/)) {
-				var hdl = $(_h('div', {'class' : 'section_title'},
-					['div', {'class' : 'c-left'}],
-					['div', {'class' : 'c-right'}],
+				var hdl = $(_h('div', {'class': 'section_title'},
+					['div', {'class': 'c-left'}],
+					['div', {'class': 'c-right'}],
 					['div', {
-						'class' : 'title_txt' + (cClass ? ' ' + cClass : ''), text : _('loot',
+						'class': 'title_txt' + (cClass ? ' ' + cClass : ''), text: _('loot',
 							[planet.lf * 100])
 					}])).insertBefore(parent.find('div.section_title').first());
-				return $(_h('table', {style : {width : '100%', 'margin-left' : '6px'}},
+				return $(_h('table', {style: {width: '100%', 'margin-left': '6px'}},
 					['tr', '',
-						['th', {text : _('ship'), style : {'text-align' : 'left', 'color' : '#fff'}}],
-						['th', {text : _('flight time'), style : {'text-align' : 'left', 'color' : '#fff'}}],
-						['th', {text : _('amount'), style : {'text-align' : 'left', 'color' : '#fff'}}],
+						['th', {text: _('ship'), style: {'text-align': 'left', 'color': '#fff'}}],
+						['th', {text: _('flight time'), style: {'text-align': 'left', 'color': '#fff'}}],
+						['th', {text: _('amount'), style: {'text-align': 'left', 'color': '#fff'}}],
 						['th',
-							{text : _('gain'), colspan : 2, style : {'text-align' : 'left', 'color' : '#fff'}}]]
+							{text: _('gain'), colspan: 2, style: {'text-align': 'left', 'color': '#fff'}}]]
 				)).insertAfter(hdl);
 			}
 			return $(_h('table', {},
 				['tr', '',
 					['th',
 						{
-							'class' : 'area' +
-							(cClass ? ' ' + cClass : ''), colspan : 6, text : _('loot', [planet.lf * 100])
+							'class': 'area' +
+							(cClass ? ' ' + cClass : ''), colspan: 6, text: _('loot', [planet.lf * 100])
 						}]],
 				['tr', '',
-					['th', {text : _('ship'), style : {'text-align' : 'left'}}],
-					['th', {text : _('flight time'), style : {'text-align' : 'left'}}],
-					['th', {text : _('amount'), style : {'text-align' : 'left'}}],
+					['th', {text: _('ship'), style: {'text-align': 'left'}}],
+					['th', {text: _('flight time'), style: {'text-align': 'left'}}],
+					['th', {text: _('amount'), style: {'text-align': 'left'}}],
 					//['th', {text : _('required capacity'), style : {'text-align' : 'left'}}],
-					['th', {text : _('resources'), colspan : 2, style : {'text-align' : 'left'}}]]
+					['th', {text: _('resources'), colspan: 2, style: {'text-align': 'left'}}]]
 			)).insertBefore(parent.find('table.aktiv.spy'));
 		}
 
@@ -392,21 +405,21 @@
 				me.find('span').css('line-height', 'normal');
 				me.append($(_h('br', '')));
 				me.append($(_h('span', {
-					text : nf(0, 0, 0, true).format(val), 'class' : 'res_value ' +
+					text: nf(0, 0, 0, true).format(val), 'class': 'res_value ' +
 					(val > -1 ? 'undermark' : 'overmark'),
-					style : {'line-height' : 'normal'}
+					style: {'line-height': 'normal'}
 				})));
 			});
 			return;
 		}
 		parent.find('table.material.spy tr.areadetail table td.item').each(function (index) {
 			const me = $(this);
-			me.css({width : 120});
-			me.next().css({'text-align' : 'right'});
+			me.css({width: 120});
+			me.next().css({'text-align': 'right'});
 			const val = production[RESOURCES[index]];
 			me.next().append($(_h('span', {
-				text : nf().format(val), 'class' : (val > -1 ? 'undermark' : 'overmark'),
-				style : {'float' : 'right', 'padding-right' : '20px', display : 'inline-block', width : '50px'}
+				text: nf().format(val), 'class': (val > -1 ? 'undermark' : 'overmark'),
+				style: {'float': 'right', 'padding-right': '20px', display: 'inline-block', width: '50px'}
 			})));
 		});
 	}
@@ -439,8 +452,8 @@
 			planet.name = getTextNodesText(head[0])[1].replace(/^\s+|\s+$/g, '');
 			planet.resourcesTimeStamp = getRTS();
 			Promise.all([
-				_s.port.get(MESSAGES.getPlayer, {name : head.find('span:last-child').text()}),
-				_s.port.get(MESSAGES.getPlanets, {position : planet.position}),
+				_s.port.get(MESSAGES.getPlayer, {name: head.find('span:last-child').text()}),
+				_s.port.get(MESSAGES.getPlanets, {position: planet.position}),
 				_s.oGameI18N]).then(function (args) {
 				const knownPlayer = args[0][0] || {};
 				const knownPlanet = args[1][0] || {};
@@ -568,8 +581,8 @@
 					});
 					planet.underAttack = me.find('a span.icon_attack img').length > 0;
 					Promise.all([
-						_s.port.get(MESSAGES.getPlayer, {name : playerName}),
-						_s.port.get(MESSAGES.getPlanets, {position : planet.position}),
+						_s.port.get(MESSAGES.getPlayer, {name: playerName}),
+						_s.port.get(MESSAGES.getPlanets, {position: planet.position}),
 						_s.planet, _s.player]).then(function (args) {
 						const ownPlanet = args[2];
 						const player = args[3];
@@ -620,8 +633,8 @@
 		const playerName = root.find('div.detail_txt > span > span:first-child').text().trim();
 		if (playerName) {
 			Promise.all([
-				_s.port.get(MESSAGES.getPlayer, {name : playerName}),
-				_s.port.get(MESSAGES.getPlanets, {position : planet.position}),
+				_s.port.get(MESSAGES.getPlayer, {name: playerName}),
+				_s.port.get(MESSAGES.getPlanets, {position: planet.position}),
 				_s.oGameI18N]).then(function (args) {
 				const knownPlayer = args[0][0] || {};
 				const knownPlanet = getPlanetByType(args[1], planet);
@@ -713,7 +726,7 @@
 		this.hide = function () {
 			toggleVisibility(false);
 		};
-		this.reports = ko.observableArray().extend({rateLimit : 250});
+		this.reports = ko.observableArray().extend({rateLimit: 250});
 		this.time = ko.observable(Date.now());
 		const ship = config[cfg.raidar_attack_ship] ? SHIPS_BY_ID[config[cfg.raidar_attack_ship]] :
 			null;
@@ -854,4 +867,5 @@
 		}
 	}
 
-})(Skynet);
+})
+(Skynet);
