@@ -28,6 +28,9 @@ const Skynet = (function () {
 		},
 		utils: {}
 	};
+	//noinspection JSUnresolvedVariable
+	_s.language = navigator.languages ? navigator.languages[0] :
+		(navigator.language || navigator.userLanguage);
 	_s.port = new MessageBus();
 	_s.port.get(MESSAGES.uniData).then(function (uniData) {
 		_s.uni = extend(_s.uni, uniData);
