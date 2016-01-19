@@ -58,7 +58,6 @@ const Skynet = (function () {
 					});
 				});
 			} else if (config['installed.version'] !== _s.VERSION) {
-				console.log('Version has changed to', _s.VERSION);
 				versionChangedResolve(config, 'installed.version');
 				setTimeout(function () {
 					store['installed.version'] = _s.VERSION;

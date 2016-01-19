@@ -203,6 +203,48 @@
 					$(this).text(txt);
 				});
 			}
+			if (config[cfg.show_trashsim]) {
+				var allowedLanguages = ['da', 'de', 'en', 'es', 'hr', 'it', 'nl', 'hu', 'pt', 'pt-BR', 'sv',
+					'tr', 'ko'];
+				var lang = _s.language;
+				if ($.inArray(lang, allowedLanguages) === -1) {
+					if (lang.match(/^(.+?)-.+?$/)) {
+						lang = RegExp.$1;
+						if ($.inArray(lang, allowedLanguages) === -1) {
+							lang = 'en';
+						}
+					} else {
+						lang = 'en';
+					}
+				}
+				var href = parent.find('div.msg_actions a[href^="ogame-api"]').prop('href');
+				if (href.match(/^ogame-api:\/\/(.+)$/)) {
+					var srkey = RegExp.$1;
+					var data = {
+						'0': [{
+							planet: {
+								galaxy: currentPlanet.position[0],
+								system: currentPlanet.position[1], position: currentPlanet.position[2]
+							},
+							research: {}
+						}]
+					};
+					var research = data['0'][0].research;
+					Object.keys(player.techs).forEach(function (key) {
+						research[key] = {level: player.techs[key]};
+					});
+					var json = JSON.stringify(data);
+					const btnTrashSim = $(_h('a', {
+						'class': 'btn_blue', style: {'margin-right': '10px'},
+						href: 'https://trashsim.universeview.be/' + lang + '?SR_KEY=' + srkey + '#prefill=' +
+						btoa(json),
+						target: '_blank', text: 'TrashSim'
+					})).insertBefore(btnAttack);
+					if (_s.ogameVersion.match(/^6/)) {
+						btnTrashSim.css({'float': 'left'});
+					}
+				}
+			}
 			if (!config[cfg.show_speedsim] && !config[cfg.show_osimulate]) {
 				return;
 			}
