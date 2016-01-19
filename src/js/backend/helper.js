@@ -1,4 +1,4 @@
-/* global extend, self, chrome */
+/* global extend */
 /* exported KeyFunctionPair, prepareConfig, getCSS */
 
 /**
@@ -150,8 +150,6 @@ function getCSS(config) {
  */
 function prepareConfig(config, host) {
 	var _c = {};
-	var versionIncreased = true;
-	var currentVersion = self.version || chrome.runtime.getManifest().version_name;
 	Object.keys(config).forEach(function (key) {
 		if (key === host) {
 			const elem = config[key];
@@ -164,9 +162,6 @@ function prepareConfig(config, host) {
 			return;
 		}
 		_c[key] = extend(_c[key], config[key]);
-		if (key === 'installed.version') {
-
-		}
 	});
 	return _c;
 }
