@@ -11,11 +11,11 @@ const Skynet = (function () {
 	const UNI = {};
 
 	return {
-		attach : attach,
-		getI18n : getI18n,
-		getStats : getStats,
-		getUniData : getUniData,
-		on : on
+		attach: attach,
+		getI18n: getI18n,
+		getStats: getStats,
+		getUniData: getUniData,
+		on: on
 	};
 
 	function attach(port) {
@@ -41,9 +41,9 @@ const Skynet = (function () {
 			//noinspection JSUnresolvedFunction
 			getAsync('http://' + uni + '/api/localization.xml').then(function (xml) {
 				const i18n = {
-					t : {},
-					tbn : {},
-					m : {}
+					t: {},
+					tbn: {},
+					m: {}
 				};
 				const names = Q(xml, 'techs name');
 				var i, id, text;
@@ -88,7 +88,7 @@ const Skynet = (function () {
 						console.error(e);
 					}
 				}).catch(function () {
-					resolve({ts : (new Date()).getTime(), maxScore : 0});
+					resolve({ts: (new Date()).getTime(), maxScore: 0});
 				});
 				return;
 			}
@@ -153,10 +153,10 @@ Skynet.on('attach', function () {
 		return;
 	}
 	if (port.uni) {
-		Storage.Players.get({uni : port.uni, id : _d.currentPlayer.id}).then(function (player) {
+		Storage.Players.get({uni: port.uni, id: _d.currentPlayer.id}).then(function (player) {
 			port.send(MESSAGES.getPlayer, player);
 		});
-		Storage.Planets.get({uni : port.uni, owner : _d.currentPlayer.id}).then(function (planets) {
+		Storage.Planets.get({uni: port.uni, owner: _d.currentPlayer.id}).then(function (planets) {
 			port.send(MESSAGES.getPlanets, planets);
 		});
 	}
@@ -166,7 +166,7 @@ Skynet.on(MESSAGES.setConfig, function (msg) {
 	const port = this;
 	const config = msg.msgID ? msg.data : msg;
 	Config.set(config).then(function () {
-		port.send(MESSAGES.setConfig, {msgID : msg.msgID || ''});
+		port.send(MESSAGES.setConfig, {msgID: msg.msgID || ''});
 	});
 });
 
@@ -175,7 +175,7 @@ Skynet.on(MESSAGES.getPlayer, function (msg) {
 	const query = msg.data;
 	query.uni = port.uni;
 	Storage.Players.get(query).then(function (player) {
-		port.send(MESSAGES.getPlayer, {msgID : msg.msgID, data : player});
+		port.send(MESSAGES.getPlayer, {msgID: msg.msgID, data: player});
 	});
 });
 
@@ -188,7 +188,7 @@ Skynet.on(MESSAGES.getPlanets, function (msg) {
 	const query = msg.data;
 	query.uni = port.uni;
 	Storage.Planets.get(query).then(function (planets) {
-		port.send(MESSAGES.getPlanets, {msgID : msg.msgID, data : planets});
+		port.send(MESSAGES.getPlanets, {msgID: msg.msgID, data: planets});
 	});
 });
 
@@ -219,20 +219,20 @@ Skynet.on(MESSAGES.expoPoints, function (msg) {
 		} else if (stats.maxScore < 100000000) {
 			points = 21000;
 		}
-		port.send(MESSAGES.expoPoints, {msgID : msg.msgID, data : points});
+		port.send(MESSAGES.expoPoints, {msgID: msg.msgID, data: points});
 	});
 });
 
 Skynet.on(MESSAGES.oGameI18N, function (msg) {
 	const port = this;
 	Skynet.getI18n(port.uni).then(function (i18n) {
-		port.send(MESSAGES.oGameI18N, {msgID : msg.msgID, data : i18n});
+		port.send(MESSAGES.oGameI18N, {msgID: msg.msgID, data: i18n});
 	});
 });
 
 Skynet.on(MESSAGES.uniData, function (msg) {
 	const port = this;
 	Skynet.getUniData(port.uni).then(function (uniData) {
-		port.send(MESSAGES.uniData, {msgID : msg.msgID, data : uniData});
+		port.send(MESSAGES.uniData, {msgID: msg.msgID, data: uniData});
 	});
 });

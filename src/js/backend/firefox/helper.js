@@ -8,11 +8,12 @@ const Request = require('sdk/request').Request;
 function getAsync(url) {
 	return new Promise(function (resolve, reject) {
 		Request({
-			url : url,
-			'onComplete' : function (resp) {
+			url: url,
+			'onComplete': function (resp) {
 				try {
 					if (resp.status === 200) {
-						const parser = chrome.Cc["@mozilla.org/xmlextras/domparser;1"].createInstance(chrome.Ci.nsIDOMParser);
+						const parser = chrome.Cc["@mozilla.org/xmlextras/domparser;1"].createInstance(
+							chrome.Ci.nsIDOMParser);
 						const dom = parser.parseFromString(resp.text, "text/xml");
 						resolve(dom);
 					} else {
@@ -40,7 +41,7 @@ const Config = (function () {
 	var cache;
 
 	return {
-		get : function () {
+		get: function () {
 			return new Promise(function (resolve) {
 				if (cache) {
 					resolve(cache);
@@ -55,7 +56,7 @@ const Config = (function () {
 		 *
 		 * @param {string|{}} data
 		 */
-		set : function (data) {
+		set: function (data) {
 			return new Promise(function (resolve) {
 				if (data === 'reset') {
 					Object.keys(cache).forEach(function (key) {
@@ -75,14 +76,14 @@ const Config = (function () {
 function Port(port, workerTab) {
 	const me = this;
 	Object.defineProperty(this, 'tab', {
-		value : new Tab(workerTab),
-		enumerable : true
+		value: new Tab(workerTab),
+		enumerable: true
 	});
 	Object.defineProperty(this, 'uni', {
-		value : me.tab.url.match(/^https?:\/\/(.+?ogame\.gameforge\.com)\/game\/index\.php/) ?
+		value: me.tab.url.match(/^https?:\/\/(.+?ogame\.gameforge\.com)\/game\/index\.php/) ?
 			RegExp.$1 :
 			'',
-		enumerable : true
+		enumerable: true
 	});
 
 	/**
@@ -138,7 +139,7 @@ function Port(port, workerTab) {
 	};
 
 	this.toJSON = function () {
-		return {tab : this.tab.toJSON()};
+		return {tab: this.tab.toJSON()};
 	};
 
 	this.toString = function () {
@@ -148,16 +149,16 @@ function Port(port, workerTab) {
 
 function Tab(tab) {
 	Object.defineProperty(this, 'id', {
-		value : tab.id,
-		enumerable : true
+		value: tab.id,
+		enumerable: true
 	});
 	Object.defineProperty(this, 'url', {
-		value : tab.url,
-		enumerable : true
+		value: tab.url,
+		enumerable: true
 	});
 
 	this.toJSON = function () {
-		return {id : this.id, url : this.url};
+		return {id: this.id, url: this.url};
 	};
 
 	this.toString = function () {
