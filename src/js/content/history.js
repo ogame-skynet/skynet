@@ -7,7 +7,8 @@
 		changes: ['Fix energy calculation on building page',
 			'Update translations',
 			'Add Turkish translation',
-			'Update external libraries']
+			'Update external libraries',
+			'Fix bug during set up of default values']
 	}, {
 		'date': '29.11.2015 :: v4.1.1',
 		summary: 'Changes and improvements from user feedback',

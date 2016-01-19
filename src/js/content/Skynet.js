@@ -42,7 +42,7 @@ const Skynet = (function () {
 						store[setting.key] = setting.def;
 					} else if (setting.scope === 'uni') {
 						const uni = location.host;
-						store[uni] = config[uni] || {};
+						store[uni] = store[uni] || {};
 						store[uni][setting.key] = setting.def;
 					}
 					defaultChanged = true;
