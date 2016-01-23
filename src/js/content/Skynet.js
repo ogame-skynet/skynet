@@ -99,6 +99,9 @@ const Skynet = (function () {
 				detectEvents(p, args[2], args[3]);
 				_s.port.send(MESSAGES.updatePlayer, p);
 				resolve(p);
+				if (!p.techs) {
+					$('#menuTable').find('a[href$="page=research"] span.textlabel').addClass('skynet_c_outdated');
+				}
 			});
 		});
 	});
