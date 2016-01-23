@@ -687,7 +687,7 @@
 				const planetData = extend('', knownPlanet, planet);
 				planetData.resources = parseResources(root);
 				parseItems(root, playerData, planetData, oI18n);
-				if (planetData.ships[212]) {
+				if (planetData.ships && planetData.ships[212]) {
 					planetData.buildings = planetData.buildings || {};
 					planetData.buildings[212] = planetData.ships[212];
 				}
