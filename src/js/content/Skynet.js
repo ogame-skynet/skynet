@@ -100,7 +100,8 @@ const Skynet = (function () {
 				_s.port.send(MESSAGES.updatePlayer, p);
 				resolve(p);
 				if (!p.techs) {
-					$('#menuTable').find('a[href$="page=research"] span.textlabel').addClass('skynet_c_outdated');
+					$('#menuTable').find('a[href$="page=research"] span.textlabel')
+						.addClass('skynet_c_outdated');
 				}
 			});
 		});
@@ -423,6 +424,24 @@ const Skynet = (function () {
 			planet.buildings = extend(planet.buildings, detectItems());
 		}
 		_s.port.send(MESSAGES.updatePlanets, planet);
+		if (!planet.defense) {
+			$('#menuTable').find('a[href$="page=defense"] span.textlabel')
+				.addClass('skynet_c_outdated');
+		}
+		if (!planet.ships) {
+			$('#menuTable').find('a[href$="page=shipyard"], a[href$="page=fleet1"]')
+				.find('span.textlabel').addClass('skynet_c_outdated');
+		}
+		if (!planet.buildings) {
+			$('#menuTable').find('a[href$="page=resources"], a[href$="page=station"]')
+				.find('span.textlabel').addClass('skynet_c_outdated');
+		} else if (planet.buildings['22'] === undefined) {
+			$('#menuTable').find('a[href$="page=resources"] span.textlabel')
+				.addClass('skynet_c_outdated');
+		} else if (planet.buildings['14'] === undefined) {
+			$('#menuTable').find('a[href$="page=station"] span.textlabel')
+				.addClass('skynet_c_outdated');
+		}
 	}
 
 	/**
@@ -440,9 +459,8 @@ const Skynet = (function () {
 				pCache[id] = {
 					id: id
 				};
-				//console.log(me.prop('title'));
 				if (me.prop('title').match(
-						/<B>(.+?)\s\[(.+?)].+?\((.+?)\/(.+?)\)(?:<BR>(-?\d+).+?(-?\d+))*/)) {
+						/<b>(.+?)\s\[(.+?)].+?\((.+?)\/(.+?)\)(?:<br.+?(-?\d+).+?(-?\d+))*/i)) {
 					pCache[id].name = RegExp.$1;
 					pCache[id].fields = [_i(RegExp.$4), _i(RegExp.$3)];
 					pCache[id].type = me.hasClass('moonlink') ? 'm' : 'p';
@@ -453,6 +471,8 @@ const Skynet = (function () {
 						pCache[id].maxTemp = _i(RegExp.$6);
 					}
 					pCache[id].position = parseCoords(RegExp.$2);
+				} else {
+					console.error('The title has not matched:', me.prop('title'));
 				}
 			}
 		});
@@ -469,6 +489,14 @@ const Skynet = (function () {
 					if (cp.id === id) {
 						detectPlanetDetails(cp, page);
 						resolve(cp);
+					} else {
+						if (!cp.defense || !planet.ships || !planet.buildings ||
+								planet.buildings['22'] === undefined ||
+								planet.buildings['14'] === undefined) {
+							var pElem = $('#planetList').find('a[href$="cp=' + cp.id + '"]');
+							pElem.find('span.planet-name').addClass('skynet_c_outdated');
+							pElem.find('img.icon-moon').addClass('skynet_c_moon_outdated');
+						}
 					}
 				} else {
 					planets2Delete.push(planet.id);
@@ -482,6 +510,10 @@ const Skynet = (function () {
 				if (cp.id === id) {
 					detectPlanetDetails(cp, page);
 					resolve(cp);
+				} else {
+					var pElem = $('#planetList').find('a[href$="cp=' + cp.id + '"]');
+					pElem.find('span.planet-name').addClass('skynet_c_outdated');
+					pElem.find('img.icon-moon').addClass('skynet_c_moon_outdated');
 				}
 			});
 			if (planets2Delete.length) {
