@@ -230,9 +230,11 @@
 						}]
 					};
 					var research = data['0'][0].research;
-					Object.keys(player.techs).forEach(function (key) {
-						research[key] = {level: player.techs[key]};
-					});
+					if (player.techs) {
+						Object.keys(player.techs).forEach(function (key) {
+							research[key] = {level: player.techs[key]};
+						});
+					}
 					var json = JSON.stringify(data);
 					const btnTrashSim = $(_h('a', {
 						'class': 'btn_blue', style: {'margin-right': '10px'},
