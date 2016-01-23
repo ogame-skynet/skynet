@@ -384,12 +384,16 @@ const Skynet = (function () {
 			if (!id) {
 				id = me.next().prop('id').replace(/\D/g, '');
 			}
-			//items[id] = _i(me.find('span.level').text().replace(/\D/g, ''));
-			items[id] =
-				_i(me.find('span.level span.textlabel')[0].nextSibling.nodeValue.replace(/\D/g, ''));
-			var plus = me.find('span.level span.undermark').text().replace(/\D/g, '');
-			if (plus) {
-				items[id] += _i(plus);
+			var node = me.find('span.level span.textlabel')[0];
+			if (node) {
+				items[id] =
+					_i(node.nextSibling.nodeValue.replace(/\D/g, ''));
+				var plus = me.find('span.level span.undermark').text().replace(/\D/g, '');
+				if (plus) {
+					items[id] += _i(plus);
+				}
+			} else {
+				items[id] = _i(me.find('span.level').text().replace(/\D/g, ''));
 			}
 		});
 		return items;
@@ -431,7 +435,7 @@ const Skynet = (function () {
 				pCache[id] = {
 					id: id
 				};
-				console.log(me.prop('title'));
+				//console.log(me.prop('title'));
 				if (me.prop('title').match(
 						/<B>(.+?)\s\[(.+?)].+?\((.+?)\/(.+?)\)(?:<BR>(-?\d+).+?(-?\d+))*/)) {
 					pCache[id].name = RegExp.$1;
