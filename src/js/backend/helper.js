@@ -131,6 +131,10 @@ function getCSS(config) {
 		'}\n',
 		'.skynet .c_outdated, .skynet_c_outdated {',
 		'\tcolor: ' + (config['color.outdated'] || '#ffa500') + ' !important;',
+		'}\n',
+		'.skynet_c_moon_outdated {',
+		'\tbox-shadow: 0 0 6px 3px ' + (config['color.outdated'] || '#ffa500') +
+			',inset 0 0 3px 3px ' + (config['color.outdated'] || '#ffa500') + ' !important;',
 		'}\n'
 	].join('\n');
 	if (config['change.layout']) {
