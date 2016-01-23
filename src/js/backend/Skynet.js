@@ -39,7 +39,7 @@ const Skynet = (function () {
 				return;
 			}
 			//noinspection JSUnresolvedFunction
-			getAsync('http://' + uni + '/api/localization.xml').then(function (xml) {
+			getAsync('https://' + uni + '/api/localization.xml').then(function (xml) {
 				const i18n = {
 					t: {},
 					tbn: {},
@@ -77,7 +77,7 @@ const Skynet = (function () {
 			const now = (new Date()).getTime() - 1000 * 60 * 60;
 			if (!stats.ts || stats.ts < now) {
 				//noinspection JSUnresolvedFunction
-				getAsync('http://' + uni + '/api/highscore.xml?category=1&type=0').then(function (xml) {
+				getAsync('https://' + uni + '/api/highscore.xml?category=1&type=0').then(function (xml) {
 					try {
 						const root = Q(xml, 'highscore');
 						stats.ts = _i(root.getAttribute('timestamp')) * 1000;
@@ -107,7 +107,7 @@ const Skynet = (function () {
 				return;
 			}
 			//noinspection JSUnresolvedFunction
-			getAsync('http://' + uni + '/api/serverData.xml').then(function (xml) {
+			getAsync('https://' + uni + '/api/serverData.xml').then(function (xml) {
 				const uni = {};
 				try {
 					uni.donutGalaxy = _i(Q(xml, 'donutGalaxy').textContent);
