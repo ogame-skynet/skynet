@@ -128,6 +128,9 @@ function getCSS(config) {
 		'}\n',
 		'.skynet .c_problem, .skynet_c_problem {',
 		'\tcolor: ' + (config['color.problem'] || '#ff0000') + ' !important;',
+		'}\n',
+		'.skynet .c_outdated, .skynet_c_outdated {',
+		'\tcolor: ' + (config['color.outdated'] || '#ffa500') + ' !important;',
 		'}\n'
 	].join('\n');
 	if (config['change.layout']) {
