@@ -1,5 +1,6 @@
 /* global Skynet, Q, $, parseCoords, parseDT, getTextNodesText, MESSAGES, extend, ocalc, RESOURCES,
- _i, _, _h, SHIPS_BY_ID, nf, RESOURCES, PAGES, getResource, ko, Timer, parseNumber, Version */
+ _i, _, _h, SHIPS_BY_ID, nf, RESOURCES, PAGES, getResource, ko, Timer, parseNumber, Version,
+ TECHS_BY_ID */
 
 (function (_s) {
 	const cfg = {
@@ -647,6 +648,30 @@
 						if (!planetData.id) {
 							planetData.id = '[' + planetData.position.join(':') + ']' + planetData.type;
 						}
+						if (planetData.fleetUnits < 0 && planetData.ships) {
+							planetData.fleetUnits = 0;
+							Object.keys(planetData.ships).forEach(function (key) {
+								var defense = SHIPS_BY_ID[key];
+								planetData.fleetUnits +=
+									planetData.ships[key] * (defense.c.metal ? defense.c.metal : 0) +
+									planetData.ships[key] * (defense.c.crystal ? defense.c.crystal : 0) +
+									planetData.ships[key] * (defense.c.deuterium ? defense.c.deuterium : 0);
+							});
+							planetData.outdatedShips = true;
+						}
+						if (planetData.defenseUnits < 0 && planetData.defense) {
+							planetData.defenseUnits = 0;
+							Object.keys(planetData.defense).forEach(function (key) {
+								if (key < '500') {
+									var defense = TECHS_BY_ID[key];
+									planetData.defenseUnits +=
+										planetData.defense[key] * (defense.c.metal ? defense.c.metal : 0) +
+										planetData.defense[key] * (defense.c.crystal ? defense.c.crystal : 0) +
+										planetData.defense[key] * (defense.c.deuterium ? defense.c.deuterium : 0);
+								}
+							});
+							planetData.outdatedDefense = true;
+						}
 						raidarVM.addReport(planetData, playerData, ownPlanet, player);
 						if (raidarVM.visible()) {
 							var h = me.find('div.msg_head');
@@ -871,6 +896,10 @@
 			this.fleetUnits = planet.fleetUnits < 0 ? '-' : f.format(planet.fleetUnits);
 			this.defenseUnits = planet.defenseUnits < 0 ? '-' : f.format(planet.defenseUnits);
 			this.underAttack = planet.underAttack;
+			//noinspection JSUnusedGlobalSymbols
+			this.unknownBuildings = planet.buildings === undefined || JSON.stringify(planet.buildings).match(/{"212":\d+?}/);
+			this.outdatedDefense = planet.outdatedDefense === true;
+			this.outdatedShips = planet.outdatedShips === true;
 
 			const distance = ocalc.distance(ownPlanet.position, planet.position, _s.uni);
 			const fTime = ship ? ocalc.flightTime(distance, [ship], player, _s.uni) : 0;

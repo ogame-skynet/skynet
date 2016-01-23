@@ -5,7 +5,7 @@
 			Raidar
 		</button>
 		<button class="btn_blue" style="float: right"
-				data-bind="text: _('close'), visible: visible(), click: hide"></button>
+			data-bind="text: _('close'), visible: visible(), click: hide"></button>
 	</div>
 	<table id="raidar" data-bind="visible: visible()">
 		<thead>
@@ -25,31 +25,34 @@
 		<tbody data-bind="foreach: reports">
 		<tr data-bind="css: {even: ($index() % 2 == 0)}">
 			<td style="width: 36px;"><span class="ui-icon"
-					data-bind="css: {'tooltip ui-icon-plusthick': newReport, 'ui-icon-blank' : !newReport}, title: $root._('new report')"></span><a
-					class="msg_action_link overlay" data-bind="href: detailLink"><span
-					class="ui-icon ui-icon-search"></span></a>
+				data-bind="css: {'tooltip ui-icon-plusthick': newReport, 'ui-icon-blank' : !newReport}, title: $root._('new report')"></span><a
+				class="msg_action_link overlay" data-bind="href: detailLink"><span
+				class="ui-icon ui-icon-search"></span></a>
 			</td>
 			<td><a class="msg_action_link overlay skynet_c_timer"
-					data-bind="text: age, href: detailLink"></a></td>
+				data-bind="text: age, href: detailLink"></a></td>
 			<td><a data-bind="text: position, href: positionLink"></a></td>
 			<td style="padding: 0"><a data-bind="href: attackLink"><span
-					class="icon_nf icon_attack tooltip" data-bind="title: _('attack'), if: underAttack"><img
-					class="fright" src="/cdn/img/layout/fleet_12x12_hostile.gif"></span></a>
+				class="icon_nf icon_attack tooltip" data-bind="title: _('attack'), if: underAttack"><img
+				class="fright" src="/cdn/img/layout/fleet_12x12_hostile.gif"></span></a>
 			</td>
-			<td data-bind="text: fleetUnits"></td>
-			<td data-bind="text: defenseUnits"></td>
+			<td data-bind="text: fleetUnits, css: {skynet_c_outdated : outdatedShips}"></td>
+			<td data-bind="text: defenseUnits, css: {skynet_c_outdated : outdatedDefense}"></td>
 			<td class="undermark" data-bind="text: metal" style="text-align: right"></td>
-			<td class="tooltip" data-bind="text: metalProd, title: $root._('production')"
-					style="text-align: right"></td>
+			<td class="tooltip"
+				data-bind="text: metalProd, title: $root._('production'), css: {skynet_c_outdated : unknownBuildings}"
+				style="text-align: right"></td>
 			<td class="undermark" data-bind="text: crystal" style="text-align: right"></td>
-			<td class="tooltip" data-bind="text: crystalProd, title: $root._('production')"
-					style="text-align: right"></td>
+			<td class="tooltip"
+				data-bind="text: crystalProd, title: $root._('production'), css: {skynet_c_outdated : unknownBuildings}"
+				style="text-align: right"></td>
 			<td class="undermark" data-bind="text: deuterium" style="text-align: right"></td>
-			<td class="tooltip" data-bind="text: deuteriumProd, title: $root._('production')"
-					style="text-align: right"></td>
+			<td class="tooltip"
+				data-bind="text: deuteriumProd, title: $root._('production'), css: {skynet_c_outdated : unknownBuildings}"
+				style="text-align: right"></td>
 			<td style="width: 18px;"><span style="position: relative; top: -1px;"
-					class="ui-icon ui-icon-trash tooltip pointer"
-					data-bind="title: $root._('delete'), click: delReport"></span>
+				class="ui-icon ui-icon-trash tooltip pointer"
+				data-bind="title: $root._('delete'), click: delReport"></span>
 			</td>
 		</tr>
 		</tbody>
