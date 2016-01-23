@@ -1,5 +1,5 @@
 /* global Config */
 
 Config.get().then(function () {
-	//console.log('Skynet loaded...');
+	console.log('\n\n\nSkynet loaded...');
 });
