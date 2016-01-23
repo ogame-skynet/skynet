@@ -2,38 +2,38 @@
 
 (function (_s) {
 	const cfg = {
-		show_transport_btn : 'show.transport.btn',
-		prefer_fast_transport : 'prefer.fast.transport',
-		show_expo_btn : 'show.expo.btn',
-		expo_transport_only : 'expo.transport.only',
-		expo_espionage : 'expo.espionage',
-		expo_strong_ship : 'expo.strong.ship',
-		expo_max_points : 'expo.max.points',
-		show_return_countdown : 'show.return.countdown',
-		mission_recycle : 'mission.recycle',
-		mission_colonize : 'mission.colonize',
-		mission_espionage : 'mission.espionage'
+		show_transport_btn: 'show.transport.btn',
+		prefer_fast_transport: 'prefer.fast.transport',
+		show_expo_btn: 'show.expo.btn',
+		expo_transport_only: 'expo.transport.only',
+		expo_espionage: 'expo.espionage',
+		expo_strong_ship: 'expo.strong.ship',
+		expo_max_points: 'expo.max.points',
+		show_return_countdown: 'show.return.countdown',
+		mission_recycle: 'mission.recycle',
+		mission_colonize: 'mission.colonize',
+		mission_espionage: 'mission.espionage'
 	};
 	const cfg_def = [
-		{key : cfg.show_transport_btn, label : 'show transport button', type : 'boolean', def : true, cat : 'fleet'},
-		{key : cfg.prefer_fast_transport, label : 'prefer fast transport', type : 'boolean', def : false, cat : 'fleet'},
-		{key : cfg.show_expo_btn, label : 'show expedition button', type : 'boolean', def : true, cat : 'fleet'},
-		{key : cfg.expo_transport_only, label : 'send transporters only on expedition', type : 'boolean', def : false, cat : 'fleet'},
-		{key : cfg.expo_espionage, label : 'send espionage on expedition', type : "boolean", def : true, cat : 'fleet'},
-		{key : cfg.expo_strong_ship, label : 'strongest ship for expedition', type : 'select', def : '213', cat : 'fleet', scope : 'uni', dataSrc : getShipsForConfig},
-		{key : cfg.expo_max_points, label : 'personal max expo points', type : "number", def : 25000, cat : 'fleet', scope : 'uni'},
-		{key : cfg.show_return_countdown, label : 'show return countdown', type : 'boolean', def : true, cat : 'fleet'},
-		{key : cfg.mission_recycle, label : 'set mission recycle', type : 'boolean', def : true, cat : 'fleet'},
-		{key : cfg.mission_colonize, label : 'set mission colonize', type : 'boolean', def : true, cat : 'fleet'},
-		{key : cfg.mission_espionage, label : 'set mission espionage', type : 'boolean', def : true, cat : 'fleet'}
+		{key: cfg.show_transport_btn, label: 'show transport button', type: 'boolean', def: true, cat: 'fleet'},
+		{key: cfg.prefer_fast_transport, label: 'prefer fast transport', type: 'boolean', def: false, cat: 'fleet'},
+		{key: cfg.show_expo_btn, label: 'show expedition button', type: 'boolean', def: true, cat: 'fleet'},
+		{key: cfg.expo_transport_only, label: 'send transporters only on expedition', type: 'boolean', def: false, cat: 'fleet'},
+		{key: cfg.expo_espionage, label: 'send espionage on expedition', type: "boolean", def: true, cat: 'fleet'},
+		{key: cfg.expo_strong_ship, label: 'strongest ship for expedition', type: 'select', def: '213', cat: 'fleet', scope: 'uni', dataSrc: getShipsForConfig},
+		{key: cfg.expo_max_points, label: 'personal max expo points', type: "number", def: 25000, cat: 'fleet', scope: 'uni'},
+		{key: cfg.show_return_countdown, label: 'show return countdown', type: 'boolean', def: true, cat: 'fleet'},
+		{key: cfg.mission_recycle, label: 'set mission recycle', type: 'boolean', def: true, cat: 'fleet'},
+		{key: cfg.mission_colonize, label: 'set mission colonize', type: 'boolean', def: true, cat: 'fleet'},
+		{key: cfg.mission_espionage, label: 'set mission espionage', type: 'boolean', def: true, cat: 'fleet'}
 	];
 	_s.addSettings(cfg_def);
 
 	//noinspection JSUnusedGlobalSymbols
 	const handler = {
-		fleet1 : fleet1,
-		fleet2 : fleet2,
-		movement : movement
+		fleet1: fleet1,
+		fleet2: fleet2,
+		movement: movement
 	};
 
 	Promise.all([_s.page, _s.config, _s.player, _s.planet]).then(function (args) {
@@ -75,27 +75,28 @@
 
 	function fleet1(config, player, planet) {
 		const basic = {
-			background : 'url("http://gf1.geo.gfsrv.net/cdndf/0210bdaf0d408992ab38c453c5ba7d.jpg") no-repeat scroll 0 0 transparent',
-			'background-size' : 'auto 92px',
-			border : '1px solid black',
-			cursor : 'hand',
-			display : 'block',
-			float : 'left',
-			height : '30px',
-			overflow : 'hidden',
-			width : '30px',
-			'margin-right' : '5px'
+			background: 'url("' + location.protocol +
+			'//gf1.geo.gfsrv.net/cdndf/0210bdaf0d408992ab38c453c5ba7d.jpg") no-repeat scroll 0 0 transparent',
+			'background-size': 'auto 92px',
+			border: '1px solid black',
+			cursor: 'hand',
+			display: 'block',
+			float: 'left',
+			height: '30px',
+			overflow: 'hidden',
+			width: '30px',
+			'margin-right': '5px'
 		};
 		var tBtn, eBtn;
 		if (config[cfg.show_transport_btn]) {
 			tBtn = $(_h('span', {
-				style : extend({}, basic, {'background-position' : '-154px 0'}),
-				'class' : 'tooltipHTML'
+				style: extend({}, basic, {'background-position': '-154px 0'}),
+				'class': 'tooltipHTML'
 			}));
 		}
 		if (config[cfg.show_expo_btn]) {
 			eBtn = $(_h('span', {
-				style : extend({}, basic, {'background-position' : '0 -61px'})
+				style: extend({}, basic, {'background-position': '0 -61px'})
 			}));
 		}
 		checkEspionage(config);
@@ -105,17 +106,23 @@
 		const result = getTransportFleet(planet);
 		$('#warning').each(function () {
 			const me = $(this);
-			me.append($(_h('div', {style : {margin : '0 auto', width : '230px'}}, ['span',
+			me.append($(_h('div', {style: {margin: '0 auto', width: '230px'}}, ['span',
 					{
-						text : _("overall resources") + ':', style : {display : 'inline-block', width : '130px'}
+						text: _("overall resources") + ':', style: {display: 'inline-block', width: '130px'}
 					}],
 				['span',
-					{text : nf().format(result.sumRes), style : {display : 'inline-block', width : '100px', 'text-align' : 'right'}}])));
+					{
+						text: nf().format(
+							result.sumRes), style: {display: 'inline-block', width: '100px', 'text-align': 'right'}
+					}])));
 			result.fleet.forEach(function (elem) {
-				me.append($(_h('div', {style : {margin : '0 auto', width : '230px'}}, ['span',
-						{text : elem.name + ':', style : {display : 'inline-block', width : '130px'}}],
+				me.append($(_h('div', {style: {margin: '0 auto', width: '230px'}}, ['span',
+						{text: elem.name + ':', style: {display: 'inline-block', width: '130px'}}],
 					['span',
-						{text : nf().format(elem.amount), style : {display : 'inline-block', width : '100px', 'text-align' : 'right'}}])));
+						{
+							text: nf().format(
+								elem.amount), style: {display: 'inline-block', width: '100px', 'text-align': 'right'}
+						}])));
 			});
 		});
 		$("#buttonz").find("span.send_all").each(function () {
@@ -126,12 +133,12 @@
 				width += 37;
 				const c1 = result.sumRes > result.cap ? 'overmark' : 'undermark';
 				const html = [
-					{"h" : _("overall resources") + ":", "v" : nf().format(result.sumRes), "c" : c1},
-					{"h" : _("transport capacity") + ":", "v" : nf().format(result.cap), "c" : c1}
+					{"h": _("overall resources") + ":", "v": nf().format(result.sumRes), "c": c1},
+					{"h": _("transport capacity") + ":", "v": nf().format(result.cap), "c": c1}
 				];
 				result.fleet.forEach(function (elem) {
 					html.push({
-						h : elem.name + ':', v : nf().format(elem.amount), c : elem.amount >
+						h: elem.name + ':', v: nf().format(elem.amount), c: elem.amount >
 						elem.available ? 'overmark' : ''
 					});
 				});
@@ -143,7 +150,7 @@
 					const available = ships[ship.id] || 0;
 					const amount = Math.ceil(result.sumRes / ship.cap);
 					if (config[cfg.prefer_fast_transport] && amount < available) {
-						fleet.push({ref : ship.id, amount : amount});
+						fleet.push({ref: ship.id, amount: amount});
 					} else {
 						var rest = result.sumRes;
 						[203, 202, 209, 214].every(function (id) {
@@ -152,7 +159,7 @@
 							if (available) {
 								const amount = Math.ceil(rest / ship.cap);
 								const val = amount > available ? available : amount;
-								fleet.push({ref : ship.id, amount : val});
+								fleet.push({ref: ship.id, amount: val});
 								rest -= val * ship.cap;
 								if (rest <= 0) {
 									return false;
@@ -173,7 +180,7 @@
 					var ships = planet.ships || {};
 					var fleet = [];
 					if (config[cfg.expo_espionage] && ships[210]) {
-						fleet.push({ref : 210, amount : 1, name : SHIPS_BY_ID[210].name});
+						fleet.push({ref: 210, amount: 1, name: SHIPS_BY_ID[210].name});
 						points -= SHIPS_BY_ID[210].expo;
 					}
 					if (!config[cfg.expo_transport_only]) {
@@ -194,7 +201,7 @@
 							}
 							var available = ships[ref] || 0;
 							if (available > 0) {
-								fleet.push({ref : ref, amount : 1, name : SHIPS_BY_ID[ref].name});
+								fleet.push({ref: ref, amount: 1, name: SHIPS_BY_ID[ref].name});
 								points -= SHIPS_BY_ID[ref].expo;
 								return false;
 							}
@@ -206,8 +213,8 @@
 						if (points > 0 && available > 0) {
 							var needed = Math.ceil(points / SHIPS_BY_ID[ref].expo);
 							var o = {
-								ref : ref, amount : needed > available ? available :
-									needed, name : SHIPS_BY_ID[ref].name
+								ref: ref, amount: needed > available ? available :
+									needed, name: SHIPS_BY_ID[ref].name
 							};
 							fleet.push(o);
 							points -= SHIPS_BY_ID[ref].expo * o.amount;
@@ -216,13 +223,13 @@
 					var p = maxPoints - points;
 					var html = [
 						{
-							h : _('expo points') + ':', v : nf().format(p) +
+							h: _('expo points') + ':', v: nf().format(p) +
 						(uniMaxPoints - points > 0 ? ' (' + nf().format(p - uniMaxPoints) + ')' : ''),
-							c : points > 0 ? 'overmark' : ''
+							c: points > 0 ? 'overmark' : ''
 						}
 					];
 					fleet.forEach(function (elem) {
-						html.push({h : elem.name + ':', v : nf().format(elem.amount)});
+						html.push({h: elem.name + ':', v: nf().format(elem.amount)});
 					});
 					_s.renderHTMLTooltip('expedition', html, eBtn);
 					eBtn.click(function () {
@@ -268,7 +275,7 @@
 				key === '212' || key === '214') {
 				return;
 			}
-			result.push({value : key, text : SHIPS_BY_ID[key].name});
+			result.push({value: key, text: SHIPS_BY_ID[key].name});
 		});
 		result.sort(function (a, b) {
 				if (a.value === '215' && (b.value === '211' || b.value === '213')) {
@@ -304,7 +311,7 @@
 			const ship = SHIPS_BY_ID[id];
 			const amount = Math.ceil(result.sumRes / ship.cap);
 			const available = ships[id] || 0;
-			result.fleet.push({id : id, amount : amount, available : available, name : ship.name});
+			result.fleet.push({id: id, amount: amount, available: available, name: ship.name});
 		});
 		return result;
 	}
@@ -326,14 +333,14 @@
 					const ref = me.attr('ref');
 					fleetEvents[ref] = date.getTime();
 					me.parent().find('span.starStreak').append($(_h('div', {
-						id : "skynet_return_" + ref,
-						'class' : 'skynet_c_timer',
-						style : {
-							width : '140px',
-							'text-align' : 'center',
-							'margin' : '0 auto',
-							position : 'relative',
-							top : '-5px'
+						id: "skynet_return_" + ref,
+						'class': 'skynet_c_timer',
+						style: {
+							width: '140px',
+							'text-align': 'center',
+							'margin': '0 auto',
+							position: 'relative',
+							top: '-5px'
 						}
 					})));
 				}
