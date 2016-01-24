@@ -2,13 +2,20 @@
 
 (function (_s) {
 	_s.history.push({
-		'date': '18.01.2016 :: v4.1.2',
+		'date': '24.01.2016 :: v4.1.2',
 		summary: 'Changes and improvements from user feedback and AMO editors',
 		changes: ['Fix energy calculation on building page',
 			'Update translations',
 			'Add Turkish translation',
 			'Update external libraries',
-			'Fix bug during set up of default values']
+			'Fix bug during set up of default values',
+			'TrashSim Button for easy combat simulation',
+			'Fix wrong espionage level detection with officers',
+			'Access API via HTTPS',
+			'Small fix an fleet page 1 to make Skynet fully HTTPS ready',
+			'Add color configuration for missing or outdated information',
+			'Use outdated indicators for research, buildings, ships, defense and Raidar',
+			'Fix bug in espionage report if ships not visible']
 	}, {
 		'date': '29.11.2015 :: v4.1.1',
 		summary: 'Changes and improvements from user feedback',
