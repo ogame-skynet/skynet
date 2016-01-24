@@ -3,7 +3,7 @@
 To whom it may concern.
 
 The Skynet project folder has a specific structure to support simultaneous extension development
-for Chrome and Firefox.  
+for Chrome and Firefox.
 The build system is Gulp.
 
 ## Structure ##
@@ -29,16 +29,16 @@ The build system is Gulp.
 http://code.jquery.com/jquery-2.2.0.min.js
 
 ### jQuery Nanoscroller 0.8.7 ###
-https://raw.githubusercontent.com/jamesflorentino/nanoScrollerJS/master/bin/javascripts/jquery.nanoscroller.min.js  
+https://raw.githubusercontent.com/jamesflorentino/nanoScrollerJS/master/bin/javascripts/jquery.nanoscroller.min.js
 The link points to the latest version. this might change between the release of a new Skynet version
 and the review by the AMO editors.
 
 ### jQuery UI 1.11.4 ###
-This is a custom build.  
-To review this version open the following link: http://jqueryui.com/themeroller/?ffDefault=Verdana%2C%20sans&fwDefault=bold&fsDefault=11px&cornerRadius=6px&bgColorHeader=333333&bgTextureHeader=gloss_wave&bgImgOpacityHeader=25&borderColorHeader=333333&fcHeader=ffffff&iconColorHeader=ffffff&bgColorContent=000000&bgTextureContent=inset_soft&bgImgOpacityContent=25&borderColorContent=666666&fcContent=ffffff&iconColorContent=cccccc&bgColorDefault=555555&bgTextureDefault=glass&bgImgOpacityDefault=20&borderColorDefault=666666&fcDefault=eeeeee&iconColorDefault=cccccc&bgColorHover=0078a3&bgTextureHover=glass&bgImgOpacityHover=40&borderColorHover=59b4d4&fcHover=ffffff&iconColorHover=ffffff&bgColorActive=444444&bgTextureActive=glass&bgImgOpacityActive=30&borderColorActive=555555&fcActive=ffffff&iconColorActive=222222&bgColorHighlight=eeeeee&bgTextureHighlight=highlight_soft&bgImgOpacityHighlight=80&borderColorHighlight=cccccc&fcHighlight=2e7db2&iconColorHighlight=4b8e0b&bgColorError=ffc73d&bgTextureError=glass&bgImgOpacityError=40&borderColorError=ffb73d&fcError=111111&iconColorError=a83300&bgColorOverlay=5c5c5c&bgTextureOverlay=flat&bgImgOpacityOverlay=50&opacityOverlay=80&bgColorShadow=cccccc&bgTextureShadow=flat&bgImgOpacityShadow=30&opacityShadow=60&thicknessShadow=7px&offsetTopShadow=-7px&offsetLeftShadow=-7px&cornerRadiusShadow=8px&ctl=themeroller  
-It will open the official ThemeRoller of jQuery UI.  
-Click the orange **Download theme** Button.  
-Now uncheck the **Toggle All** checkbox.  
+This is a custom build.
+To review this version open the following link: http://jqueryui.com/themeroller/?ffDefault=Verdana%2C%20sans&fwDefault=bold&fsDefault=11px&cornerRadius=6px&bgColorHeader=333333&bgTextureHeader=gloss_wave&bgImgOpacityHeader=25&borderColorHeader=333333&fcHeader=ffffff&iconColorHeader=ffffff&bgColorContent=000000&bgTextureContent=inset_soft&bgImgOpacityContent=25&borderColorContent=666666&fcContent=ffffff&iconColorContent=cccccc&bgColorDefault=555555&bgTextureDefault=glass&bgImgOpacityDefault=20&borderColorDefault=666666&fcDefault=eeeeee&iconColorDefault=cccccc&bgColorHover=0078a3&bgTextureHover=glass&bgImgOpacityHover=40&borderColorHover=59b4d4&fcHover=ffffff&iconColorHover=ffffff&bgColorActive=444444&bgTextureActive=glass&bgImgOpacityActive=30&borderColorActive=555555&fcActive=ffffff&iconColorActive=222222&bgColorHighlight=eeeeee&bgTextureHighlight=highlight_soft&bgImgOpacityHighlight=80&borderColorHighlight=cccccc&fcHighlight=2e7db2&iconColorHighlight=4b8e0b&bgColorError=ffc73d&bgTextureError=glass&bgImgOpacityError=40&borderColorError=ffb73d&fcError=111111&iconColorError=a83300&bgColorOverlay=5c5c5c&bgTextureOverlay=flat&bgImgOpacityOverlay=50&opacityOverlay=80&bgColorShadow=cccccc&bgTextureShadow=flat&bgImgOpacityShadow=30&opacityShadow=60&thicknessShadow=7px&offsetTopShadow=-7px&offsetLeftShadow=-7px&cornerRadiusShadow=8px&ctl=themeroller
+It will open the official ThemeRoller of jQuery UI.
+Click the orange **Download theme** Button.
+Now uncheck the **Toggle All** checkbox.
 In the Widgets Section please check:
 
 - Accordion
@@ -72,9 +72,13 @@ After switching to the build/firefox folder, you can use `jpm xpi` to create the
 
 The file has a cryptic name. Please rename it to match the correct name.
 
-The checksum of the XPI package is created using `sha256sum skynet.file.xpi`.
+The checksum of the XPI package can not be used. The XPI generated under Windows 10 using JPM 1.0.4
+is different to the XPI from Linux Mint 17.3.
+The content of both files is equal.
+**Conclusion**: To check if the provided source fits to the uglified result, compare the contents
+of the XPI.
 
-The addon can be tested on page: http://pioneers.en.ogame.gameforge.com/  
-Choose universe **Bermuda**  
-Username **Skynet**  
+The addon can be tested on page: http://pioneers.en.ogame.gameforge.com/
+Choose universe **Bermuda**
+Username **Skynet**
 Passwort: huxi54-Turta
