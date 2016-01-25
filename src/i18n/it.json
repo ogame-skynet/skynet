@@ -54,7 +54,7 @@
   "new_report": "Nuovo Report",
   "no_ship": "Nessuna nave",
   "other": "Altro",
-  "outdated_data": "No or outdated information",
+  "outdated_data": "Informazioni mancanti o obsolete",
   "overall": "Totale",
   "overall_production": "Produzione totale",
   "overall_resources": "Risorse totali",
@@ -91,7 +91,7 @@
   "show_production": "Mostra produzione",
   "show_return_countdown": "Mostra countdown per richiami di flotta",
   "show_speedsim": "Mostra tasto SpeedSim",
-  "show_summary": "Mostra riepilogo risorse in Sommario",
+  "show_summary": "Mostra riepilogo risorse in Riepilogo",
   "show_transport_button": "Mostra tasto Trasporto",
   "show_trashsim": "Mostra tasto TrashSim",
   "Spanish": "Spagnolo",
@@ -108,5 +108,5 @@
   "transport_capacity": "Stiva massima",
   "transport": "Trasporto",
   "Turkish": "Turco",
-  "update_needed": "Pagina di caricamento necessaria"
+  "update_needed": "Aggiornamento necessario"
 }
