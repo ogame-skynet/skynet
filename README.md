@@ -72,13 +72,11 @@ After switching to the build/firefox folder, you can use `jpm xpi` to create the
 
 The file has a cryptic name. Please rename it to match the correct name.
 
-The checksum of the XPI package can not be used. The XPI generated under Windows 10 using JPM 1.0.4
-is different to the XPI from Linux Mint 17.3.
-The content of both files is equal.
-**Conclusion**: To check if the provided source fits to the uglified result, compare the contents
-of the XPI.
+The checksum of the XPI package can not be used. The XPI generated under Windows 10 using JPM 1.0.4 is different to the XPI from Linux Mint 17.3.  
+The content of both files is equal.  
+**Conclusion**: To check if the provided source fits to the uglified result, compare the contents of the XPI.
 
-The addon can be tested on page: http://pioneers.en.ogame.gameforge.com/
-Choose universe **Bermuda**
-Username **Skynet**
+The addon can be tested on page: http://pioneers.en.ogame.gameforge.com/  
+Choose universe **Bermuda**  
+Username **Skynet**  
 Passwort: huxi54-Turta
