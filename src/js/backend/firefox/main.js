@@ -87,14 +87,18 @@ pageMod.PageMod({
 			RegExp.$1 : '';
 		if (uni) {
 			Config.get().then(function (config) {
-				const _c = prepareConfig(config, uni);
-				const css = getCSS(_c);
-				if (css) {
-					//noinspection JSUnresolvedFunction
-					var style = Style.Style({
-						source: css
-					});
-					Mod.attach(style, worker.tab);
+				try {
+					const _c = prepareConfig(config, uni);
+					const css = getCSS(_c);
+					if (css) {
+						//noinspection JSUnresolvedFunction
+						var style = Style.Style({
+							source: css
+						});
+						Mod.attach(style, worker.tab);
+					}
+				} catch (e) {
+					console.error('Error in Skynet backend onAttach:', e);
 				}
 			});
 		}
