@@ -68,6 +68,11 @@ The destination directory is **build**.
 
 ###Firefox XPI
 
+To test with Firefox the following settings are suggested (about:config).
+
+	xpinstall.signatures.required: false
+	extensions.jid1-j57LkwpAWjGJXw@jetpack.sdk.console.logLevel: info
+
 After switching to the build/firefox folder, you can use `jpm xpi` to create the Firefox addon.
 
 The file has a cryptic name. Please rename it to match the correct name.
