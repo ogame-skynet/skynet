@@ -1,6 +1,6 @@
 /* global Skynet, Q, $, parseCoords, parseDT, getTextNodesText, MESSAGES, extend, ocalc, RESOURCES,
  _i, _, _h, SHIPS_BY_ID, nf, RESOURCES, PAGES, getResource, ko, Timer, parseNumber, Version,
- TECHS_BY_ID */
+ TECHS_BY_ID, Observer */
 
 (function (_s) {
 	const cfg = {
@@ -58,45 +58,26 @@
 			}
 			if (page === PAGES.messages && config[cfg.enhance_spy]) {
 				if (version === 6) {
-					addObserverV6();
+					Observer.create('div.content > div.js_tabs', {childList: true, subtree: true}).listenTo(
+						'ul.tab_inner', function () {
+							handleMessagesV6(this);
+						});
 					prepareRaidar(config);
 				} else {
 					addObserverV5();
 				}
 			}
 			if (page === PAGES.messages || page === PAGES.galaxy && config[cfg.enhance_spy]) {
-				const dlgObserver = new MutationObserver(function (mutations) {
-					mutations.forEach(function (mutation) {
-						for (var i = 0; i < mutation.addedNodes.length; i++) {
-							if (mutation.addedNodes[i].nodeName.toLowerCase() === 'div') {
-								var dlg = $(mutation.addedNodes[i]);
-								if (dlg.attr('data-page') === 'showmessage' ||
-									dlg.attr('data-page') === 'messages') {
-									var dialogObserver = new MutationObserver(function (mutations) {
-										mutations.forEach(function (mutation) {
-											for (var i = 0; i < mutation.addedNodes.length; i++) {
-												if (mutation.addedNodes[i].nodeName.toLowerCase() === 'div') {
-													var msg = $(mutation.addedNodes[i]);
-													if (msg.hasClass('detail_msg')) {
-														handleMessageV6(msg);
-													} else if (msg.hasClass('showmessage')) {
-														handleMessage(msg);
-													}
-												}
-											}
-										});
-									});
-									dialogObserver.observe(mutation.addedNodes[i], {
-										childList: true
-									});
-								}
-							}
-						}
+				Observer.create(document.body).listenTo(
+					'div[data-page="showmessage"], div[data-page="messages"]', function () {
+						var o = Observer.create(this);
+						o.listenTo('div.detail_msg', function () {
+							handleMessageV6($(this));
+						});
+						o.listenTo('div.showmessage', function () {
+							handleMessage($(this));
+						});
 					});
-				});
-				dlgObserver.observe(document.body, {
-					childList: true
-				});
 			}
 		} catch (e) {
 			console.error(e.message);
@@ -125,29 +106,6 @@
 			});
 			$(target).find('form[name="delMsg"]').each(function () {
 				handleMessages(this);
-			});
-		}
-	}
-
-	function addObserverV6() {
-		var target = Q('div.content > div.js_tabs');
-		if (target) {
-			const observer = new MutationObserver(function (mutations) {
-				try {
-					mutations.forEach(function (mutation) {
-						for (var i = 0; i < mutation.addedNodes.length; i++) {
-							if (mutation.addedNodes[i].nodeName.toLowerCase() === 'ul') {
-								handleMessagesV6(mutation.addedNodes[i]);
-							}
-						}
-					});
-				} catch (e) {
-					console.error(e);
-				}
-			});
-			observer.observe(target, {
-				childList: true,
-				subtree: true
 			});
 		}
 	}
@@ -897,7 +855,8 @@
 			this.defenseUnits = planet.defenseUnits < 0 ? '-' : f.format(planet.defenseUnits);
 			this.underAttack = planet.underAttack;
 			//noinspection JSUnusedGlobalSymbols
-			this.unknownBuildings = planet.buildings === undefined || JSON.stringify(planet.buildings).match(/{"212":\d+?}/);
+			this.unknownBuildings =
+				planet.buildings === undefined || JSON.stringify(planet.buildings).match(/{"212":\d+?}/);
 			this.outdatedDefense = planet.outdatedDefense === true;
 			this.outdatedShips = planet.outdatedShips === true;
 

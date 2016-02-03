@@ -1,41 +1,32 @@
-/* global $, Q, Skynet, _i, MESSAGES, extend, STATUS, hexToRgb, nf */
+/* global $, Skynet, _i, MESSAGES, extend, STATUS, hexToRgb, nf, Observer */
 
 (function (_s) {
 	const cfg = {
-		galaxy_show_stats : 'galaxy.show.stats',
-		change_layout_galaxy_rows : 'change.layout.galaxy.rows',
-		galaxy_row_height : 'galaxy.row.height',
-		galaxy_mark_debris : 'galaxy.mark.debris',
-		galaxy_debris_size : 'galaxy.debris.size',
-		galaxy_debris_color : 'galaxy.debris.color',
-		galaxy_mark_position : 'galaxy.mark.position',
-		galaxy_mark_position_color : 'galaxy.mark.position.color'
+		galaxy_show_stats: 'galaxy.show.stats',
+		change_layout_galaxy_rows: 'change.layout.galaxy.rows',
+		galaxy_row_height: 'galaxy.row.height',
+		galaxy_mark_debris: 'galaxy.mark.debris',
+		galaxy_debris_size: 'galaxy.debris.size',
+		galaxy_debris_color: 'galaxy.debris.color',
+		galaxy_mark_position: 'galaxy.mark.position',
+		galaxy_mark_position_color: 'galaxy.mark.position.color'
 	};
 	const cfg_def = [
-		{key : cfg.galaxy_show_stats, label : 'galaxy show stats', type : 'boolean', def : true, cat : 'galaxy'},
-		{key : cfg.change_layout_galaxy_rows, label : 'change galaxy rows', type : 'boolean', def : true, cat : 'galaxy'},
-		{key : cfg.galaxy_row_height, label : 'galaxy row size', type : 'number', def : 28, cat : 'galaxy'},
-		{key : cfg.galaxy_mark_debris, label : 'mark debris', type : 'boolean', def : true, cat : 'galaxy'},
-		{key : cfg.galaxy_debris_size, label : 'debris size', type : 'number', def : 10000, cat : 'galaxy', scope : 'uni'},
-		{key : cfg.galaxy_debris_color, label : 'debris color', type : 'color', def : '#ff0000', cat : 'galaxy'},
-		{key : cfg.galaxy_mark_position, label : 'mark position in galaxy', type : 'boolean', def : true, cat : 'galaxy'},
-		{key : cfg.galaxy_mark_position_color, label : 'position in galaxy color', type : 'color', def : '#770077', cat : 'galaxy'}
+		{key: cfg.galaxy_show_stats, label: 'galaxy show stats', type: 'boolean', def: true, cat: 'galaxy'},
+		{key: cfg.change_layout_galaxy_rows, label: 'change galaxy rows', type: 'boolean', def: true, cat: 'galaxy'},
+		{key: cfg.galaxy_row_height, label: 'galaxy row size', type: 'number', def: 28, cat: 'galaxy'},
+		{key: cfg.galaxy_mark_debris, label: 'mark debris', type: 'boolean', def: true, cat: 'galaxy'},
+		{key: cfg.galaxy_debris_size, label: 'debris size', type: 'number', def: 10000, cat: 'galaxy', scope: 'uni'},
+		{key: cfg.galaxy_debris_color, label: 'debris color', type: 'color', def: '#ff0000', cat: 'galaxy'},
+		{key: cfg.galaxy_mark_position, label: 'mark position in galaxy', type: 'boolean', def: true, cat: 'galaxy'},
+		{key: cfg.galaxy_mark_position_color, label: 'position in galaxy color', type: 'color', def: '#770077', cat: 'galaxy'}
 	];
 	_s.addSettings(cfg_def);
 
 	_s.page.then(function (page) {
 		if (page === 'galaxy') {
-			const observer = new MutationObserver(function (mutations) {
-				mutations.forEach(function (mutation) {
-					for (var i = 0; i < mutation.addedNodes.length; i++) {
-						if (mutation.addedNodes[i].id === 'mobileDiv') {
-							galaxyChanged(mutation.addedNodes[i]);
-						}
-					}
-				});
-			});
-			observer.observe(Q('#galaxyContent'), {
-				childList : true
+			Observer.create('#galaxyContent').listenTo('#mobileDiv', function () {
+				galaxyChanged(this);
 			});
 		}
 	});
@@ -43,7 +34,7 @@
 	function checkPlanets() {
 		const coords = [_i($('#galaxy_input').val()), _i($('#system_input').val()), 0];
 		Promise.all([_s.player, _s.port.get(MESSAGES.getPlanets, {
-			position : {lower : coords, upper : [coords[0], coords[1], 16]}
+			position: {lower: coords, upper: [coords[0], coords[1], 16]}
 		})]).then(function (args) {
 			const currentPlayer = args[0];
 			const knownPlanets = args[1];
@@ -53,8 +44,8 @@
 			$('#galaxytable').find('tr').each(function () {
 				const me = $(this);
 				const planet = {
-					id : me.find('td[data-planet-id]').attr('data-planet-id'),
-					type : 'p'
+					id: me.find('td[data-planet-id]').attr('data-planet-id'),
+					type: 'p'
 				};
 				if (!planet.id) {
 					return;
@@ -67,10 +58,10 @@
 					return;
 				}
 				const player = {
-					id : planet.owner,
-					name : pData.parent().find('h1 span').text().trim(),
-					officers : 0,
-					status : 0
+					id: planet.owner,
+					name: pData.parent().find('h1 span').text().trim(),
+					officers: 0,
+					status: 0
 				};
 				me.find('span.status').each(function () {
 					const me = $(this);
@@ -97,17 +88,17 @@
 				me.find('td[data-moon-id]').each(function () {
 					const me = $(this);
 					const moon = {
-						id : me.attr('data-moon-id'),
-						type : 'm',
-						owner : planet.owner,
-						position : planet.position,
-						name : me.find('div.htmlTooltip h1 span').text().trim()
+						id: me.attr('data-moon-id'),
+						type: 'm',
+						owner: planet.owner,
+						position: planet.position,
+						name: me.find('div.htmlTooltip h1 span').text().trim()
 					};
 					prepareSave(moon, knownPlanets, planets);
 				});
 			});
 			Object.keys(players).forEach(function (id) {
-				_s.port.get(MESSAGES.getPlayer, {id : id}).then(function (dbPlayer) {
+				_s.port.get(MESSAGES.getPlayer, {id: id}).then(function (dbPlayer) {
 					const player = players[id];
 					if (!dbPlayer || dbPlayer.name !== player.name || dbPlayer.status !== player.status) {
 						_s.port.send(MESSAGES.updatePlayer, extend(dbPlayer, player));
@@ -158,12 +149,12 @@
 			if (config[cfg.galaxy_show_stats]) {
 				me.find('td.playername').each(function () {
 					const td = $(this);
-					td.css({'text-align' : 'left'});
-					td.find('> :first-child').css({'margin-left' : 6});
+					td.css({'text-align': 'left'});
+					td.find('> :first-child').css({'margin-left': 6});
 					const rank = td.find('div.htmlTooltip li.rank a').text();
 					if (rank) {
 						td.append($('<span>',
-							{css : {float : 'right'}, text : nf().format(_i(rank))}));
+							{css: {float: 'right'}, text: nf().format(_i(rank))}));
 					}
 					fixWidth(td);
 				});
@@ -186,8 +177,8 @@
 						var tr = me.parents('td.debris').eq(0);
 						var c = hexToRgb(config[cfg.galaxy_debris_color]);
 						tr.css({
-							'background-color' : 'rgba(' + c.r + ', ' + c.g + ', ' + c.b + ', 0.4)',
-							'border-radius' : 6
+							'background-color': 'rgba(' + c.r + ', ' + c.g + ', ' + c.b + ', 0.4)',
+							'border-radius': 6
 						});
 					}
 				});
@@ -198,8 +189,8 @@
 					const coords = [$('#galaxy_input').val(), $('#system_input').val(), 0];
 					if (coords[0] === match[1] && coords[1] === match[2]) {
 						me.find('#galaxytable tbody tr').eq(_i(match[3]) - 1).css({
-							border : '1px solid ' + config[cfg.galaxy_mark_position_color],
-							'border-radius' : 6
+							border: '1px solid ' + config[cfg.galaxy_mark_position_color],
+							'border-radius': 6
 						});
 					}
 				}
