@@ -4,8 +4,11 @@
 /* exported Skynet */
 
 const Skynet = (function () {
-	(new Observer(document.documentElement)).listenTo('#eventboxContent', function () {
-		Observer.create(this).listenTo('#eventListWrap', function () {
+	console.log('Skynet main method loaded');
+	(new Observer(document.documentElement)).listenToOnce('#eventboxContent', function () {
+		console.log('Eventbox parent found, should not be logged twice');
+		Observer.create(this).listenToOnce('#eventListWrap', function () {
+			console.log('start detecting events, should not be logged twice');
 			detectEvents(this);
 		});
 	}, true);
@@ -78,10 +81,12 @@ const Skynet = (function () {
 	_s.page = new Promise(pageLoaded);
 	_s.oGameI18N = new Promise(function (resolve) {
 		_s.port.get(MESSAGES.oGameI18N).then(function (oI18n) {
-			Object.keys(TECHS_BY_ID).forEach(function (elem) {
-				TECHS_BY_ID[elem].name = oI18n.t[elem];
-			});
-			resolve(oI18n);
+			if (oI18n.t) {
+				Object.keys(TECHS_BY_ID).forEach(function (elem) {
+					TECHS_BY_ID[elem].name = oI18n.t[elem];
+				});
+				resolve(oI18n);
+			}
 		});
 	});
 	_s.player = new Promise(function (resolve) {
@@ -114,7 +119,7 @@ const Skynet = (function () {
 	_s.planet = new Promise(function (resolve) {
 		Promise.all([_s.page, _s.port.once(MESSAGES.getPlanets)]).then(function (args) {
 			const page = args[0];
-			if (page !== 'empire') {
+			if (page !== 'empire' && page !== 'displayMessageNewPage') {
 				const owner = $("meta[name='ogame-player-id']").prop('content');
 				new Promise(function (resolve) {
 					if (args[1] && Array.isArray(args[1]) && args[1].length > 0 &&
@@ -313,7 +318,7 @@ const Skynet = (function () {
 		elw.find('tr').each(function () {
 			var row = $(this);
 			var event = {
-				id: row.prop('id').trim().replace(/eventRow-/, ''),
+				id: row.prop('id').length ? row.prop('id').trim().replace(/eventRow-/, '') : '',
 				mission: row.attr('data-mission-type'),
 				arrival: _i(row.attr('data-arrival-time') + '000'),
 				rF: row.attr('data-return-flight') === 'true',
@@ -323,6 +328,10 @@ const Skynet = (function () {
 				fleet: [],
 				res: {}
 			};
+			if (!event.id) {
+				console.error('Event with no id:', JSON.stringify(event));
+				return;
+			}
 			var html = row.find(
 				'td.icon_movement span.tooltip, td.icon_movement_reserve span.tooltip').prop('title');
 			var arr = html ? html.match(/<tr>([\S\s]+?)<\/tr>/g) : [];
@@ -708,7 +717,7 @@ const Skynet = (function () {
 				_s.uni.speed = _i($('meta[name="ogame-universe-speed"]').prop('content'));
 				_s.uni.speedFleet = _i($('meta[name="ogame-universe-speed-fleet"]').prop('content'));
 				resolve(p);
-				if (p !== 'empire') {
+				if (p !== 'empire' && p !== 'displayMessageNewPage') {
 					_s.config.then(function (_c) {
 						$('#menuTableTools').append(_h('li', '',
 							['span', {

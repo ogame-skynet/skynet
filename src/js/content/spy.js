@@ -60,6 +60,7 @@
 				if (version === 6) {
 					Observer.create('div.content > div.js_tabs', {childList: true, subtree: true}).listenTo(
 						'ul.tab_inner', function () {
+							console.log('handle all messages, should not be logged twice');
 							handleMessagesV6(this);
 						});
 					prepareRaidar(config);
@@ -70,11 +71,10 @@
 			if (page === PAGES.messages || page === PAGES.galaxy && config[cfg.enhance_spy]) {
 				Observer.create(document.body).listenTo(
 					'div[data-page="showmessage"], div[data-page="messages"]', function () {
-						var o = Observer.create(this);
-						o.listenTo('div.detail_msg', function () {
+						Observer.create(this).listenTo('div.detail_msg', function () {
+							console.log('handle one messages, should not be logged twice');
 							handleMessageV6($(this));
-						});
-						o.listenTo('div.showmessage', function () {
+						}).listenTo('div.showmessage', function () {
 							handleMessage($(this));
 						});
 					});
@@ -663,8 +663,14 @@
 				_s.port.get(MESSAGES.getPlayer, {name: playerName}),
 				_s.port.get(MESSAGES.getPlanets, {position: planet.position}),
 				_s.oGameI18N]).then(function (args) {
+				if (!args[0][0]) {
+					console.error('This player was not found in the database.');
+				}
 				const knownPlayer = args[0][0] || {};
 				const knownPlanet = getPlanetByType(args[1], planet);
+				if (!knownPlanet) {
+					console.error('This planet was not found in the database.');
+				}
 				const oI18n = args[2];
 				const playerData = extend('', knownPlayer);
 				const planetData = extend('', knownPlanet, planet);

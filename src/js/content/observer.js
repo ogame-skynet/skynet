@@ -1,3 +1,4 @@
+/* global genUUID */
 /* exported Observer */
 
 /**
@@ -24,32 +25,43 @@ function Observer(targetArg, config) {
 			for (var i = 0; i < result.length; i++) {
 				callback.call(result[i]);
 			}
-			return;
 		}
-		listeners.push({selector: selector, callback: callback, deep: deep});
+		listeners.push({selector: selector, callback: callback, deep: deep, id: genUUID()});
+		return this;
+	};
+
+	/**
+	 * Listen for nodes that exactly match the given selector
+	 *
+	 * @param {string} selector
+	 * @param {Observer~observerCallback} callback
+	 * @param {boolean} [deep]
+	 */
+	this.listenToOnce = function (selector, callback, deep) {
+		var result = target.querySelectorAll(selector);
+		if (result.length) {
+			for (var i = 0; i < result.length; i++) {
+				callback.call(result[i]);
+			}
+		}
+		listeners.push({selector: selector, callback: callback, deep: deep, id: genUUID(), once: true});
+		return this;
 	};
 
 	var mutationObserver = new MutationObserver(function (mutations) {
+		var listenersUsed = [];
 		mutations.forEach(function (mutation) {
-			var i, j, k, hasTriggered, elements, me;
+			var i, j, me;
 			for (i = 0; i < mutation.addedNodes.length; i++) {
 				me = mutation.addedNodes[i];
-				hasTriggered = false;
 				if (me.nodeType === Node.ELEMENT_NODE) {
 					for (j = 0; j < listeners.length; j++) {
 						if (listeners[j] && me.matches(listeners[j].selector)) {
-							listeners[j].callback.call(me);
-							listeners[j] = null;
-							hasTriggered = true;
-						}
-					}
-					if (!hasTriggered) {
-						for (j = 0; j < listeners.length; j++) {
-							if (listeners[j] && listeners[j].deep) {
-								elements = target.querySelectorAll(listeners[j].selector);
-								for (k = 0; k < elements.length; k++) {
-									listeners[k].callback.call(elements[j]);
-									listeners[k] = null;
+							if (listenersUsed.indexOf(listeners[j].id) < 0) {
+								listenersUsed.push(listeners[j].id);
+								listeners[j].callback.call(me);
+								if (listeners[j].once) {
+									listeners[j] = null;
 								}
 							}
 						}
@@ -57,6 +69,21 @@ function Observer(targetArg, config) {
 				}
 			}
 		});
+		for (var j = 0; j < listeners.length; j++) {
+			if (listeners[j] && listeners[j].deep) {
+				var elements = target.querySelectorAll(listeners[j].selector);
+				for (var k = 0; k < elements.length; k++) {
+					var me = elements[k];
+					if (listenersUsed.indexOf(listeners[j].id) < 0) {
+						listenersUsed.push(listeners[j].id);
+						listeners[j].callback.call(me);
+						if (listeners[j].once) {
+							listeners[j] = null;
+						}
+					}
+				}
+			}
+		}
 	});
 	//noinspection JSCheckFunctionSignatures
 	mutationObserver.observe(target, config || {childList: true});
