@@ -1,10 +1,15 @@
 /* global self, chrome, $, ko, _, _h, getResource, Promise, MessageBus, MESSAGES, extend, OFFICERS,
- formatDate, Q, _i, PAGES, ocalc, Timer, formatTime, RESOURCES, parseCoords, TECHS_BY_ID, nf */
+ formatDate, Q, _i, PAGES, ocalc, Timer, formatTime, RESOURCES, parseCoords, TECHS_BY_ID, nf,
+ Observer */
 /* exported Skynet */
 
 const Skynet = (function () {
+	(new Observer(document.documentElement)).listenTo('#eventboxContent', function () {
+		Observer.create(this).listenTo('#eventListWrap', function () {
+			detectEvents(this);
+		});
+	}, true);
 	var dlg, script;
-	//noinspection JSUnresolvedVariable
 	const settings = ko.observableArray().extend({rateLimit: 50});
 	const _s = {
 		VERSION: self.options && self.options.version || chrome.runtime.getManifest().version_name,
@@ -96,7 +101,6 @@ const Skynet = (function () {
 				if (args[0] === 'research') {
 					p.techs = extend(p.techs, detectItems());
 				}
-				detectEvents(p, args[2], args[3]);
 				_s.port.send(MESSAGES.updatePlayer, p);
 				resolve(p);
 				if (!p.techs) {
@@ -143,21 +147,35 @@ const Skynet = (function () {
 		show_summary: 'show.summary',
 		enhance_eventlist: 'enhance.eventlist',
 		collapse_header: 'collapse.header',
-		current_summary: 'current.summary'
+		current_summary: 'current.summary',
+		auto_collapse_events: 'auto.collapse.events'
 	};
 	const cfg_def = [
-		{key: cfg.skynet_active, label: 'activate skynet', type: 'boolean', def: true, cat: 'general', scope: 'uni'},
+		{
+			key: cfg.skynet_active, label: 'activate skynet', type: 'boolean', def: true, cat: 'general',
+			scope: 'uni'
+		},
 		{key: cfg.color_hint, label: 'hint', type: 'color', def: '#a0a0ff', cat: 'colors'},
 		{key: cfg.color_problem, label: 'problem', type: 'color', def: '#ff0000', cat: 'colors'},
 		{key: cfg.color_timer, label: 'timer', type: 'color', def: '#00bb00', cat: 'colors'},
 		{key: cfg.color_outdated, label: 'outdated data', type: 'color', def: '#ffa500', cat: 'colors'},
 		{key: cfg.change_layout, label: 'change layout', type: 'boolean', def: false, cat: 'layout'},
-		{key: cfg.change_layout_planetlist, label: 'change planet list layout', type: 'boolean', def: true, cat: 'layout'},
+		{
+			key: cfg.change_layout_planetlist, label: 'change planet list layout', type: 'boolean',
+			def: true, cat: 'layout'
+		},
 		{key: cfg.show_summary, label: 'show summary', type: 'boolean', def: true, cat: 'layout'},
-		{key: cfg.enhance_eventlist, label: 'enhance event list', type: 'boolean', def: true, cat: 'layout'},
+		{
+			key: cfg.enhance_eventlist, label: 'enhance event list', type: 'boolean', def: true,
+			cat: 'layout'
+		},
 		{key: cfg.collapse_header, label: 'collapse header', type: 'boolean', def: true, cat: 'layout'},
 		{key: cfg.current_summary, cat: 'hidden', scope: 'uni'},
-		{key: 'installed.version', cat: 'hidden'}
+		{key: 'installed.version', cat: 'hidden'},
+		{
+			key: cfg.auto_collapse_events, label: 'auto collapse events', type: 'boolean', def: false,
+			cat: 'layout'
+		}
 	];
 	_s.addSettings(cfg_def);
 
@@ -289,18 +307,13 @@ const Skynet = (function () {
 		return tasks;
 	}
 
-	/**
-	 *
-	 * @param {*} player
-	 * @param {{}} config
-	 * @param {{tbn:{}}} oI18n
-	 */
-	function detectEvents(player, config, oI18n) {
-		const elw = $('#eventListWrap');
-		const events = [];
+	function detectEvents(parent) {
+		var elw = $(parent);
+		var events = [];
 		elw.find('tr').each(function () {
-			const row = $(this);
-			const event = {
+			var row = $(this);
+			var event = {
+				id: row.prop('id').trim().replace(/eventRow-/, ''),
 				mission: row.attr('data-mission-type'),
 				arrival: _i(row.attr('data-arrival-time') + '000'),
 				rF: row.attr('data-return-flight') === 'true',
@@ -310,52 +323,73 @@ const Skynet = (function () {
 				fleet: [],
 				res: {}
 			};
-			const html = row.find(
+			var html = row.find(
 				'td.icon_movement span.tooltip, td.icon_movement_reserve span.tooltip').prop('title');
-			const arr = html ? html.match(/<tr>([\S\s]+?)<\/tr>/g) : [];
-			var rs = 0;
-			arr.forEach(function (tr, i) {
-				if (i > 0 && !rs && tr.match(/<td>(.+?):[\S,\s]+?"value">(.+?)</)) {
-					const type = RegExp.$1;
-					const count = _i(RegExp.$2.replace(/\D/g, ''));
-					event.fleet.push({id: oI18n.tbn[type], name: type, count: count});
-				} else if (i > 0 && tr.indexOf('th') > -1) {
+			var arr = html ? html.match(/<tr>([\S\s]+?)<\/tr>/g) : [];
+			var rs = 0, i, type, count;
+			for (i = 0; i < arr.length; i++) {
+				if (i > 0 && !rs && arr[i].match(/<td>(.+?):[\S,\s]+?"value">(.+?)</)) {
+					type = RegExp.$1;
+					count = _i(RegExp.$2.replace(/\D/g, ''));
+					//event.fleet.push({id: oI18n.tbn[type], name: type, count: count});
+					event.fleet.push({name: type, count: count});
+				} else if (i > 0 && arr[i].indexOf('th') > -1) {
 					rs = i;
-				} else if (i > 0 && rs && tr.match(/<td>[\S,\s]+?"value">(.+?)</)) {
+				} else if (i > 0 && rs && arr[i].match(/<td>[\S,\s]+?"value">(.+?)</)) {
 					event.res[RESOURCES[i - rs - 1]] = _i(RegExp.$1.replace(/\D/g, ''));
 				}
-			});
+			}
 			events.push(event);
-			if (config[cfg.enhance_eventlist]) {
-				var opacity = '';
-				if (event.rF) {
-					opacity = 0.5;
-					row.css({
-						opacity: opacity
-					});
+		});
+		_s.oGameI18N.then(function (oI18n) {
+			for (var i = 0; i < events.length; i++) {
+				var event = events[i];
+				for (var j = 0; j < event.fleet.length; j++) {
+					event.fleet[j].id = oI18n.tbn[event.fleet[j].name];
 				}
-				var detailRow = $('<tr>', {'class': 'skynet'});
-				row.after(detailRow);
-				if (opacity) {
-					row.css('opacity', opacity);
-					detailRow.css('opacity', opacity);
-				}
-				detailRow.append($('<td>',
-					{text: row.find('td.missionFleet img').prop('title').replace(/^.+?\|/, '')}));
-				detailRow.append($('<td>', {colspan: 10, html: getDetails(event)}));
-				Timer.add(function () {
-					var now = new Date();
-					if (now.getTime() >= event.arrival + 1000) {
-						detailRow.hide('slow', function () {
-							$(this).remove();
-						});
-						return false;
-					}
-					return true;
-				});
 			}
 		});
-		player.events = events;
+		_s.player.then(function (player) {
+			player.events = events;
+			_s.port.send(MESSAGES.updatePlayer, player);
+		});
+		_s.config.then(function (config) {
+			try {
+				if (config[cfg.enhance_eventlist]) {
+					events.forEach(function (event) {
+						var row = $('#eventRow-' + event.id);
+						var opacity = '';
+						if (event.rF) {
+							opacity = 0.5;
+							row.css({
+								opacity: opacity
+							});
+						}
+						var detailRow = $('<tr>', {'class': 'skynet'});
+						row.after(detailRow);
+						if (opacity) {
+							row.css('opacity', opacity);
+							detailRow.css('opacity', opacity);
+						}
+						detailRow.append($('<td>',
+							{text: row.find('td.missionFleet img').prop('title').replace(/^.+?\|/, '')}));
+						detailRow.append($('<td>', {colspan: 10, html: getDetails(event)}));
+						Timer.add(function () {
+							var now = new Date();
+							if (now.getTime() >= event.arrival + 1000) {
+								detailRow.hide('slow', function () {
+									$(this).remove();
+								});
+								return false;
+							}
+							return true;
+						});
+					});
+				}
+			} catch (e) {
+				console.error('error in Skynet.js detectEvents', e);
+			}
+		});
 
 		function getDetails(event) {
 			var result = '';
@@ -491,8 +525,8 @@ const Skynet = (function () {
 						resolve(cp);
 					} else {
 						if (!cp.defense || !planet.ships || !planet.buildings ||
-								planet.buildings['22'] === undefined ||
-								planet.buildings['14'] === undefined) {
+							planet.buildings['22'] === undefined ||
+							planet.buildings['14'] === undefined) {
 							var pElem = $('#planetList').find('a[href$="cp=' + cp.id + '"]');
 							pElem.find('span.planet-name').addClass('skynet_c_outdated');
 							pElem.find('img.icon-moon').addClass('skynet_c_moon_outdated');
@@ -572,6 +606,22 @@ const Skynet = (function () {
 		return script;
 	}
 
+	function loadEvents() {
+		try {
+			if (document.querySelector('#eventListWrap') === null) {
+				var element = document.querySelector('#menuTable li:first-child span.menu_icon a');
+				if (element) {
+					setTimeout(function () {
+						_s.trigger(element, 'click');
+						document.querySelector('#eventboxContent').style.display = 'none';
+					}, 1);
+				}
+			}
+		} catch (e) {
+			console.error('error in Skynet.js loadEvents', e);
+		}
+	}
+
 	function openDialog() {
 		if (dlg) {
 			dlg.dialog('open');
@@ -640,6 +690,7 @@ const Skynet = (function () {
 		if (location.href.match(/.+\/game\/index\.php(?:(?:\?page|.*?&page)=(.+?)(?:#|&|$)|$)/)) {
 			const p = (RegExp.$1 || 'overview').toLowerCase();
 			$(function () {
+				loadEvents();
 				_s.lang = $('meta[name="ogame-language"]').prop('content');
 				_s.ogameVersion = $('meta[name="ogame-version"]').prop('content');
 				const script = getScript();
@@ -903,60 +954,59 @@ const Skynet = (function () {
 		const SUMMARY_TYPES = ['planet', 'resources', 'production'];
 		var self = this;
 		var _res = planet.resources;
-		var _resTra;
 		//noinspection JSUnusedGlobalSymbols
 		this.prod = ocalc.format(ocalc.product(planet.production, 3600), f);
 		this.res = {
-			metal: ko.observable(),
-			crystal: ko.observable(),
-			deuterium: ko.observable()
+			metal: ko.observable(0),
+			crystal: ko.observable(0),
+			deuterium: ko.observable(0)
 		};
 		//noinspection JSUnusedGlobalSymbols
 		this.sto = ocalc.format(planet.storage, f);
 		this.stoCap = {
-			metal: ko.observable(),
-			crystal: ko.observable(),
-			deuterium: ko.observable()
+			metal: ko.observable(0),
+			crystal: ko.observable(0),
+			deuterium: ko.observable(0)
 		};
 		this.resStat = {
-			metal: ko.observable(),
-			crystal: ko.observable(),
-			deuterium: ko.observable()
+			metal: ko.observable(0),
+			crystal: ko.observable(0),
+			deuterium: ko.observable(0)
 		};
 		this.sta = {
-			metal: ko.observable(),
-			crystal: ko.observable(),
-			deuterium: ko.observable()
+			metal: ko.observable(0),
+			crystal: ko.observable(0),
+			deuterium: ko.observable(0)
 		};
 		this.tra = {
-			metal: ko.observable(),
-			crystal: ko.observable(),
-			deuterium: ko.observable()
+			metal: ko.observable(0),
+			crystal: ko.observable(0),
+			deuterium: ko.observable(0)
 		};
 		this.resOv = {
-			metal: ko.observable(),
-			crystal: ko.observable(),
-			deuterium: ko.observable()
+			metal: ko.observable(0),
+			crystal: ko.observable(0),
+			deuterium: ko.observable(0)
 		};
 		this.prodH = {
-			metal: ko.observable(),
-			crystal: ko.observable(),
-			deuterium: ko.observable()
+			metal: ko.observable(0),
+			crystal: ko.observable(0),
+			deuterium: ko.observable(0)
 		};
 		this.prodD = {
-			metal: ko.observable(),
-			crystal: ko.observable(),
-			deuterium: ko.observable()
+			metal: ko.observable(0),
+			crystal: ko.observable(0),
+			deuterium: ko.observable(0)
 		};
 		this.prodW = {
-			metal: ko.observable(),
-			crystal: ko.observable(),
-			deuterium: ko.observable()
+			metal: ko.observable(0),
+			crystal: ko.observable(0),
+			deuterium: ko.observable(0)
 		};
 		this.rate = {
-			metal: ko.observable(),
-			crystal: ko.observable(),
-			deuterium: ko.observable()
+			metal: ko.observable(0),
+			crystal: ko.observable(0),
+			deuterium: ko.observable(0)
 		};
 
 		//noinspection JSUnusedGlobalSymbols
@@ -987,7 +1037,7 @@ const Skynet = (function () {
 		Timer.add(calcResources);
 		calcCap();
 		Timer.add(calcCap);
-		calcResOv(true);
+		calcResOv();
 		Timer.add(calcResOv);
 		calcProd();
 		Timer.add(calcProd);
@@ -1045,23 +1095,24 @@ const Skynet = (function () {
 			return true;
 		}
 
-		function calcResOv(first) {
-			const now = new Date();
-			var r = null;
-			Object.keys(_s.planets).forEach(function (key) {
-				const pl = _s.planets[key];
-				if (!pl.resourcesTimeStamp) {
-					return;
-				}
-				const delta = (now.getTime() - pl.resourcesTimeStamp) / 1000;
-				r = ocalc.sum(r, ocalc.resources(pl, delta));
-			});
-			const t = ocalc.format(r, f);
-			self.sta.metal(t.metal);
-			self.sta.crystal(t.crystal);
-			self.sta.deuterium(t.deuterium);
-			if (first) {
-				player.events.forEach(function (/*{}*/ event) {
+		function calcResOv() {
+			try {
+				const now = new Date();
+				var r = null;
+				Object.keys(_s.planets).forEach(function (key) {
+					const pl = _s.planets[key];
+					if (!pl.resourcesTimeStamp) {
+						return;
+					}
+					const delta = (now.getTime() - pl.resourcesTimeStamp) / 1000;
+					r = ocalc.sum(r, ocalc.resources(pl, delta));
+				});
+				const t = ocalc.format(r, f);
+				self.sta.metal(t.metal);
+				self.sta.crystal(t.crystal);
+				self.sta.deuterium(t.deuterium);
+				var _resTra;
+				player.events.forEach(function (/*{*}*/ event) {
 					if (event.mission !== '4' && event.rF) {
 						_resTra = ocalc.sum(_resTra, event.res);
 					} else if (event.mission === '4' || event.attitude === 'neutral') {
@@ -1075,12 +1126,14 @@ const Skynet = (function () {
 				self.tra.metal(resFormatted.metal);
 				self.tra.crystal(resFormatted.crystal);
 				self.tra.deuterium(resFormatted.deuterium);
+				const resOvFormatted = ocalc.format(ocalc.sum(r, _resTra), f);
+				self.resOv.metal(resOvFormatted.metal);
+				self.resOv.crystal(resOvFormatted.crystal);
+				self.resOv.deuterium(resOvFormatted.deuterium);
+				return true;
+			} catch (e) {
+				console.error('error in Skynet.js calcResOv', e);
 			}
-			const resOvFormatted = ocalc.format(ocalc.sum(r, _resTra), f);
-			self.resOv.metal(resOvFormatted.metal);
-			self.resOv.crystal(resOvFormatted.crystal);
-			self.resOv.deuterium(resOvFormatted.deuterium);
-			return true;
 		}
 	}
 })();

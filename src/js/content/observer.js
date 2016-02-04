@@ -6,7 +6,7 @@
  * @see https://gist.github.com/Warsaalk
  * @class
  */
-const Observer = function (targetArg, config) {
+function Observer(targetArg, config) {
 	var target = typeof targetArg === 'string' ? document.querySelector(targetArg) :
 		targetArg ? targetArg : document;
 	var listeners = [];
@@ -16,8 +16,9 @@ const Observer = function (targetArg, config) {
 	 *
 	 * @param {string} selector
 	 * @param {Observer~observerCallback} callback
+	 * @param {boolean} [deep]
 	 */
-	this.listenTo = function (selector, callback) {
+	this.listenTo = function (selector, callback, deep) {
 		var result = target.querySelectorAll(selector);
 		if (result.length) {
 			for (var i = 0; i < result.length; i++) {
@@ -25,26 +26,41 @@ const Observer = function (targetArg, config) {
 			}
 			return;
 		}
-		listeners.push({selector: selector, callback: callback});
+		listeners.push({selector: selector, callback: callback, deep: deep});
 	};
 
 	var mutationObserver = new MutationObserver(function (mutations) {
 		mutations.forEach(function (mutation) {
-			for (var i = 0; i < mutation.addedNodes.length; i++) {
-				var me = mutation.addedNodes[i];
+			var i, j, k, hasTriggered, elements, me;
+			for (i = 0; i < mutation.addedNodes.length; i++) {
+				me = mutation.addedNodes[i];
+				hasTriggered = false;
 				if (me.nodeType === Node.ELEMENT_NODE) {
-					listeners.forEach(function (listener) {
-						if (me.matches(listener.selector)) {
-							listener.callback.call(me);
+					for (j = 0; j < listeners.length; j++) {
+						if (listeners[j] && me.matches(listeners[j].selector)) {
+							listeners[j].callback.call(me);
+							listeners[j] = null;
+							hasTriggered = true;
 						}
-					});
+					}
+					if (!hasTriggered) {
+						for (j = 0; j < listeners.length; j++) {
+							if (listeners[j] && listeners[j].deep) {
+								elements = target.querySelectorAll(listeners[j].selector);
+								for (k = 0; k < elements.length; k++) {
+									listeners[k].callback.call(elements[j]);
+									listeners[k] = null;
+								}
+							}
+						}
+					}
 				}
 			}
 		});
 	});
 	//noinspection JSCheckFunctionSignatures
 	mutationObserver.observe(target, config || {childList: true});
-};
+}
 
 /**
  * @callback Observer~observerCallback

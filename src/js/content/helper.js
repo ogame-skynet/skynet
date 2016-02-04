@@ -116,10 +116,10 @@ function _h(json) {
 }
 
 const DF = {
-	FULL : new DateFormatter('dd.MM.yyyy HH:mm:ss'),
-	TIME_ONLY : new DateFormatter('HH:mm:ss'),
-	DATE_ONLY : new DateFormatter('dd.MM.yyyy'),
-	EXTENDED : new DateFormatter('dd.MM.yyyy HH:mm:ss.S')
+	FULL: new DateFormatter('dd.MM.yyyy HH:mm:ss'),
+	TIME_ONLY: new DateFormatter('HH:mm:ss'),
+	DATE_ONLY: new DateFormatter('dd.MM.yyyy'),
+	EXTENDED: new DateFormatter('dd.MM.yyyy HH:mm:ss.S')
 };
 
 /**
@@ -209,7 +209,7 @@ function isNumeric(obj) {
 function nf(maximumFractionDigits, minimumIntegerDigits, maximumSignificantDigits, abbr) {
 	if (abbr) {
 		return {
-			format : function (num) {
+			format: function (num) {
 				var val = num;
 				var mod = '';
 				if (Math.abs(val) > 1000000) {
@@ -228,27 +228,27 @@ function nf(maximumFractionDigits, minimumIntegerDigits, maximumSignificantDigit
 	if (maximumSignificantDigits) {
 		//noinspection JSUnresolvedVariable,JSUnresolvedFunction
 		return new Intl.NumberFormat(gl, {
-			maximumFractionDigits : maximumFractionDigits || 0,
-			minimumIntegerDigits : minimumIntegerDigits || 1,
-			maximumSignificantDigits : maximumSignificantDigits
+			maximumFractionDigits: maximumFractionDigits || 0,
+			minimumIntegerDigits: minimumIntegerDigits || 1,
+			maximumSignificantDigits: maximumSignificantDigits
 		});
 	}
 	//noinspection JSUnresolvedVariable,JSUnresolvedFunction
 	return new Intl.NumberFormat(gl, {
-		maximumFractionDigits : maximumFractionDigits || 0,
-		minimumIntegerDigits : minimumIntegerDigits || 1
+		maximumFractionDigits: maximumFractionDigits || 0,
+		minimumIntegerDigits: minimumIntegerDigits || 1
 	});
 }
 
 ko.bindingHandlers.color = {
-	init : function (element, valueAccessor, allBindings) {
+	init: function (element, valueAccessor, allBindings) {
 		ko.bindingHandlers.textInput.init(element, valueAccessor, allBindings);
 	},
-	update : function (element, valueAccessor) {
+	update: function (element, valueAccessor) {
 		var elem = $(element);
 		var value = ko.utils.unwrapObservable(valueAccessor() || '');
 		elem.css({
-			'backgroundColor' : value
+			'backgroundColor': value
 		});
 		var color = elem.css('backgroundColor');
 		if (color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)) {
@@ -263,25 +263,25 @@ ko.bindingHandlers.color = {
 };
 
 ko.bindingHandlers.href = {
-	update : function (element, valueAccessor) {
+	update: function (element, valueAccessor) {
 		ko.bindingHandlers.attr.update(element, function () {
-			return {href : valueAccessor()};
+			return {href: valueAccessor()};
 		});
 	}
 };
 
 ko.bindingHandlers.name = {
-	update : function (element, valueAccessor) {
+	update: function (element, valueAccessor) {
 		ko.bindingHandlers.attr.update(element, function () {
-			return {name : valueAccessor()};
+			return {name: valueAccessor()};
 		});
 	}
 };
 
 ko.bindingHandlers.title = {
-	update : function (element, valueAccessor) {
+	update: function (element, valueAccessor) {
 		ko.bindingHandlers.attr.update(element, function () {
-			return {title : valueAccessor()};
+			return {title: valueAccessor()};
 		});
 	}
 };
