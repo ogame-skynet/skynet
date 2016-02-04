@@ -29,7 +29,7 @@ The build system is Gulp.
 http://code.jquery.com/jquery-2.2.0.min.js
 
 ### jQuery Nanoscroller 0.8.7 ###
-https://github.com/jamesflorentino/nanoScrollerJS/releases/tag/0.8.7
+https://github.com/jamesflorentino/nanoScrollerJS/releases/tag/0.8.7  
 The zip file contains the same minified version like this addon.
 
 ### jQuery UI 1.11.4 ###
