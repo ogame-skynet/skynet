@@ -29,9 +29,8 @@ The build system is Gulp.
 http://code.jquery.com/jquery-2.2.0.min.js
 
 ### jQuery Nanoscroller 0.8.7 ###
-https://raw.githubusercontent.com/jamesflorentino/nanoScrollerJS/master/bin/javascripts/jquery.nanoscroller.min.js
-The link points to the latest version. this might change between the release of a new Skynet version
-and the review by the AMO editors.
+https://github.com/jamesflorentino/nanoScrollerJS/releases/tag/0.8.7
+The zip file contains the same minified version like this addon.
 
 ### jQuery UI 1.11.4 ###
 This is a custom build.
@@ -77,11 +76,11 @@ After switching to the build/firefox folder, you can use `jpm xpi` to create the
 
 The file has a cryptic name. Please rename it to match the correct name.
 
-The checksum of the XPI package can not be used. The XPI generated under Windows 10 using JPM 1.0.4 is different to the XPI from Linux Mint 17.3.  
-The content of both files is equal.  
+The checksum of the XPI package can not be used. The XPI generated under Windows 10 using JPM 1.0.4 is different to the XPI from Linux Mint 17.3.
+The content of both files is equal.
 **Conclusion**: To check if the provided source fits to the uglified result, compare the contents of the XPI.
 
-The addon can be tested on page: http://pioneers.en.ogame.gameforge.com/  
-Choose universe **Bermuda**  
-Username **Skynet**  
+The addon can be tested on page: http://pioneers.en.ogame.gameforge.com/
+Choose universe **Bermuda**
+Username **Skynet**
 Passwort: huxi54-Turta
