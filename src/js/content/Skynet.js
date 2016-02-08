@@ -119,7 +119,7 @@ const Skynet = (function () {
 	_s.planet = new Promise(function (resolve) {
 		Promise.all([_s.page, _s.port.once(MESSAGES.getPlanets)]).then(function (args) {
 			const page = args[0];
-			if (page !== 'empire' && page !== 'displayMessageNewPage') {
+			if (page !== PAGES.empire && page !== PAGES.displaymessagenewpage) {
 				const owner = $("meta[name='ogame-player-id']").prop('content');
 				new Promise(function (resolve) {
 					if (args[1] && Array.isArray(args[1]) && args[1].length > 0 &&
@@ -717,7 +717,7 @@ const Skynet = (function () {
 				_s.uni.speed = _i($('meta[name="ogame-universe-speed"]').prop('content'));
 				_s.uni.speedFleet = _i($('meta[name="ogame-universe-speed-fleet"]').prop('content'));
 				resolve(p);
-				if (p !== 'empire' && p !== 'displayMessageNewPage') {
+				if (p !== PAGES.empire && p !== PAGES.displaymessagenewpage) {
 					_s.config.then(function (_c) {
 						$('#menuTableTools').append(_h('li', '',
 							['span', {
