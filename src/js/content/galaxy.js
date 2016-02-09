@@ -26,7 +26,6 @@
 	_s.page.then(function (page) {
 		if (page === 'galaxy') {
 			Observer.create('#galaxyContent').listenTo('#mobileDiv', function () {
-				console.log('Galaxy changed, should not be logged twice');
 				galaxyChanged(this);
 			});
 		}

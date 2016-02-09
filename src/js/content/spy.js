@@ -60,7 +60,6 @@
 				if (version === 6) {
 					Observer.create('div.content > div.js_tabs', {childList: true, subtree: true}).listenTo(
 						'ul.tab_inner', function () {
-							console.log('handle all messages, should not be logged twice');
 							handleMessagesV6(this);
 						});
 					prepareRaidar(config);
@@ -72,7 +71,6 @@
 				Observer.create(document.body).listenTo(
 					'div[data-page="showmessage"], div[data-page="messages"]', function () {
 						Observer.create(this).listenTo('div.detail_msg', function () {
-							console.log('handle one messages, should not be logged twice');
 							handleMessageV6($(this));
 						}).listenTo('div.showmessage', function () {
 							handleMessage($(this));

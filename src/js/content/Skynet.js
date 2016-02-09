@@ -2,18 +2,18 @@
  formatDate, Q, _i, PAGES, ocalc, Timer, formatTime, RESOURCES, parseCoords, TECHS_BY_ID, nf,
  Observer */
 /* exported Skynet */
+console.log('Timing test initial');
 
 const Skynet = (function () {
-	console.log('Skynet main method loaded');
+	console.log('Timing test Skynet start');
 	(new Observer(document.documentElement)).listenToOnce('#eventboxContent', function () {
-		console.log('Eventbox parent found, should not be logged twice');
 		Observer.create(this).listenToOnce('#eventListWrap', function () {
-			console.log('start detecting events, should not be logged twice');
 			detectEvents(this);
 		});
 	}, true);
 	var dlg, script;
 	const settings = ko.observableArray().extend({rateLimit: 50});
+	//noinspection JSUnresolvedVariable,JSUnresolvedFunction
 	const _s = {
 		VERSION: self.options && self.options.version || chrome.runtime.getManifest().version_name,
 		actions: {
@@ -43,41 +43,7 @@ const Skynet = (function () {
 	_s.port.get(MESSAGES.uniData).then(function (uniData) {
 		_s.uni = extend(_s.uni, uniData);
 	});
-	_s.config = new Promise(function (resolve) {
-		_s.port.once(MESSAGES.getConfig).then(function (config) {
-			var defaultChanged = false;
-			const store = {};
-			settings().forEach(function (setting) {
-				if (config[setting.key] === undefined && setting.def !== undefined) {
-					if (!setting.scope) {
-						store[setting.key] = setting.def;
-					} else if (setting.scope === 'uni') {
-						const uni = location.host;
-						store[uni] = store[uni] || {};
-						store[uni][setting.key] = setting.def;
-					}
-					defaultChanged = true;
-				}
-			});
-			if (defaultChanged) {
-				_s.page.then(function () {
-					_s.port.post(MESSAGES.setConfig, store).then(function () {
-						location.reload();
-					});
-				});
-			} else if (config['installed.version'] !== _s.VERSION) {
-				versionChangedResolve(config, 'installed.version');
-				setTimeout(function () {
-					store['installed.version'] = _s.VERSION;
-					_s.port.post(MESSAGES.setConfig, store).then(function () {
-						location.reload();
-					});
-				}, 1000);
-			} else {
-				resolve(config);
-			}
-		});
-	});
+	_s.config = loadConfig();
 	_s.page = new Promise(pageLoaded);
 	_s.oGameI18N = new Promise(function (resolve) {
 		_s.port.get(MESSAGES.oGameI18N).then(function (oI18n) {
@@ -615,6 +581,47 @@ const Skynet = (function () {
 		return script;
 	}
 
+	function loadConfig() {
+		return new Promise(function (resolve) {
+			_s.port.once(MESSAGES.getConfig).then(function (config) {
+				try {
+					var defaultChanged = false;
+					const store = {};
+					settings().forEach(function (setting) {
+						if (config[setting.key] === undefined && setting.def !== undefined) {
+							if (!setting.scope) {
+								store[setting.key] = setting.def;
+							} else if (setting.scope === 'uni') {
+								const uni = location.host;
+								store[uni] = store[uni] || {};
+								store[uni][setting.key] = setting.def;
+							}
+							defaultChanged = true;
+						}
+					});
+					if (defaultChanged) {
+						_s.port.post(MESSAGES.setConfig, store).then(function () {
+							location.reload();
+						});
+					} else if (config['installed.version'] !== _s.VERSION) {
+						versionChangedResolve(config, 'installed.version');
+						setTimeout(function () {
+							store['installed.version'] = _s.VERSION;
+							_s.port.post(MESSAGES.setConfig, store).then(function () {
+								location.reload();
+							});
+						}, 1);
+					} else {
+						prepareCSS(config);
+						resolve(config);
+					}
+				} catch (e) {
+					console.error('error in Skynet.js loadConfig', e);
+				}
+			});
+		});
+	}
+
 	function loadEvents() {
 		try {
 			if (document.querySelector('#eventListWrap') === null) {
@@ -699,6 +706,7 @@ const Skynet = (function () {
 		if (location.href.match(/.+\/game\/index\.php(?:(?:\?page|.*?&page)=(.+?)(?:#|&|$)|$)/)) {
 			const p = (RegExp.$1 || 'overview').toLowerCase();
 			$(function () {
+				console.log('Timing test page load ready function');
 				loadEvents();
 				_s.lang = $('meta[name="ogame-language"]').prop('content');
 				_s.ogameVersion = $('meta[name="ogame-version"]').prop('content');
@@ -734,6 +742,67 @@ const Skynet = (function () {
 					});
 				}
 			});
+		}
+	}
+
+	function prepareCSS(config) {
+		if (!config[cfg.skynet_active]) {
+			return;
+		}
+		var rules = ['.skynet .c_timer, .skynet_c_timer { color: ' +
+		(config[cfg.color_timer] || '#00bb00') + ' !important; }',
+			'.skynet .c_hint, .skynet_c_hint { color: ' + (config[cfg.color_hint] || '#a0a0ff') +
+			' !important; }',
+			'.skynet .c_problem, .skynet_c_problem { color: ' + (config[cfg.color_problem] || '#ff0000') +
+			' !important; }',
+			'.skynet .c_outdated, .skynet_c_outdated { color: ' +
+			(config[cfg.color_outdated] || '#ffa500') + ' !important; }',
+			'.skynet_c_moon_outdated { box-shadow: 0 0 6px 3px ' +
+			(config[cfg.color_outdated] || '#ffa500') + ',inset 0 0 3px 3px ' +
+			(config[cfg.color_outdated] || '#ffa500') + ' !important; }'
+		];
+		if (config[cfg.change_layout]) {
+			rules.push('div#boxBG #box { margin: 0 10px; }');
+		}
+		if (config[cfg.change_layout_planetlist]) {
+			rules.push('div#box div#rechts div#myWorlds { width: 147px; }');
+			rules.push(
+				'div#box div#rechts div#planetList a.constructionIcon { left: 0; right: auto; top: 38px; white-space: nowrap; width: auto; }');
+			rules.push(
+				'div#box div#rechts div#planetList a.constructionIcon span.icon_wrench { padding-left: 15px; font-size: 11px; }');
+			rules.push(
+				'div#box div#rechts div#planetList .smallplanet a.moonlink { left: auto; padding: 5px; right: 0; top: 0; }');
+			rules.push(
+				'div#box div#rechts div#planetList .smallplanet { height: 52px; margin: 0 0 1px; width: auto; }');
+			rules.push(
+				'div#box div#rechts a.planetlink  .planetPic { position: absolute; left: 7px; top: 6px; }');
+			rules.push(
+				'div#box div#rechts div#planetList .planet-name, div#rechts div#planetList .planet-koords { white-space: nowrap; position: absolute; top: 7px; left: 43px; }'
+			);
+			rules.push('div#box div#rechts div#planetList .planet-koords { top: 22px; }');
+			rules.push('div#box div#rechts div#planetList a.planetlink { height: 52px; }');
+			rules.push('div#box div#rechts .smallplanet a.alert {top: 0; left: 0; }');
+			rules.push('div#box div#rechts a.planetlink .planetPic { width: 30px; height: 30px; }');
+		}
+		if (config['change.layout.galaxy.rows']) {
+			rules.push(
+				'#galaxy #galaxytable tbody tr.row td { height: ' + (config['galaxy.row.height'] || '28') +
+				'px; }');
+			rules.push(
+				'#galaxy #galaxytable tbody tr.row td.planetname1 > span, #galaxy #galaxytable tbody tr.row td.planetname1 > a { margin-top: 5px; }');
+			rules.push('#galaxy #galaxytable tbody tr.row td.action > span { margin-top: 3px; }');
+		}
+		if (config[cfg.auto_collapse_events]) {
+			rules.push('#eventboxContent { display: none; }');
+		}
+		if (rules.length) {
+			var st = document.createElement('style');
+			document.head.appendChild(st);
+			//noinspection JSUnresolvedVariable
+			var sheet = st.sheet;
+			for (var i = 0; i < rules.length; i++) {
+				sheet.insertRule(rules[i], i);
+			}
 		}
 	}
 

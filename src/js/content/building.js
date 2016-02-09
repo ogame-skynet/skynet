@@ -48,7 +48,6 @@
 
 	function addDetailScreenInfo(player, planet) {
 		Observer.create('#detail.detail_screen').listenTo('#content', function () {
-			console.log('Detail info opened, should not be logged twice');
 			var me = $(this);
 			const ref = _i(me.parent().find('input[name="type"]').val());
 			if (ref > 199) {
