@@ -2,10 +2,8 @@
  formatDate, Q, _i, PAGES, ocalc, Timer, formatTime, RESOURCES, parseCoords, TECHS_BY_ID, nf,
  Observer */
 /* exported Skynet */
-console.log('Timing test initial');
 
 const Skynet = (function () {
-	console.log('Timing test Skynet start');
 	(new Observer(document.documentElement)).listenToOnce('#eventboxContent', function () {
 		Observer.create(this).listenToOnce('#eventListWrap', function () {
 			detectEvents(this);
@@ -706,7 +704,6 @@ const Skynet = (function () {
 		if (location.href.match(/.+\/game\/index\.php(?:(?:\?page|.*?&page)=(.+?)(?:#|&|$)|$)/)) {
 			const p = (RegExp.$1 || 'overview').toLowerCase();
 			$(function () {
-				console.log('Timing test page load ready function');
 				loadEvents();
 				_s.lang = $('meta[name="ogame-language"]').prop('content');
 				_s.ogameVersion = $('meta[name="ogame-version"]').prop('content');

@@ -600,7 +600,7 @@
 									parseNumber($(this).text().trim().replace(/^.+ /, ''));
 							});
 						}
-						planetData.deleteLink = me.find('div.msg_head a:last span');
+						planetData.msgID = me.data('msg-id');
 						if (!planetData.id) {
 							planetData.id = '[' + planetData.position.join(':') + ']' + planetData.type;
 						}
@@ -850,10 +850,22 @@
 			this.detailLink = planet.detailLink;
 			//noinspection JSUnusedGlobalSymbols
 			this.delReport = function () {
-				if (planet.deleteLink.length) {
-					_s.trigger(planet.deleteLink[0], 'click');
-				}
-				parent.reports.remove(self);
+				var data = {
+					messageId: planet.msgID,
+					action: 103,
+					ajax: 1
+				};
+				$.ajax({
+					data: data,
+					dataType: 'json',
+					method: 'POST'
+				}).then(function () {
+					parent.reports.remove(self);
+					var msgElem = Q('li.msg[data-msg-id="' + planet.msgID + '"]');
+					if (msgElem) {
+						msgElem.remove();
+					}
+				});
 			};
 			this.fleetUnits = planet.fleetUnits < 0 ? '-' : f.format(planet.fleetUnits);
 			this.defenseUnits = planet.defenseUnits < 0 ? '-' : f.format(planet.defenseUnits);
