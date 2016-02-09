@@ -1,10 +1,8 @@
-/* global require, MESSAGES, Skynet, Port, Config, prepareConfig, getCSS */
+/* global require, MESSAGES, Skynet, Port */
 
 const pageMod = require('sdk/page-mod');
 const prefs = require('sdk/preferences/service');
 const self = require('sdk/self');
-const Mod = require('sdk/content/mod');
-const Style = require('sdk/stylesheet/style');
 
 const Resources = (function () {
 	const cache = {};
@@ -83,25 +81,6 @@ pageMod.PageMod({
 	},
 	contentScriptWhen: 'start',
 	onAttach: function (worker) {
-		const uni = worker.tab.url.match(/^https?:\/\/(.+?ogame\.gameforge\.com)\/game\/index\.php/) ?
-			RegExp.$1 : '';
-		if (uni) {
-			Config.get().then(function (config) {
-				try {
-					const _c = prepareConfig(config, uni);
-					const css = getCSS(_c);
-					if (css) {
-						//noinspection JSUnresolvedFunction
-						var style = Style.Style({
-							source: css
-						});
-						Mod.attach(style, worker.tab);
-					}
-				} catch (e) {
-					console.error('Error in Skynet backend onAttach:', e);
-				}
-			});
-		}
 		Skynet.attach(new Port(worker.port, worker.tab));
 		//noinspection JSUnresolvedFunction
 		worker.port.on(MESSAGES.getResource, function (msg) {
