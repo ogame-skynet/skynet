@@ -2,6 +2,14 @@
 
 (function (_s) {
 	_s.history.push({
+		'date': '09.02.2016 :: v4.1.3',
+		summary: 'Changes and improvements from user feedback',
+		changes: ['Update translations',
+			'Improvements to Event List detection',
+			'Fix data lose if combat reports are opened in a new tab',
+			'Improve CSS handling',
+			'Improve message deletion from Raidar']
+	}, {
 		'date': '24.01.2016 :: v4.1.2',
 		summary: 'Changes and improvements from user feedback and AMO editors',
 		changes: ['Fix energy calculation on building page',
