@@ -761,6 +761,15 @@
 		this.time = ko.observable(Date.now());
 		const ship = config[cfg.raidar_attack_ship] ? SHIPS_BY_ID[config[cfg.raidar_attack_ship]] :
 			null;
+		//var reportAdded = ko.observable(false).extend({rateLimit: 250});
+		//reportAdded.subscribe(function (added) {
+		//	if (added) {
+		//		var arrReports = this.reports();
+		//		for (var i = 0; i < arrReports.length; i++) {
+		//			console.log('Report was added:', ko.toJS(arrReports[i]));
+		//		}
+		//	}
+		//}, this);
 
 		this.addReport = function (otherPlanet, otherPlayer, planet, player) {
 			if (ship && !ship.cSpeed) {
@@ -780,6 +789,7 @@
 			});
 			if (!exist) {
 				this.reports.push(new Report(otherPlanet, otherPlayer, planet, player, this));
+				//reportAdded(true);
 				sortReports();
 			}
 		};
