@@ -31,7 +31,7 @@ function lint(src) {
 
 //noinspection JSUnresolvedFunction
 gulp.task('build packages', function () {
-	const versionChrome = '4.1.3.0';
+	const versionChrome = '4.1.3.1';
 	const version = '4.1.3';
 	const name = 'Skynet';
 	const desc = 'The next generation ogaming...';

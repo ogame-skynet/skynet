@@ -581,6 +581,9 @@ const Skynet = (function () {
 
 	function loadConfig() {
 		return new Promise(function (resolve) {
+			if (!location.href.match(/.+\/game\/index\.php(?:(?:\?page|.*?&page)=(.+?)(?:#|&|$)|$)/)) {
+				return;
+			}
 			_s.port.once(MESSAGES.getConfig).then(function (config) {
 				try {
 					var defaultChanged = false;
