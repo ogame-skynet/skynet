@@ -195,7 +195,8 @@
 					var json = JSON.stringify(data);
 					const btnTrashSim = $(_h('a', {
 						'class': 'btn_blue', style: {'margin-right': '10px'},
-						href: 'https://trashsim.universeview.be/' + lang + '?SR_KEY=' + srkey + '#prefill=' +
+						href: 'https://trashsim.universeview.be/' + lang + '?SR_KEY=' + srkey +
+						'&utm_source=ogame&utm_medium=skynet&utm_content=espionage%20message&utm_campaign=simulate#prefill=' +
 						btoa(json),
 						target: '_blank', text: 'TrashSim'
 					})).insertBefore(btnAttack);
