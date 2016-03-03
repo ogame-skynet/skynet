@@ -31,10 +31,10 @@ function lint(src) {
 
 //noinspection JSUnresolvedFunction
 gulp.task('build packages', function () {
-	const versionChrome = '4.1.3.1';
-	const version = '4.1.3';
+	const versionChrome = '4.1.4.0';
+	const version = '4.1.4';
 	const name = 'Skynet';
-	const desc = 'The next generation ogaming...';
+	const desc = 'The Addon OGame deserves';
 	const author = 'Martin Burchard';
 	const homepage = 'http://www.martin-burchard.de/skynet';
 	const ff_pack = {
