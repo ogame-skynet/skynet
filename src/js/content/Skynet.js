@@ -3,9 +3,9 @@
  Observer */
 /* exported Skynet */
 
-const Skynet = (function () {
-	(new Observer(document.documentElement)).listenToOnce('#eventboxContent', function () {
-		Observer.create(this).listenToOnce('#eventListWrap', function () {
+const Skynet = (function() {
+	(new Observer(document.documentElement)).listenToOnce('#eventboxContent', function() {
+		Observer.create(this).listenToOnce('#eventListWrap', function() {
 			detectEvents(this);
 		});
 	}, true);
@@ -36,36 +36,36 @@ const Skynet = (function () {
 	};
 	//noinspection JSUnresolvedVariable
 	_s.language = navigator.languages ? navigator.languages[0] :
-		(navigator.language || navigator.userLanguage);
+			(navigator.language || navigator.userLanguage);
 	_s.port = new MessageBus();
-	_s.port.get(MESSAGES.uniData).then(function (uniData) {
+	_s.port.get(MESSAGES.uniData).then(function(uniData) {
 		_s.uni = extend(_s.uni, uniData);
 	});
 	_s.config = loadConfig();
 	_s.page = new Promise(pageLoaded);
-	_s.oGameI18N = new Promise(function (resolve) {
-		_s.port.get(MESSAGES.oGameI18N).then(function (oI18n) {
+	_s.oGameI18N = new Promise(function(resolve) {
+		_s.port.get(MESSAGES.oGameI18N).then(function(oI18n) {
 			if (oI18n.t) {
-				Object.keys(TECHS_BY_ID).forEach(function (elem) {
+				Object.keys(TECHS_BY_ID).forEach(function(elem) {
 					TECHS_BY_ID[elem].name = oI18n.t[elem];
 				});
 				resolve(oI18n);
 			}
 		});
 	});
-	_s.player = new Promise(function (resolve) {
+	_s.player = new Promise(function(resolve) {
 		Promise.all([_s.page, _s.port.once(MESSAGES.getPlayer), _s.config,
-			_s.oGameI18N]).then(function (args) {
+			_s.oGameI18N]).then(function(args) {
 			const id = $("meta[name='ogame-player-id']").prop('content');
-			new Promise(function (resolve) {
+			new Promise(function(resolve) {
 				if (args[1] && args[1].id === id) {
 					resolve(args[1]);
 					return;
 				}
-				_s.port.get(MESSAGES.getPlayer, {id: id}).then(function (player) {
+				_s.port.get(MESSAGES.getPlayer, {id: id}).then(function(player) {
 					resolve(player);
 				});
-			}).then(function (player) {
+			}).then(function(player) {
 				const p = extend(player, detectPlayer());
 				if (args[0] === 'research') {
 					p.techs = extend(p.techs, detectItems());
@@ -74,34 +74,34 @@ const Skynet = (function () {
 				resolve(p);
 				if (!p.techs) {
 					$('#menuTable').find('a[href$="page=research"] span.textlabel')
-						.addClass('skynet_c_outdated');
+							.addClass('skynet_c_outdated');
 				}
 			});
 		});
 	});
 	_s.planets = {};
-	_s.planet = new Promise(function (resolve) {
-		Promise.all([_s.page, _s.port.once(MESSAGES.getPlanets)]).then(function (args) {
+	_s.planet = new Promise(function(resolve) {
+		Promise.all([_s.page, _s.port.once(MESSAGES.getPlanets)]).then(function(args) {
 			const page = args[0];
 			if (page !== PAGES.empire && page !== PAGES.displaymessagenewpage) {
 				const owner = $("meta[name='ogame-player-id']").prop('content');
-				new Promise(function (resolve) {
+				new Promise(function(resolve) {
 					if (args[1] && Array.isArray(args[1]) && args[1].length > 0 &&
-						args[1][0].owner === owner) {
+							args[1][0].owner === owner) {
 						resolve(args[1]);
 						return;
 					}
-					_s.port.get(MESSAGES.getPlanets, {owner: owner}).then(function (planets) {
+					_s.port.get(MESSAGES.getPlanets, {owner: owner}).then(function(planets) {
 						resolve(planets);
 					});
-				}).then(function (planets) {
+				}).then(function(planets) {
 					detectPlanets(page, planets, resolve);
 				});
 			}
 		});
 	});
 	var versionChangedResolve;
-	_s.versionChanged = new Promise(function (resolve) {
+	_s.versionChanged = new Promise(function(resolve) {
 		versionChangedResolve = resolve;
 	});
 	const cvm = new ConfigurationViewModel();
@@ -148,7 +148,7 @@ const Skynet = (function () {
 	];
 	_s.addSettings(cfg_def);
 
-	Promise.all([_s.page, _s.config]).then(function (args) {
+	Promise.all([_s.page, _s.config]).then(function(args) {
 		const page = args[0];
 		const config = args[1];
 		if (!config[cfg.skynet_active]) {
@@ -156,7 +156,7 @@ const Skynet = (function () {
 		}
 		if (config[cfg.change_layout_planetlist]) {
 			const x = $('#rechts');
-			x.find('div.smallplanet a.constructionIcon').each(function () {
+			x.find('div.smallplanet a.constructionIcon').each(function() {
 				const me = $(this);
 				const allCons = me.parent().find('a.constructionIcon');
 				if (allCons.length === 2 && me.prop('class').indexOf('moon') < 0) {
@@ -170,18 +170,18 @@ const Skynet = (function () {
 			});
 		}
 		if (config[cfg.collapse_header] &&
-			page.match(/^(?:messages|alliance|fleet1|fleet2|fleet3|movement)$/)) {
+				page.match(/^(?:messages|alliance|fleet1|fleet2|fleet3|movement)$/)) {
 			collapseHeader();
 		}
 	});
 
-	Promise.all([_s.player, _s.planet, _s.page]).then(function (args) {
+	Promise.all([_s.player, _s.planet, _s.page]).then(function(args) {
 		_s.port.send(MESSAGES.pageLoaded, {
 			currentPlayer: args[0], currentPlanet: args[1], currentPage: args[2]
 		});
 	});
 
-	Promise.all([_s.page, _s.config, _s.player, _s.planet]).then(function (args) {
+	Promise.all([_s.page, _s.config, _s.player, _s.planet]).then(function(args) {
 		const config = args[1];
 		if (!config[cfg.skynet_active]) {
 			return;
@@ -199,7 +199,7 @@ const Skynet = (function () {
 	}
 
 	function collapseHeader() {
-		$('#planet:not(.shortHeader)').each(function () {
+		$('#planet:not(.shortHeader)').each(function() {
 			try {
 				_s.trigger(Q(this, 'a.toggleHeader'), 'click');
 			} catch (e) {
@@ -213,19 +213,19 @@ const Skynet = (function () {
 		var tasks = {};
 		const scr = getScript();
 		var countdowns = {
-			production: function () {
+			production: function() {
 				if (scr.match(/Countdown\(getElementByIdWithCache.*?"Countdown".*?(\d+)/)) {
 					return _s.ogameTS.getTime() + _i(RegExp.$1) * 1000;
 				}
 				return -1;
 			},
-			research: function () {
+			research: function() {
 				if (scr.match(/Countdown\(getElementByIdWithCache.*?"researchCountdown".*?(\d+)/)) {
 					return _s.ogameTS.getTime() + _i(RegExp.$1) * 1000;
 				}
 				return -1;
 			},
-			shipyard: function () {
+			shipyard: function() {
 				if (scr.match(/shipCountdown\((?:.*?\)){3}(?:.*?(\d+)){3}/)) {
 					return _s.ogameTS.getTime() + _i(RegExp.$1) * 1000;
 				}
@@ -233,7 +233,7 @@ const Skynet = (function () {
 			}
 		};
 		var keys = ['production', 'research', 'shipyard'];
-		$('div.content-box-s').each(function (index) {
+		$('div.content-box-s').each(function(index) {
 			var me = $(this);
 			var td = me.find('td.first, td.building');
 			var key;
@@ -279,7 +279,7 @@ const Skynet = (function () {
 	function detectEvents(parent) {
 		var elw = $(parent);
 		var events = [];
-		elw.find('tr').each(function () {
+		elw.find('tr').each(function() {
 			var row = $(this);
 			var event = {
 				id: row.prop('id').length ? row.prop('id').trim().replace(/eventRow-/, '') : '',
@@ -297,7 +297,7 @@ const Skynet = (function () {
 				return;
 			}
 			var html = row.find(
-				'td.icon_movement span.tooltip, td.icon_movement_reserve span.tooltip').prop('title');
+					'td.icon_movement span.tooltip, td.icon_movement_reserve span.tooltip').prop('title');
 			var arr = html ? html.match(/<tr>([\S\s]+?)<\/tr>/g) : [];
 			var rs = 0, i, type, count;
 			for (i = 0; i < arr.length; i++) {
@@ -314,7 +314,7 @@ const Skynet = (function () {
 			}
 			events.push(event);
 		});
-		_s.oGameI18N.then(function (oI18n) {
+		_s.oGameI18N.then(function(oI18n) {
 			for (var i = 0; i < events.length; i++) {
 				var event = events[i];
 				for (var j = 0; j < event.fleet.length; j++) {
@@ -322,14 +322,14 @@ const Skynet = (function () {
 				}
 			}
 		});
-		_s.player.then(function (player) {
+		_s.player.then(function(player) {
 			player.events = events;
 			_s.port.send(MESSAGES.updatePlayer, player);
 		});
-		_s.config.then(function (config) {
+		_s.config.then(function(config) {
 			try {
 				if (config[cfg.enhance_eventlist]) {
-					events.forEach(function (event) {
+					events.forEach(function(event) {
 						var row = $('#eventRow-' + event.id);
 						var opacity = '';
 						if (event.rF) {
@@ -345,12 +345,12 @@ const Skynet = (function () {
 							detailRow.css('opacity', opacity);
 						}
 						detailRow.append($('<td>',
-							{text: row.find('td.missionFleet img').prop('title').replace(/^.+?\|/, '')}));
+								{text: row.find('td.missionFleet img').prop('title').replace(/^.+?\|/, '')}));
 						detailRow.append($('<td>', {colspan: 10, html: getDetails(event)}));
-						Timer.add(function () {
+						Timer.add(function() {
 							var now = new Date();
 							if (now.getTime() >= event.arrival + 1000) {
-								detailRow.hide('slow', function () {
+								detailRow.hide('slow', function() {
 									$(this).remove();
 								});
 								return false;
@@ -366,12 +366,12 @@ const Skynet = (function () {
 
 		function getDetails(event) {
 			var result = '';
-			event.fleet.forEach(function (elem) {
+			event.fleet.forEach(function(elem) {
 				result += (result ? ', ' : '') + elem.name + ': ' + (isNaN(elem.count) ? '?' : elem.count);
 			});
 			var res = '';
 			var hasRes = false;
-			Object.keys(event.res).forEach(function (key) {
+			Object.keys(event.res).forEach(function(key) {
 				const r = event.res[key];
 				if (r > 0) {
 					hasRes = true;
@@ -391,7 +391,7 @@ const Skynet = (function () {
 	 */
 	function detectItems() {
 		const items = {};
-		$('#buttonz').find('div.buildingimg').each(function () {
+		$('#buttonz').find('div.buildingimg').each(function() {
 			const me = $(this);
 			var id = me.find('a[ref]').attr('ref');
 			if (!id) {
@@ -400,7 +400,7 @@ const Skynet = (function () {
 			var node = me.find('span.level span.textlabel')[0];
 			if (node) {
 				items[id] =
-					_i(node.nextSibling.nodeValue.replace(/\D/g, ''));
+						_i(node.nextSibling.nodeValue.replace(/\D/g, ''));
 				var plus = me.find('span.level span.undermark').text().replace(/\D/g, '');
 				if (plus) {
 					items[id] += _i(plus);
@@ -433,21 +433,21 @@ const Skynet = (function () {
 		_s.port.send(MESSAGES.updatePlanets, planet);
 		if (!planet.defense) {
 			$('#menuTable').find('a[href$="page=defense"] span.textlabel')
-				.addClass('skynet_c_outdated');
+					.addClass('skynet_c_outdated');
 		}
 		if (!planet.ships) {
 			$('#menuTable').find('a[href$="page=shipyard"], a[href$="page=fleet1"]')
-				.find('span.textlabel').addClass('skynet_c_outdated');
+					.find('span.textlabel').addClass('skynet_c_outdated');
 		}
 		if (!planet.buildings) {
 			$('#menuTable').find('a[href$="page=resources"], a[href$="page=station"]')
-				.find('span.textlabel').addClass('skynet_c_outdated');
+					.find('span.textlabel').addClass('skynet_c_outdated');
 		} else if (planet.buildings['22'] === undefined) {
 			$('#menuTable').find('a[href$="page=resources"] span.textlabel')
-				.addClass('skynet_c_outdated');
+					.addClass('skynet_c_outdated');
 		} else if (planet.buildings['14'] === undefined) {
 			$('#menuTable').find('a[href$="page=station"] span.textlabel')
-				.addClass('skynet_c_outdated');
+					.addClass('skynet_c_outdated');
 		}
 	}
 
@@ -459,7 +459,7 @@ const Skynet = (function () {
 	 */
 	function detectPlanets(page, planets, resolve) {
 		const pCache = {};
-		$('#planetList').find('a.planetlink, a.moonlink').each(function () {
+		$('#planetList').find('a.planetlink, a.moonlink').each(function() {
 			const me = $(this);
 			if (me.prop('href').match(/.+cp=(\d+)(?:$|&|#)/)) {
 				const id = RegExp.$1;
@@ -467,7 +467,7 @@ const Skynet = (function () {
 					id: id
 				};
 				if (me.prop('title').match(
-						/<b>(.+?)\s\[(.+?)].+?\((.+?)\/(.+?)\)(?:<br.+?(-?\d+).+?(-?\d+))*/i)) {
+								/<b>(.+?)\s\[(.+?)].+?\((.+?)\/(.+?)\)(?:<br.+?(-?\d+).+?(-?\d+))*/i)) {
 					pCache[id].name = RegExp.$1;
 					pCache[id].fields = [_i(RegExp.$4), _i(RegExp.$3)];
 					pCache[id].type = me.hasClass('moonlink') ? 'm' : 'p';
@@ -483,10 +483,10 @@ const Skynet = (function () {
 				}
 			}
 		});
-		_s.player.then(function (player) {
+		_s.player.then(function(player) {
 			const id = $("meta[name='ogame-planet-id']").prop('content');
 			const planets2Delete = [];
-			planets.forEach(function (planet) {
+			planets.forEach(function(planet) {
 				const p = pCache[planet.id];
 				delete pCache[planet.id];
 				if (p) {
@@ -495,11 +495,23 @@ const Skynet = (function () {
 					Skynet.planets[cp.id] = cp;
 					if (cp.id === id) {
 						detectPlanetDetails(cp, page);
+						//var ogameProduction = ocalc.product(cp.production, 3600);
+						//var skynetProduction = ocalc.planetProduction(cp, player, _s.uni);
+						//Object.keys(ogameProduction).forEach(function (key) {
+						//	var r = Math.round(ogameProduction[key]);
+						//	if (r !== skynetProduction[key]) {
+						//		console.error('Production of', key, 'is not correct. Ogame:', r, ' | Skynet:',
+						//			skynetProduction[key]);
+						//	}
+						//});
+						//console.log('Test Prod:',
+						//	ocalc.format(ocalc.product(cp.production, 3600), nf()));
+						//console.log('Test2 Prod:', ocalc.planetProduction(cp, player, _s.uni));
 						resolve(cp);
 					} else {
 						if (!cp.defense || !planet.ships || !planet.buildings ||
-							planet.buildings['22'] === undefined ||
-							planet.buildings['14'] === undefined) {
+								planet.buildings['22'] === undefined ||
+								planet.buildings['14'] === undefined) {
 							var pElem = $('#planetList').find('a[href$="cp=' + cp.id + '"]');
 							pElem.find('span.planet-name').addClass('skynet_c_outdated');
 							pElem.find('img.icon-moon').addClass('skynet_c_moon_outdated');
@@ -510,7 +522,7 @@ const Skynet = (function () {
 				}
 			});
 			// new planets, that are not in the DB yet
-			Object.keys(pCache).forEach(function (key) {
+			Object.keys(pCache).forEach(function(key) {
 				const cp = pCache[key];
 				cp.owner = player.id;
 				Skynet.planets[cp.id] = cp;
@@ -535,7 +547,7 @@ const Skynet = (function () {
 			name: $("meta[name='ogame-player-name']").prop('content'),
 			officers: 0
 		};
-		$('#officers').find('a.on').each(function () {
+		$('#officers').find('a.on').each(function() {
 			var rx = new RegExp("(" + OFFICERS.join('|') + ")");
 			if ($(this).prop('class').match(rx)) {
 				player.officers = player.officers | Math.pow(2, OFFICERS.indexOf(RegExp.$1));
@@ -551,20 +563,20 @@ const Skynet = (function () {
 	function detectResources(planet) {
 		const scr = getScript();
 		if (scr.match(
-				/initAjaxResourcebox.+?metal.+?actual":(.+?),.+?crystal.+?actual":(.+?),.+?deuterium.+?actual":(.+?),/)) {
+						/initAjaxResourcebox.+?metal.+?actual":(.+?),.+?crystal.+?actual":(.+?),.+?deuterium.+?actual":(.+?),/)) {
 			planet.resources =
 			{metal: _i(RegExp.$1), crystal: _i(RegExp.$2), deuterium: _i(RegExp.$3)};
 		}
 		if (scr.match(
-				/initAjaxResourcebox.+?metal.+?production":(.+?)}.+?crystal.+?production":(.+?)}.+?deuterium.+?production":(.+?)}/)) {
+						/initAjaxResourcebox.+?metal.+?production":(.+?)}.+?crystal.+?production":(.+?)}.+?deuterium.+?production":(.+?)}/)) {
 			planet.production =
 			{
 				metal: parseFloat(RegExp.$1), crystal: parseFloat(RegExp.$2), deuterium: parseFloat(
-				RegExp.$3)
+					RegExp.$3)
 			};
 		}
 		if (scr.match(
-				/initAjaxResourcebox.+?metal.+?max":(.+?),.+?crystal.+?max":(.+?),.+?deuterium.+?max":(.+?),/)) {
+						/initAjaxResourcebox.+?metal.+?max":(.+?),.+?crystal.+?max":(.+?),.+?deuterium.+?max":(.+?),/)) {
 			planet.storage = {metal: _i(RegExp.$1), crystal: _i(RegExp.$2), deuterium: _i(RegExp.$3)};
 		}
 	}
@@ -573,22 +585,22 @@ const Skynet = (function () {
 		if (script) {
 			return script;
 		}
-		$('script:not([src])').each(function () {
+		$('script:not([src])').each(function() {
 			script += $(this).html();
 		});
 		return script;
 	}
 
 	function loadConfig() {
-		return new Promise(function (resolve) {
+		return new Promise(function(resolve) {
 			if (!location.href.match(/.+\/game\/index\.php(?:(?:\?page|.*?&page)=(.+?)(?:#|&|$)|$)/)) {
 				return;
 			}
-			_s.port.once(MESSAGES.getConfig).then(function (config) {
+			_s.port.once(MESSAGES.getConfig).then(function(config) {
 				try {
 					var defaultChanged = false;
 					const store = {};
-					settings().forEach(function (setting) {
+					settings().forEach(function(setting) {
 						if (config[setting.key] === undefined && setting.def !== undefined) {
 							if (!setting.scope) {
 								store[setting.key] = setting.def;
@@ -601,14 +613,14 @@ const Skynet = (function () {
 						}
 					});
 					if (defaultChanged) {
-						_s.port.post(MESSAGES.setConfig, store).then(function () {
+						_s.port.post(MESSAGES.setConfig, store).then(function() {
 							location.reload();
 						});
 					} else if (config['installed.version'] !== _s.VERSION) {
 						versionChangedResolve(config, 'installed.version');
-						setTimeout(function () {
+						setTimeout(function() {
 							store['installed.version'] = _s.VERSION;
-							_s.port.post(MESSAGES.setConfig, store).then(function () {
+							_s.port.post(MESSAGES.setConfig, store).then(function() {
 								location.reload();
 							});
 						}, 1);
@@ -628,7 +640,7 @@ const Skynet = (function () {
 			if (document.querySelector('#eventListWrap') === null) {
 				var element = document.querySelector('#menuTable li:first-child span.menu_icon a');
 				if (element) {
-					setTimeout(function () {
+					setTimeout(function() {
 						_s.trigger(element, 'click');
 						document.querySelector('#eventboxContent').style.display = 'none';
 					}, 1);
@@ -645,14 +657,14 @@ const Skynet = (function () {
 			return;
 		}
 
-		getResource('templates/dialog', 'html', false).then(function (res) {
+		getResource('templates/dialog', 'html', false).then(function(res) {
 			dlg = $(res).dialog({
 				autoOpen: false,
 				buttons: [
 					{
 						text: _('reset_config'),
-						click: function () {
-							_s.port.post(MESSAGES.setConfig, 'reset').then(function () {
+						click: function() {
+							_s.port.post(MESSAGES.setConfig, 'reset').then(function() {
 								location.reload();
 							});
 						}
@@ -662,7 +674,7 @@ const Skynet = (function () {
 						css: {'float': 'right'},
 						'data-bind': 'css: {\'ui-state-hover\': hasChanged()}',
 						text: _('save'),
-						click: function () {
+						click: function() {
 							cvm.save();
 							dlg.dialog('close');
 						}
@@ -670,17 +682,17 @@ const Skynet = (function () {
 					{
 						css: {'float': 'right'},
 						text: _('cancel'),
-						click: function () {
+						click: function() {
 							$(this).dialog('close');
 						}
 					}
 				],
 				css_scope: 'skynet',
-				create: function () {
+				create: function() {
 					ko.applyBindings(cvm, $('#SkynetDialog').parent()[0]);
 				},
 				height: 700,
-				open: function () {
+				open: function() {
 					const me = $(this);
 					me.find('.ui-accordion-content').css({
 						height: ''
@@ -690,12 +702,12 @@ const Skynet = (function () {
 				width: 750,
 				title: _('DialogTitle', [_('ExtensionName'), _s.VERSION])
 			}).tabs({
-				activate: function (event, ui) {
+				activate: function(event, ui) {
 					ui.newPanel.find('.nano').nanoScroller();
 				}
 			});
 			$('#SkynetDialog-1').find('div.nano-content').accordion({
-				activate: function (event, ui) {
+				activate: function(event, ui) {
 					ui.newPanel.closest('.nano').nanoScroller();
 				}
 			});
@@ -706,7 +718,7 @@ const Skynet = (function () {
 	function pageLoaded(resolve) {
 		if (location.href.match(/.+\/game\/index\.php(?:(?:\?page|.*?&page)=(.+?)(?:#|&|$)|$)/)) {
 			const p = (RegExp.$1 || 'overview').toLowerCase();
-			$(function () {
+			$(function() {
 				loadEvents();
 				_s.lang = $('meta[name="ogame-language"]').prop('content');
 				_s.ogameVersion = $('meta[name="ogame-version"]').prop('content');
@@ -714,10 +726,10 @@ const Skynet = (function () {
 				const m = script.match(/var serverTime=new Date\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\);/);
 				if (m) {
 					_s.ogameTS =
-						new Date(m[1], m[2], m[3], m[4], m[5], m[6]);
+							new Date(m[1], m[2], m[3], m[4], m[5], m[6]);
 				} else {
 					_s.ogameTS =
-						new Date(_i($('meta[name="ogame-timestamp"]').prop('content') + '000'));
+							new Date(_i($('meta[name="ogame-timestamp"]').prop('content') + '000'));
 				}
 				_s.deltaT = _s.loadTS.getTime() - _s.ogameTS.getTime();
 				_s.uni.donutGalaxy = $('meta[name="ogame-donut-galaxy"]').prop('content') === '1';
@@ -726,18 +738,18 @@ const Skynet = (function () {
 				_s.uni.speedFleet = _i($('meta[name="ogame-universe-speed-fleet"]').prop('content'));
 				resolve(p);
 				if (p !== PAGES.empire && p !== PAGES.displaymessagenewpage) {
-					_s.config.then(function (_c) {
+					_s.config.then(function(_c) {
 						$('#menuTableTools').append(_h('li', '',
-							['span', {
-								'class': 'menu_icon skynet_icon', style: {
-									'-webkit-filter': _c[cfg.skynet_active] ? '' : 'grayscale(75%)',
-									filter: _c[cfg.skynet_active] ? '' : 'grayscale(75%)'
-								}
-							}],
-							['a', {id: 'skynet_menu_setup', 'class': 'menubutton', href: '#'},
 								['span', {
-									'class': 'textlabel', text: _('DialogTitle', [_('ExtensionName'), ''])
-								}]]));
+									'class': 'menu_icon skynet_icon', style: {
+										'-webkit-filter': _c[cfg.skynet_active] ? '' : 'grayscale(75%)',
+										filter: _c[cfg.skynet_active] ? '' : 'grayscale(75%)'
+									}
+								}],
+								['a', {id: 'skynet_menu_setup', 'class': 'menubutton', href: '#'},
+									['span', {
+										'class': 'textlabel', text: _('DialogTitle', [_('ExtensionName'), ''])
+									}]]));
 						$('#skynet_menu_setup').click(openDialog);
 					});
 				}
@@ -767,17 +779,17 @@ const Skynet = (function () {
 		if (config[cfg.change_layout_planetlist]) {
 			rules.push('div#box div#rechts div#myWorlds { width: 147px; }');
 			rules.push(
-				'div#box div#rechts div#planetList a.constructionIcon { left: 0; right: auto; top: 38px; white-space: nowrap; width: auto; }');
+					'div#box div#rechts div#planetList a.constructionIcon { left: 0; right: auto; top: 38px; white-space: nowrap; width: auto; }');
 			rules.push(
-				'div#box div#rechts div#planetList a.constructionIcon span.icon_wrench { padding-left: 15px; font-size: 11px; }');
+					'div#box div#rechts div#planetList a.constructionIcon span.icon_wrench { padding-left: 15px; font-size: 11px; }');
 			rules.push(
-				'div#box div#rechts div#planetList .smallplanet a.moonlink { left: auto; padding: 5px; right: 0; top: 0; }');
+					'div#box div#rechts div#planetList .smallplanet a.moonlink { left: auto; padding: 5px; right: 0; top: 0; }');
 			rules.push(
-				'div#box div#rechts div#planetList .smallplanet { height: 52px; margin: 0 0 1px; width: auto; }');
+					'div#box div#rechts div#planetList .smallplanet { height: 52px; margin: 0 0 1px; width: auto; }');
 			rules.push(
-				'div#box div#rechts a.planetlink  .planetPic { position: absolute; left: 7px; top: 6px; }');
+					'div#box div#rechts a.planetlink  .planetPic { position: absolute; left: 7px; top: 6px; }');
 			rules.push(
-				'div#box div#rechts div#planetList .planet-name, div#rechts div#planetList .planet-koords { white-space: nowrap; position: absolute; top: 7px; left: 43px; }'
+					'div#box div#rechts div#planetList .planet-name, div#rechts div#planetList .planet-koords { white-space: nowrap; position: absolute; top: 7px; left: 43px; }'
 			);
 			rules.push('div#box div#rechts div#planetList .planet-koords { top: 22px; }');
 			rules.push('div#box div#rechts div#planetList a.planetlink { height: 52px; }');
@@ -786,10 +798,11 @@ const Skynet = (function () {
 		}
 		if (config['change.layout.galaxy.rows']) {
 			rules.push(
-				'#galaxy #galaxytable tbody tr.row td { height: ' + (config['galaxy.row.height'] || '28') +
-				'px; }');
+					'#galaxy #galaxytable tbody tr.row td { height: ' +
+					(config['galaxy.row.height'] || '28') +
+					'px; }');
 			rules.push(
-				'#galaxy #galaxytable tbody tr.row td.planetname1 > span, #galaxy #galaxytable tbody tr.row td.planetname1 > a { margin-top: 5px; }');
+					'#galaxy #galaxytable tbody tr.row td.planetname1 > span, #galaxy #galaxytable tbody tr.row td.planetname1 > a { margin-top: 5px; }');
 			rules.push('#galaxy #galaxytable tbody tr.row td.action > span { margin-top: 3px; }');
 		}
 		if (config[cfg.auto_collapse_events]) {
@@ -814,7 +827,7 @@ const Skynet = (function () {
 	 */
 	function renderHTMLTooltip(title, lines, parent) {
 		const out = [_(title) + ':|<table class="resourceTooltip">'];
-		lines.forEach(function (line) {
+		lines.forEach(function(line) {
 			out.push(_h('tr', '', ['th', {text: line.h}], ['td', {text: line.v, 'class': line.c}]));
 		});
 		out.push('</table>');
@@ -848,7 +861,7 @@ const Skynet = (function () {
 		if (mission) {
 			$('[name=mission]').val(mission);
 		}
-		fleet.forEach(function (type) {
+		fleet.forEach(function(type) {
 			const input = $('#ship_' + type.ref);
 			input.val(type.amount);
 			trigger(input[0], 'change');
@@ -862,7 +875,7 @@ const Skynet = (function () {
 
 	function showSummarySmall(config, player, planet) {
 		$('#planetdata').css({'margin-top': 145});
-		getResource('templates/summary', 'html', false).then(function (res) {
+		getResource('templates/summary', 'html', false).then(function(res) {
 			const html = _(true, res, {
 				planet: _('planet'),
 				'overall resources': _('overall resources'),
@@ -904,7 +917,7 @@ const Skynet = (function () {
 		var self = this;
 		this.cSet = {};
 		var config;
-		_s.config.then(function (cfg) {
+		_s.config.then(function(cfg) {
 			config = cfg;
 		});
 		this.tester = [
@@ -931,7 +944,7 @@ const Skynet = (function () {
 		function addSetting(cat, setting) {
 			var doAdd = true;
 			self.cSet[cat] = self.cSet[cat] || [];
-			self.cSet[cat].every(function (elem) {
+			self.cSet[cat].every(function(elem) {
 				if (elem.key === setting.key) {
 					doAdd = false;
 					return false;
@@ -944,9 +957,9 @@ const Skynet = (function () {
 		}
 
 		//noinspection JSUnusedGlobalSymbols
-		this.categories = ko.pureComputed(function () {
+		this.categories = ko.pureComputed(function() {
 			var result = ['general', 'layout', 'colors', 'fleet', 'galaxy', 'other'];
-			settings().forEach(function (/* object */ setting) {
+			settings().forEach(function(/* object */ setting) {
 				var cat = setting.cat;
 				if (!cat) {
 					cat = 'other';
@@ -964,9 +977,9 @@ const Skynet = (function () {
 		this._ = _;
 
 		//noinspection JSUnusedGlobalSymbols
-		this.hasChanged = ko.pureComputed(function () {
+		this.hasChanged = ko.pureComputed(function() {
 			var changed = false;
-			Object.keys(this.cSet).every(function (key) {
+			Object.keys(this.cSet).every(function(key) {
 				var arr = self.cSet[key];
 				for (var i = 0; i < arr.length; i++) {
 					var elem = arr[i];
@@ -980,9 +993,9 @@ const Skynet = (function () {
 			return changed;
 		}, this);
 
-		this.save = function () {
+		this.save = function() {
 			var doSave, store = {};
-			Object.keys(self.cSet).forEach(function (key) {
+			Object.keys(self.cSet).forEach(function(key) {
 				var arr = self.cSet[key];
 				for (var i = 0; i < arr.length; i++) {
 					var elem = arr[i];
@@ -999,7 +1012,7 @@ const Skynet = (function () {
 				}
 			});
 			if (doSave) {
-				_s.port.post(MESSAGES.setConfig, store).then(function () {
+				_s.port.post(MESSAGES.setConfig, store).then(function() {
 					location.reload();
 				});
 			}
@@ -1008,20 +1021,20 @@ const Skynet = (function () {
 		function Config(setting, config) {
 			this.label = setting.label;
 			this.type =
-				!setting.type || !setting.type.match(/^(?:boolean|select|number|color)$/) ? 'text' :
-					setting.type;
+					!setting.type || !setting.type.match(/^(?:boolean|select|number|color)$/) ? 'text' :
+							setting.type;
 			this.key = setting.key;
 			this.value = ko.observable(config === undefined ? setting.def :
-				config).extend({trackChanges: {initial: config === undefined}});
+					config).extend({trackChanges: {initial: config === undefined}});
 			this.scope = setting.scope || '';
 			//noinspection JSUnusedGlobalSymbols
-			this.getOptions = function () {
+			this.getOptions = function() {
 				if (setting.dataSrc && typeof setting.dataSrc === 'function') {
 					return setting.dataSrc();
 				}
 				return setting.dataSrc || [];
 			};
-			this.isChanged = ko.computed(function () {
+			this.isChanged = ko.computed(function() {
 				return this.value.isChanged();
 			}, this);
 		}
@@ -1090,7 +1103,7 @@ const Skynet = (function () {
 		//noinspection JSUnusedGlobalSymbols
 		this.cP = ko.observable(config[cfg.current_summary] || SUMMARY_TYPES[0]);
 
-		this.toggle = function (model, evt) {
+		this.toggle = function(model, evt) {
 			const target = $(evt.currentTarget);
 			var index = SUMMARY_TYPES.indexOf(this.cP());
 			if (target.hasClass('ui-icon-arrowthick-1-w')) {
@@ -1121,7 +1134,7 @@ const Skynet = (function () {
 		Timer.add(calcProd);
 
 		function calcCap() {
-			Object.keys(planet.storage).forEach(function (key) {
+			Object.keys(planet.storage).forEach(function(key) {
 				const seconds = (planet.storage[key] - _res[key]) / planet.production[key];
 				self.stoCap[key](formatTime(seconds));
 			});
@@ -1130,7 +1143,7 @@ const Skynet = (function () {
 
 		function calcProd() {
 			var op = null;
-			Object.keys(_s.planets).forEach(function (key) {
+			Object.keys(_s.planets).forEach(function(key) {
 				const pl = _s.planets[key];
 				if (!pl.resourcesTimeStamp) {
 					return;
@@ -1177,7 +1190,7 @@ const Skynet = (function () {
 			try {
 				const now = new Date();
 				var r = null;
-				Object.keys(_s.planets).forEach(function (key) {
+				Object.keys(_s.planets).forEach(function(key) {
 					const pl = _s.planets[key];
 					if (!pl.resourcesTimeStamp) {
 						return;
@@ -1190,7 +1203,7 @@ const Skynet = (function () {
 				self.sta.crystal(t.crystal);
 				self.sta.deuterium(t.deuterium);
 				var _resTra;
-				player.events.forEach(function (/*{*}*/ event) {
+				player.events.forEach(function(/*{*}*/ event) {
 					if (event.mission !== '4' && event.rF) {
 						_resTra = ocalc.sum(_resTra, event.res);
 					} else if (event.mission === '4' || event.attitude === 'neutral') {
