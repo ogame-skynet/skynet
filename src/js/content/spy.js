@@ -2,7 +2,7 @@
  _i, _, _h, SHIPS_BY_ID, nf, RESOURCES, PAGES, getResource, ko, Timer, parseNumber, Version,
  TECHS_BY_ID, Observer */
 
-(function (_s) {
+(function(_s) {
 	const cfg = {
 		enhance_spy: 'spyreport.enhance',
 		show_trashsim: 'spyreport.show.trashsim',
@@ -25,14 +25,14 @@
 		{key: cfg.raidar_animation, label: 'animation', type: 'boolean', def: true, cat: 'Raidar'},
 		{
 			key: cfg.raidar_attack_ship, label: 'ship for instant attack', type: 'select', def: '202',
-			cat: 'Raidar', scope: 'uni', dataSrc: function () {
+			cat: 'Raidar', scope: 'uni', dataSrc: function() {
 			return [{value: '', text: _('no ship')}, {value: '202', text: SHIPS_BY_ID['202'].name},
 				{value: '203', text: SHIPS_BY_ID['203'].name}];
 		}
 		}
 	];
 	_s.addSettings(cfg_def);
-	_s.versionChanged.then(function (config, version_key) {
+	_s.versionChanged.then(function(config, version_key) {
 		var oV = new Version(config[version_key]);
 		if (oV.compareTo(new Version('4.1.2')) < 0) {
 			var store = {};
@@ -45,7 +45,7 @@
 	});
 	var raidarVM = null;
 
-	Promise.all([_s.page, _s.config]).then(function (args) {
+	Promise.all([_s.page, _s.config]).then(function(args) {
 		try {
 			const page = args[0];
 			const config = args[1];
@@ -59,9 +59,9 @@
 			if (page === PAGES.messages && config[cfg.enhance_spy]) {
 				if (version === 6) {
 					Observer.create('div.content > div.js_tabs', {childList: true, subtree: true}).listenTo(
-						'ul.tab_inner', function () {
-							handleMessagesV6(this);
-						});
+							'ul.tab_inner', function() {
+								handleMessagesV6(this);
+							});
 					prepareRaidar(config);
 				} else {
 					addObserverV5();
@@ -69,13 +69,13 @@
 			}
 			if (page === PAGES.messages || page === PAGES.galaxy && config[cfg.enhance_spy]) {
 				Observer.create(document.body).listenTo(
-					'div[data-page="showmessage"], div[data-page="messages"]', function () {
-						Observer.create(this).listenTo('div.detail_msg', function () {
-							handleMessageV6($(this));
-						}).listenTo('div.showmessage', function () {
-							handleMessage($(this));
+						'div[data-page="showmessage"], div[data-page="messages"]', function() {
+							Observer.create(this).listenTo('div.detail_msg', function() {
+								handleMessageV6($(this));
+							}).listenTo('div.showmessage', function() {
+								handleMessage($(this));
+							});
 						});
-					});
 			}
 		} catch (e) {
 			console.error(e.message);
@@ -83,9 +83,9 @@
 	});
 
 	function addObserverV5() {
-		const mcObserver = new MutationObserver(function (mutations) {
+		const mcObserver = new MutationObserver(function(mutations) {
 			try {
-				mutations.forEach(function (mutation) {
+				mutations.forEach(function(mutation) {
 					for (var i = 0; i < mutation.addedNodes.length; i++) {
 						if (mutation.addedNodes[i].nodeName.toLowerCase() === 'form') {
 							handleMessages(mutation.addedNodes[i]);
@@ -102,7 +102,7 @@
 				childList: true,
 				subtree: true
 			});
-			$(target).find('form[name="delMsg"]').each(function () {
+			$(target).find('form[name="delMsg"]').each(function() {
 				handleMessages(this);
 			});
 		}
@@ -131,26 +131,26 @@
 	}
 
 	function dspButtons(parent, planet, owner) {
-		Promise.all([_s.config, _s.player, _s.planet]).then(function (args) {
+		Promise.all([_s.config, _s.player, _s.planet]).then(function(args) {
 			const config = args[0];
 			const player = args[1];
 			const currentPlanet = args[2];
 			const btnAttack = _s.ogameVersion.match(/^6/) ? parent.find('a span.icon_attack').parent() :
-				parent.find('table.defenseattack.spy td.attack a');
+					parent.find('table.defenseattack.spy td.attack a');
 			var txt = _('ignore');
 			if (planet.status && ((planet.status & 1) === 1)) {
 				txt = _('revoke_ignore');
 			}
 			if (planet.id && planet.owner && planet.type === 'p') {
 				const btnIgnore = $(_h('a', {
-						'class': 'btn_blue tooltip', style: {'margin-left': '10px'},
-						text: txt, title: _('hint_ignore')
-					}
+							'class': 'btn_blue tooltip', style: {'margin-left': '10px'},
+							text: txt, title: _('hint_ignore')
+						}
 				)).insertAfter(btnAttack);
 				if (_s.ogameVersion.match(/^6/)) {
 					btnIgnore.css({'float': 'left', 'margin-right': 10, 'margin-left': 0});
 				}
-				btnIgnore.click(function () {
+				btnIgnore.click(function() {
 					planet.status = (planet.status ? planet.status ^ 1 : 1);
 					_s.port.send(MESSAGES.updatePlanets, planet);
 					var txt = _('ignore');
@@ -174,8 +174,8 @@
 						lang = 'en';
 					}
 				}
-				var href = parent.find('div.msg_actions a[href^="ogame-api"]').prop('href');
-				if (href.match(/^ogame-api:\/\/(.+)$/)) {
+				var title = parent.find('div.msg_actions span.icon_apikey').prop('title');
+				if (title.match(/value='(.+?)'/)) {
 					var srkey = RegExp.$1;
 					var data = {
 						'0': [{
@@ -188,7 +188,7 @@
 					};
 					var research = data['0'][0].research;
 					if (player.techs) {
-						Object.keys(player.techs).forEach(function (key) {
+						Object.keys(player.techs).forEach(function(key) {
 							research[key] = {level: player.techs[key]};
 						});
 					}
@@ -210,8 +210,8 @@
 			}
 			const params = [];
 			params.push('enemy_pos=' +
-				encodeURIComponent(planet.position[0] + ':' + planet.position[1] + ':' +
-					planet.position[2]));
+					encodeURIComponent(planet.position[0] + ':' + planet.position[1] + ':' +
+							planet.position[2]));
 			if (player.techs) {
 				params.push('tech_a0_0=' + (player.techs['109'] || 0));
 				params.push('tech_a0_1=' + (player.techs['110'] || 0));
@@ -246,7 +246,7 @@
 			params.push('def_to_df=' + (_s.uni.defToTF ? '1' : '0'));
 			params.push('perc-df=' + (_s.uni.debrisFactor * 100));
 			params.push('start_pos=' + currentPlanet.position[0] + ':' + currentPlanet.position[1] + ':' +
-				currentPlanet.position[2]);
+					currentPlanet.position[2]);
 			params.push('enemy_name=' + planet.name);
 			if (config[cfg.show_speedsim]) {
 				const res = ocalc.product(planet.resources, planet.lf * 2);
@@ -288,18 +288,18 @@
 	 */
 	function dspPlunder(parent, planet, player) {
 		const f = nf(0, 0, 0, true);
-		Promise.all([_s.player, _s.planet, _s.config]).then(function (args) {
+		Promise.all([_s.player, _s.planet, _s.config]).then(function(args) {
 			const currentPlayer = args[0];
 			const ownPlanet = args[1];
 			const config = args[2];
 			var cClass = '';
 			if (!planet.ships || !planet.defense || JSON.stringify(planet.ships) !== "{}" ||
-				JSON.stringify(planet.defense).match(/"40/)) {
+					JSON.stringify(planet.defense).match(/"40/)) {
 				cClass = 'skynet_c_problem';
 			}
 			const table = createTable(parent, cClass, planet);
 			const btnAttack = _s.ogameVersion.match(/^6/) ? parent.find('a span.icon_attack').parent() :
-				parent.find('table.defenseattack.spy td.attack a');
+					parent.find('table.defenseattack.spy td.attack a');
 			const now = new Date();
 			const delta = (now.getTime() - planet.resourcesTimeStamp - _s.deltaT) / 1000;
 			const distance = ocalc.distance(ownPlanet.position, planet.position, _s.uni);
@@ -309,9 +309,9 @@
 			}
 			planet.production = ocalc.quotient(production, 3600);
 			ocalc.storageCapacity(planet);
-			prepareShips(currentPlayer).forEach(function (ship) {
+			prepareShips(currentPlayer).forEach(function(ship) {
 				const fTime = ocalc.flightTime(distance, [ship], currentPlayer,
-					_s.uni);
+						_s.uni);
 				const dt = delta + fTime;
 				const resources = ocalc.resources(planet, dt);
 				const m = Math.floor(resources.metal * planet.lf);
@@ -323,29 +323,29 @@
 				const usage = ocalc.usage(amount, ship.cSpeed, ship.usage, fTime, distance, _s.uni) + 1;
 
 				table.append($(_h('tr', '',
-					['td', {text: ship.name}],
-					['td', {text: formatSeconds(fTime)}],
-					['td', '', ['a', {
-						text: f.format(amount), href: btnAttack.attr('href') + '&am' + ship.id +
-						'=' +
-						amount
-					}]],
-					['td', {colspan: 2}, [
-						'span', {
-							text: f.format(m) + ' ' + _('metal') + ', ' + f.format(c) +
-							' ' +
-							_('crystal') + ', '
-						}
-					], [
-						'span', {
-							text: f.format(d - usage),
-							'class': d - usage < 0 ? 'overmark' : ''
-						}
-					], [
-						'span', {
-							text: ' ' + _('deuterium')
-						}
-					]]
+						['td', {text: ship.name}],
+						['td', {text: formatSeconds(fTime)}],
+						['td', '', ['a', {
+							text: f.format(amount), href: btnAttack.attr('href') + '&am' + ship.id +
+							'=' +
+							amount
+						}]],
+						['td', {colspan: 2}, [
+							'span', {
+								text: f.format(m) + ' ' + _('metal') + ', ' + f.format(c) +
+								' ' +
+								_('crystal') + ', '
+							}
+						], [
+							'span', {
+								text: f.format(d - usage),
+								'class': d - usage < 0 ? 'overmark' : ''
+							}
+						], [
+							'span', {
+								text: ' ' + _('deuterium')
+							}
+						]]
 				)));
 			});
 		});
@@ -353,45 +353,45 @@
 		function createTable(parent, cClass, planet) {
 			if (_s.ogameVersion.match(/^6/)) {
 				var hdl = $(_h('div', {'class': 'section_title'},
-					['div', {'class': 'c-left'}],
-					['div', {'class': 'c-right'}],
-					['div', {
-						'class': 'title_txt' + (cClass ? ' ' + cClass : ''), text: _('loot',
-							[planet.lf * 100])
-					}])).insertBefore(parent.find('div.section_title').first());
+						['div', {'class': 'c-left'}],
+						['div', {'class': 'c-right'}],
+						['div', {
+							'class': 'title_txt' + (cClass ? ' ' + cClass : ''), text: _('loot',
+									[planet.lf * 100])
+						}])).insertBefore(parent.find('div.section_title').first());
 				return $(_h('table', {style: {width: '100%', 'margin-left': '6px'}},
-					['tr', '',
-						['th', {text: _('ship'), style: {'text-align': 'left', 'color': '#fff'}}],
-						['th', {text: _('flight time'), style: {'text-align': 'left', 'color': '#fff'}}],
-						['th', {text: _('amount'), style: {'text-align': 'left', 'color': '#fff'}}],
-						['th',
-							{text: _('gain'), colspan: 2, style: {'text-align': 'left', 'color': '#fff'}}]]
+						['tr', '',
+							['th', {text: _('ship'), style: {'text-align': 'left', 'color': '#fff'}}],
+							['th', {text: _('flight time'), style: {'text-align': 'left', 'color': '#fff'}}],
+							['th', {text: _('amount'), style: {'text-align': 'left', 'color': '#fff'}}],
+							['th',
+								{text: _('gain'), colspan: 2, style: {'text-align': 'left', 'color': '#fff'}}]]
 				)).insertAfter(hdl);
 			}
 			return $(_h('table', {},
-				['tr', '',
-					['th',
-						{
-							'class': 'area' +
-							(cClass ? ' ' + cClass : ''), colspan: 6, text: _('loot', [planet.lf * 100])
-						}]],
-				['tr', '',
-					['th', {text: _('ship'), style: {'text-align': 'left'}}],
-					['th', {text: _('flight time'), style: {'text-align': 'left'}}],
-					['th', {text: _('amount'), style: {'text-align': 'left'}}],
-					//['th', {text : _('required capacity'), style : {'text-align' : 'left'}}],
-					['th', {text: _('resources'), colspan: 2, style: {'text-align': 'left'}}]]
+					['tr', '',
+						['th',
+							{
+								'class': 'area' +
+								(cClass ? ' ' + cClass : ''), colspan: 6, text: _('loot', [planet.lf * 100])
+							}]],
+					['tr', '',
+						['th', {text: _('ship'), style: {'text-align': 'left'}}],
+						['th', {text: _('flight time'), style: {'text-align': 'left'}}],
+						['th', {text: _('amount'), style: {'text-align': 'left'}}],
+						//['th', {text : _('required capacity'), style : {'text-align' : 'left'}}],
+						['th', {text: _('resources'), colspan: 2, style: {'text-align': 'left'}}]]
 			)).insertBefore(parent.find('table.aktiv.spy'));
 		}
 
 		function prepareShips(player) {
 			const ships = [SHIPS_BY_ID[202], SHIPS_BY_ID[203], SHIPS_BY_ID[206], SHIPS_BY_ID[207]];
-			ships.forEach(function (ship) {
+			ships.forEach(function(ship) {
 				if (!ship.cSpeed) {
 					ocalc.speed(ship, player);
 				}
 			});
-			ships.sort(function (a, b) {
+			ships.sort(function(a, b) {
 				return b.cSpeed - a.cSpeed;
 			});
 			return ships;
@@ -400,7 +400,7 @@
 
 	function dspProduction(parent, production) {
 		if (_s.ogameVersion.match(/^6/)) {
-			parent.find('li.resource_list_el').each(function (index) {
+			parent.find('li.resource_list_el').each(function(index) {
 				const me = $(this);
 				const val = production[RESOURCES[index]];
 				me.css('line-height', 'normal');
@@ -414,7 +414,7 @@
 			});
 			return;
 		}
-		parent.find('table.material.spy tr.areadetail table td.item').each(function (index) {
+		parent.find('table.material.spy tr.areadetail table td.item').each(function(index) {
 			const me = $(this);
 			me.css({width: 120});
 			me.next().css({'text-align': 'right'});
@@ -437,7 +437,7 @@
 
 	function getPlanetByType(arr, planet) {
 		var knownPlanet = {};
-		arr.forEach(function (elem) {
+		arr.forEach(function(elem) {
 			if (elem.type === planet.type) {
 				knownPlanet = elem;
 			}
@@ -446,7 +446,7 @@
 	}
 
 	function handleMessage(root) {
-		root.find('table.material.spy th.area').each(function () {
+		root.find('table.material.spy th.area').each(function() {
 			var head = $(this);
 			var planet = {};
 			planet.position = parseCoords(head.find('a').text());
@@ -456,7 +456,7 @@
 			Promise.all([
 				_s.port.get(MESSAGES.getPlayer, {name: head.find('span:last-child').text()}),
 				_s.port.get(MESSAGES.getPlanets, {position: planet.position}),
-				_s.oGameI18N]).then(function (args) {
+				_s.oGameI18N]).then(function(args) {
 				const knownPlayer = args[0][0] || {};
 				const knownPlanet = args[1][0] || {};
 				const oI18n = args[2];
@@ -469,7 +469,7 @@
 				dspPlunder(root, planetData, playerData);
 				dspButtons(root, planetData, playerData);
 				if (!planetData.owner || planetData.owner !== playerData.id ||
-					planetData.resourcesTimeStamp <= knownPlanet.resourcesTimeStamp) {
+						planetData.resourcesTimeStamp <= knownPlanet.resourcesTimeStamp) {
 					return;
 				}
 				_s.port.send(MESSAGES.updatePlanets, planetData);
@@ -514,7 +514,7 @@
 		 */
 		function parseItems(player, planet, oI18n) {
 			const types = ['ships', 'defense', 'buildings', 'techs'];
-			root.find('table.fleetdefbuildings.spy').each(function (index) {
+			root.find('table.fleetdefbuildings.spy').each(function(index) {
 				const table = $(this);
 				var current;
 				if (index < 3) {
@@ -524,7 +524,7 @@
 					player[types[index]] = {};
 					current = player[types[index]];
 				}
-				table.find('td.key').each(function () {
+				table.find('td.key').each(function() {
 					const td = $(this);
 					const id = oI18n.tbn[td.text().trim()];
 					if (id) {
@@ -540,7 +540,7 @@
 		 */
 		function parseResources() {
 			const res = ocalc.toRes(0);
-			root.find('table.fragment.spy2 td:not(.item)').each(function (index) {
+			root.find('table.fragment.spy2 td:not(.item)').each(function(index) {
 				res[RESOURCES[index]] = _i($(this).text().trim().replace(/\./g, ''));
 			});
 			return res;
@@ -549,7 +549,7 @@
 
 	function handleMessages(root) {
 		const me = $(root);
-		me.find('tr[id^="spioDetails"]').hide().each(function () {
+		me.find('tr[id^="spioDetails"]').hide().each(function() {
 			handleMessage($(this));
 		});
 	}
@@ -557,7 +557,7 @@
 	function handleMessagesV6(root) {
 		const me = $(root);
 		if (me.closest('div.tab_ctn').find('li#subtabs-nfFleet20.ui-state-active').length) {
-			me.find('li.msg').each(function () {
+			me.find('li.msg').each(function() {
 				const me = $(this);
 				const playerName = me.find('span.msg_content span.ctn4:first').next().text().trim();
 				if (!playerName) {
@@ -574,7 +574,7 @@
 					planet.lf = calcLoot(me);
 					planet.fleetUnits = -1;
 					planet.defenseUnits = -1;
-					me.find('span.msg_content div.compacting:last span').each(function (index) {
+					me.find('span.msg_content div.compacting:last span').each(function(index) {
 						if (index === 0) {
 							planet.fleetUnits = parseNumber($(this).text().trim().replace(/^.+ /, ''));
 						} else if (index === 1) {
@@ -585,7 +585,7 @@
 					Promise.all([
 						_s.port.get(MESSAGES.getPlayer, {name: playerName}),
 						_s.port.get(MESSAGES.getPlanets, {position: planet.position}),
-						_s.planet, _s.player]).then(function (args) {
+						_s.planet, _s.player]).then(function(args) {
 						const ownPlanet = args[2];
 						const player = args[3];
 						const knownPlayer = args[0][0] || {};
@@ -593,12 +593,12 @@
 						const playerData = extend('', knownPlayer);
 						const planetData = extend('', knownPlanet, planet);
 						if (!knownPlanet.resourcesTimeStamp ||
-							planetData.resourcesTimeStamp > knownPlanet.resourcesTimeStamp) {
+								planetData.resourcesTimeStamp > knownPlanet.resourcesTimeStamp) {
 							planetData.newReport = true;
 							planetData.resources = planetData.resources || {};
-							me.find('span.resspan').each(function (index) {
+							me.find('span.resspan').each(function(index) {
 								planetData.resources[RESOURCES[index]] =
-									parseNumber($(this).text().trim().replace(/^.+ /, ''));
+										parseNumber($(this).text().trim().replace(/^.+ /, ''));
 							});
 						}
 						planetData.msgID = me.data('msg-id');
@@ -607,24 +607,24 @@
 						}
 						if (planetData.fleetUnits < 0 && planetData.ships) {
 							planetData.fleetUnits = 0;
-							Object.keys(planetData.ships).forEach(function (key) {
+							Object.keys(planetData.ships).forEach(function(key) {
 								var defense = SHIPS_BY_ID[key];
 								planetData.fleetUnits +=
-									planetData.ships[key] * (defense.c.metal ? defense.c.metal : 0) +
-									planetData.ships[key] * (defense.c.crystal ? defense.c.crystal : 0) +
-									planetData.ships[key] * (defense.c.deuterium ? defense.c.deuterium : 0);
+										planetData.ships[key] * (defense.c.metal ? defense.c.metal : 0) +
+										planetData.ships[key] * (defense.c.crystal ? defense.c.crystal : 0) +
+										planetData.ships[key] * (defense.c.deuterium ? defense.c.deuterium : 0);
 							});
 							planetData.outdatedShips = true;
 						}
 						if (planetData.defenseUnits < 0 && planetData.defense) {
 							planetData.defenseUnits = 0;
-							Object.keys(planetData.defense).forEach(function (key) {
+							Object.keys(planetData.defense).forEach(function(key) {
 								if (key < '500') {
 									var defense = TECHS_BY_ID[key];
 									planetData.defenseUnits +=
-										planetData.defense[key] * (defense.c.metal ? defense.c.metal : 0) +
-										planetData.defense[key] * (defense.c.crystal ? defense.c.crystal : 0) +
-										planetData.defense[key] * (defense.c.deuterium ? defense.c.deuterium : 0);
+											planetData.defense[key] * (defense.c.metal ? defense.c.metal : 0) +
+											planetData.defense[key] * (defense.c.crystal ? defense.c.crystal : 0) +
+											planetData.defense[key] * (defense.c.deuterium ? defense.c.deuterium : 0);
 								}
 							});
 							planetData.outdatedDefense = true;
@@ -635,7 +635,7 @@
 							var c = me.find('span.msg_content');
 							var a = me.find('div.msg_actions');
 							var hidden = false;
-							h.click(function () {
+							h.click(function() {
 								if (hidden) {
 									c.show();
 									a.show();
@@ -661,7 +661,7 @@
 			Promise.all([
 				_s.port.get(MESSAGES.getPlayer, {name: playerName}),
 				_s.port.get(MESSAGES.getPlanets, {position: planet.position}),
-				_s.oGameI18N]).then(function (args) {
+				_s.oGameI18N]).then(function(args) {
 				if (!args[0][0]) {
 					console.error('This player was not found in the database.');
 				}
@@ -683,7 +683,7 @@
 				dspPlunder(root, planetData, playerData);
 				dspButtons(root, planetData, playerData);
 				if (!planetData.owner || planetData.owner !== playerData.id ||
-					planetData.resourcesTimeStamp <= knownPlanet.resourcesTimeStamp) {
+						planetData.resourcesTimeStamp <= knownPlanet.resourcesTimeStamp) {
 					return;
 				}
 				_s.port.send(MESSAGES.updatePlanets, planetData);
@@ -697,7 +697,7 @@
 
 	function parseItems(root, player, planet, oI18n) {
 		const types = ['ships', 'defense', 'buildings', 'techs'];
-		root.find('div.section_title').each(function (index) {
+		root.find('div.section_title').each(function(index) {
 			const me = $(this);
 			if (index > 0) {
 				const type = types[index - 1];
@@ -712,7 +712,7 @@
 					player[type] = {};
 					current = player[type];
 				}
-				me.next().find('span.detail_list_txt').each(function () {
+				me.next().find('span.detail_list_txt').each(function() {
 					const me = $(this);
 					const id = oI18n.tbn[me.text().trim()];
 					if (id) {
@@ -725,7 +725,7 @@
 
 	function parseResources(root) {
 		const res = ocalc.toRes(0);
-		root.find('li.resource_list_el').each(function (index) {
+		root.find('li.resource_list_el').each(function(index) {
 			const me = $(this);
 			var txt = $(this).prop('title').trim();
 			if (!txt) {
@@ -738,9 +738,9 @@
 
 	function prepareRaidar(config) {
 		raidarVM = new RaidarVM(config);
-		$('div#buttonz > div.content:first').each(function () {
+		$('div#buttonz > div.content:first').each(function() {
 			var me = $(this);
-			getResource('templates/raidar', 'html', false).then(function (res) {
+			getResource('templates/raidar', 'html', false).then(function(res) {
 				const html = $(res).prependTo(me);
 				ko.applyBindings(raidarVM, html.get(0));
 			});
@@ -752,16 +752,16 @@
 		const ratio = calcRatio(config);
 		self._ = _;
 		this.visible = ko.observable(config[cfg.raidar_visible] || false);
-		this.show = function () {
+		this.show = function() {
 			toggleVisibility(true);
 		};
-		this.hide = function () {
+		this.hide = function() {
 			toggleVisibility(false);
 		};
 		this.reports = ko.observableArray().extend({rateLimit: 250});
 		this.time = ko.observable(Date.now());
 		const ship = config[cfg.raidar_attack_ship] ? SHIPS_BY_ID[config[cfg.raidar_attack_ship]] :
-			null;
+				null;
 		//var reportAdded = ko.observable(false).extend({rateLimit: 250});
 		//reportAdded.subscribe(function (added) {
 		//	if (added) {
@@ -772,12 +772,12 @@
 		//	}
 		//}, this);
 
-		this.addReport = function (otherPlanet, otherPlayer, planet, player) {
+		this.addReport = function(otherPlanet, otherPlayer, planet, player) {
 			if (ship && !ship.cSpeed) {
 				ocalc.speed(ship, player);
 			}
 			var exist = false;
-			this.reports().every(function (report) {
+			this.reports().every(function(report) {
 				if (otherPlanet.id && report.planet.id === otherPlanet.id) {
 					if (otherPlanet.resourcesTimeStamp > report.planet.resourcesTimeStamp) {
 						self.reports.remove(report);
@@ -795,7 +795,7 @@
 			}
 		};
 		if (config[cfg.raidar_animation]) {
-			Timer.add(function () {
+			Timer.add(function() {
 				if (self.visible()) {
 					self.time(Date.now());
 				}
@@ -810,7 +810,7 @@
 			if (txt) {
 				arr = txt.replace(/,/g, '.').split(':');
 				if (arr.length === 3) {
-					arr.forEach(function (i) {
+					arr.forEach(function(i) {
 						arr[i] = parseFloat(arr[i]);
 						if (isNaN(arr[i])) {
 							arr[i] = defArr[i];
@@ -823,7 +823,7 @@
 		}
 
 		function sortReports() {
-			self.reports.sort(function (a, b) {
+			self.reports.sort(function(a, b) {
 				return b.ratio - a.ratio;
 			});
 		}
@@ -856,11 +856,11 @@
 			this.position = '[' + planet.position.join(':') + ']';
 			//noinspection JSUnusedGlobalSymbols
 			this.positionLink = location.href.replace(/messages/,
-				'galaxy&galaxy=' + planet.position[0] + '&system=' + planet.position[1] + '&position=' +
-				planet.position[2]);
+					'galaxy&galaxy=' + planet.position[0] + '&system=' + planet.position[1] + '&position=' +
+					planet.position[2]);
 			this.detailLink = planet.detailLink;
 			//noinspection JSUnusedGlobalSymbols
-			this.delReport = function () {
+			this.delReport = function() {
 				var data = {
 					messageId: planet.msgID,
 					action: 103,
@@ -870,7 +870,7 @@
 					data: data,
 					dataType: 'json',
 					method: 'POST'
-				}).then(function () {
+				}).then(function() {
 					parent.reports.remove(self);
 					var msgElem = Q('li.msg[data-msg-id="' + planet.msgID + '"]');
 					if (msgElem) {
@@ -883,7 +883,7 @@
 			this.underAttack = planet.underAttack;
 			//noinspection JSUnusedGlobalSymbols
 			this.unknownBuildings =
-				planet.buildings === undefined || JSON.stringify(planet.buildings).match(/{"212":\d+?}/);
+					planet.buildings === undefined || JSON.stringify(planet.buildings).match(/{"212":\d+?}/);
 			this.outdatedDefense = planet.outdatedDefense === true;
 			this.outdatedShips = planet.outdatedShips === true;
 
@@ -893,18 +893,18 @@
 			this.ships = ko.observable(0);
 
 			//noinspection JSUnusedGlobalSymbols
-			this.attackLink = ko.computed(function () {
+			this.attackLink = ko.computed(function() {
 				var param = '';
 				if (this.ships()) {
 					param = '&am' + ship.id + '=' + this.ships();
 				}
 				return location.href.replace(/\?page=.+$/,
-					'?page=fleet1&galaxy=' + planet.position[0] + '&system=' + planet.position[1] +
-					'&position=' + planet.position[2] + '&type=' + (planet.type === 'm' ? 3 : 1) +
-					'&mission=1' + param);
+						'?page=fleet1&galaxy=' + planet.position[0] + '&system=' + planet.position[1] +
+						'&position=' + planet.position[2] + '&type=' + (planet.type === 'm' ? 3 : 1) +
+						'&mission=1' + param);
 			}, this);
 
-			this.age = ko.computed(function () {
+			this.age = ko.computed(function() {
 				const dt = (parent.time() - planet.resourcesTimeStamp - _s.deltaT) / 1000;
 				const delta = dt + fTime;
 				const resources = ocalc.resources(planet, delta);
