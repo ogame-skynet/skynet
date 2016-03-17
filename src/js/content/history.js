@@ -1,7 +1,12 @@
 /* global Skynet */
 
-(function (_s) {
+(function(_s) {
 	_s.history.push({
+		'date': '17.03.2016 :: v4.1.4',
+		summary: 'Changes and API modification',
+		changes: ['Update external JavaScript libraries',
+			'Fix API detection on espionage report caused by OGame 6.1.5 update']
+	}, {
 		'date': '09.02.2016 :: v4.1.3',
 		summary: 'Changes and improvements from user feedback',
 		changes: ['Update translations',
