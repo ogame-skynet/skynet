@@ -25,8 +25,8 @@ The build system is Gulp.
 
 ## External Libraries ##
 
-### jQuery 2.2.0 ###
-http://code.jquery.com/jquery-2.2.0.min.js
+### jQuery 2.2.1 ###
+http://code.jquery.com/jquery-2.2.1.min.js
 
 ### jQuery Nanoscroller 0.8.7 ###
 https://github.com/jamesflorentino/nanoScrollerJS/releases/tag/0.8.7  
