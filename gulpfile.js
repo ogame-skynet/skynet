@@ -31,8 +31,8 @@ function lint(src) {
 
 //noinspection JSUnresolvedFunction
 gulp.task('build packages', function () {
-	const versionChrome = '4.1.4.0';
-	const version = '4.1.4';
+	const versionChrome = '4.1.5.0';
+	const version = '4.1.5';
 	const name = 'Skynet';
 	const desc = 'The Addon OGame deserves';
 	const author = 'Martin Burchard';

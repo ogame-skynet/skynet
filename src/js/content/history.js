@@ -2,6 +2,10 @@
 
 (function(_s) {
 	_s.history.push({
+		'date': '28.07.2016 :: v4.1.5',
+		summary: 'Compatibility changes for OGame 6.2.2',
+		changes: ['Fix load of events list']
+	}, {
 		'date': '17.03.2016 :: v4.1.4',
 		summary: 'Changes and API modification',
 		changes: ['Update external JavaScript libraries',

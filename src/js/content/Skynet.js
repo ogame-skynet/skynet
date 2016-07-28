@@ -638,7 +638,7 @@ const Skynet = (function() {
 	function loadEvents() {
 		try {
 			if (document.querySelector('#eventListWrap') === null) {
-				var element = document.querySelector('#menuTable li:first-child span.menu_icon a');
+				var element = document.querySelector('#js_eventDetailsOpen');
 				if (element) {
 					setTimeout(function() {
 						_s.trigger(element, 'click');
