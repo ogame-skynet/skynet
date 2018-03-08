@@ -4,7 +4,7 @@ To whom it may concern.
 
 The Skynet project folder has a specific structure to support simultaneous extension development
 for Chrome and Firefox.
-The build system is Gulp.
+The build system is [Gulp][gulp].
 
 ## Structure ##
 
@@ -84,3 +84,5 @@ The addon can be tested on page: http://pioneers.en.ogame.gameforge.com/
 Choose universe **Bermuda**  
 Username **Skynet**  
 Passwort: huxi54-Turta
+
+[gulp]: https://github.com/gulpjs/gulp
