@@ -52,18 +52,18 @@ Download the custom theme for Skynet.
 
 The files that Skynet uses will contain date stamps that will be different on every download!
 
-### knockout.js 3.4.0 ###
-http://knockoutjs.com/downloads/knockout-3.4.0.js
+### knockout.js 3.4.2 ###
+http://knockoutjs.com/downloads/knockout-3.4.2.js
 
 ##Gulp
 
-The first lines of the **gulpfile.js** define all the dependencies for the Gulp build system.
-
 To install all dependencies use: `npm install`
+
+In Addition Gulp-CLI should be installed globally: `npm i -g gulp-cli`
 
 With Gulp default task, the whole extension is build for Chrome and Firefox: `gulp`
 
-The destination directory is **build**.
+The destination directory is **dist**.
 
 ###Firefox XPI
 

@@ -10,6 +10,12 @@ const ff_dir = 'dist/firefox';
 const clean = () => del([chrome_dir, ff_dir]);
 export {clean};
 
+export function extRes() {
+	return gulp.src('legacy/src/ext/**/*')
+		.pipe(gulp.dest(chrome_dir + '/ext'))
+		.pipe(gulp.dest(ff_dir + '/ext'));
+}
+
 /*
  * You can still declare named functions and export them as tasks
  */
@@ -28,7 +34,7 @@ export function templates() {
 		.pipe(gulp.dest(ff_dir + '/templates'));
 }
 
-const build = gulp.series(clean, gulp.parallel(styles, templates));
+const build = gulp.series(clean, gulp.parallel(extRes, styles, templates));
 export {build};
 
 /*
