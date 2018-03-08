@@ -1,0 +1,11 @@
+.skynet_icon {
+	background: url('../gfx/icon_48.png') no-repeat 2px 2px;
+	background-size: 22px 22px;
+	height: 28px;
+}
+
+.skynet table#raidar .icon_attack {
+	background: url('../gfx/attack.png') no-repeat 2px 2px;
+	height: 18px;
+	width: 18px;
+}

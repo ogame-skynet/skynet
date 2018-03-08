@@ -1,0 +1,96 @@
+<div id="SkynetDialog">
+	<ul>
+		<li><a href="#SkynetDialog-1" data-bind="text: _('settings')"></a></li>
+		<li><a href="#SkynetDialog-2" data-bind="text: _('about')"></a></li>
+		<li><a href="#SkynetDialog-3" data-bind="text: _('history')"></a></li>
+	</ul>
+	<div id="SkynetDialog-1">
+		<div class="nano">
+			<div class="nano-content" style="padding-right: 15px;">
+				<!-- ko foreach: {data: categories, as: 'cat'} -->
+				<h3><a data-bind="text: _(cat)"></a></h3>
+
+				<div data-bind="foreach: $root.cSet[cat]">
+					<div class="row cf">
+						<label class="long" data-bind="text: $root._(label)"></label>
+						<!-- ko if: type === 'boolean' -->
+						<input type="checkbox" data-bind="name: key, checked: value">
+						<!-- /ko -->
+						<!-- ko if: type === 'color' -->
+						<input type="text" data-bind="name: key,	color: value">
+						<!-- /ko -->
+						<!-- ko if: type === 'number' -->
+						<input type="number" data-bind="name: key, textInput: value">
+						<!-- /ko -->
+						<!-- ko if: type === 'text' -->
+						<input type="text" data-bind="name: key, textInput: value">
+						<!-- /ko -->
+						<!-- ko if: type === 'select' -->
+						<select
+								data-bind="options: getOptions(), optionsText: 'text', optionsValue: 'value', value: value"></select>
+						<!-- /ko -->
+					</div>
+				</div>
+				<!-- /ko -->
+			</div>
+		</div>
+	</div>
+	<div id="SkynetDialog-2">
+		<div class="nano">
+			<div class="nano-content">
+				<h2 style="margin-top: 1em; font-weight: bold;" data-bind="text: _('developer')"></h2>
+				<ul>
+					<li>Martin Burchard (<a href="http://board.ogame.de/user/147759-nabor/"
+					                        target="_blank">Nabor</a>)
+					</li>
+				</ul>
+				<h2 style="margin-top: 1em; font-weight: bold;" data-bind="text: _('tester')"></h2>
+				<ul data-bind="foreach: tester">
+					<!-- ko if: typeof link === 'undefined' -->
+					<li data-bind="text: name"></li>
+					<!-- /ko -->
+					<!-- ko if: typeof link !== 'undefined' -->
+					<li><a data-bind="text: name, href: link" target="_blank"></a></li>
+					<!-- /ko -->
+				</ul>
+				<h2 style="margin-top: 1em; font-weight: bold;" data-bind="text: _('translator')"></h2>
+				<ul data-bind="foreach: translator">
+					<li data-bind="html: _(lang) + ': ' + details"></li>
+				</ul>
+
+				<p style="margin-top: 2em;">Ein Thread zu Skynet ist im <a
+						href="http://board.ogame.de/board410-ogame-das-spiel/board320-zugelassene-tools-scripts-kampfsims/824291-skynet-ein-firefox-addon"
+						target="_blank">Forum</a>
+					verfügbar.</p>
+
+				<p style="margin-top: 2em;">You can find Skynet discussion in this <a
+						href="http://board.origin.ogame.gameforge.com/board192/" target="_blank">board</a> to.
+				</p>
+
+				<p style="margin-top: 2em; text-align: center;" data-bind="text: _('donate message')"></p>
+
+				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank"
+				      style="width: 86px; display: block; margin: 1em auto;">
+					<input type="hidden" name="cmd" value="_s-xclick">
+					<input type="hidden" name="hosted_button_id" value="Z9MDXQ9Z2H2TC">
+					<input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_SM.gif"
+					       border="0" name="submit" alt="Mit PayPal spenden...">
+					<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1"
+					     height="1">
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="SkynetDialog-3">
+		<div class="nano">
+			<div class="nano-content" data-bind="foreach: history">
+				<h3 data-bind="text: date"></h3>
+				<p data-bind="html: summary"></p>
+				<p data-bind="text: _('changes')"></p>
+				<ul data-bind="foreach: changes">
+					<li data-bind="html: $data"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

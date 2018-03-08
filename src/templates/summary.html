@@ -1,0 +1,103 @@
+<div id="skynet_summary" class="skynet">
+	<div style="border-bottom: 1px solid #666666; margin-top: 0;" class="row">
+		<label style="cursor: pointer; margin: 0 0 2px; width: 16px;"
+		       class="ui-state-default ui-corner-all ui-icon ui-icon-arrowthick-1-w"
+		       data-bind="click: toggle"></label>
+		<label class="hdl" data-bind="visible: cP() === 'planet'">$planet$</label>
+		<label class="hdl" data-bind="visible: cP() === 'resources'">$overall resources$</label>
+		<label class="hdl" data-bind="visible: cP() === 'production'">$overall production$</label>
+		<label style="cursor: pointer; margin: 0 0 2px; width: 16px; float: right;"
+		       class="ui-state-default ui-corner-all ui-icon ui-icon-arrowthick-1-e"
+		       data-bind="click: toggle"></label>
+	</div>
+	<div style="font-weight: 700" data-bind="if: cP() === 'planet'">
+		<div class="row">
+			<label class="first"></label>
+			<label>$metal$</label>
+			<label>$crystal$</label>
+			<label>$deuterium$</label>
+		</div>
+		<div class="row">
+			<label class="first">$production$</label>
+			<label class="undermark" data-bind="text: prod.metal"></label>
+			<label class="undermark" data-bind="text: prod.crystal"></label>
+			<label class="undermark" data-bind="text: prod.deuterium"></label>
+		</div>
+		<div class="row">
+			<label class="first">$available$</label>
+			<label data-bind="text: res.metal, css: resStat.metal"></label>
+			<label data-bind="text: res.crystal, css: resStat.crystal"></label>
+			<label data-bind="text: res.deuterium, css: resStat.deuterium"></label>
+		</div>
+		<div class="row">
+			<label class="first">$storage$</label>
+			<label data-bind="text: sto.metal"></label>
+			<label data-bind="text: sto.crystal"></label>
+			<label data-bind="text: sto.deuterium"></label>
+		</div>
+		<div class="row">
+			<label class="first"> $storage cap reached$</label>
+			<label class="c_timer" data-bind="text: stoCap.metal"></label>
+			<label class="c_timer" data-bind="text: stoCap.crystal"></label>
+			<label class="c_timer" data-bind="text: stoCap.deuterium"></label>
+		</div>
+	</div>
+	<div style="font-weight: 700" data-bind="if: cP() === 'resources'">
+		<div class="row">
+			<label class="first"></label>
+			<label>$metal$</label>
+			<label>$crystal$</label>
+			<label>$deuterium$</label>
+		</div>
+		<div class="row">
+			<label class="first">$stationary$</label>
+			<label class="undermark" data-bind="text: sta.metal"></label>
+			<label class="undermark" data-bind="text: sta.crystal"></label>
+			<label class="undermark" data-bind="text: sta.deuterium"></label>
+		</div>
+		<div class="row">
+			<label class="first">$transit$</label>
+			<label class="undermark" data-bind="text: tra.metal"></label>
+			<label class="undermark" data-bind="text: tra.crystal"></label>
+			<label class="undermark" data-bind="text: tra.deuterium"></label>
+		</div>
+		<div class="row"  style="border-top: 1px solid #666666; margin-top: 4px;">
+			<label class="first">$overall$</label>
+			<label class="undermark" data-bind="text: resOv.metal"></label>
+			<label class="undermark" data-bind="text: resOv.crystal"></label>
+			<label class="undermark" data-bind="text: resOv.deuterium"></label>
+		</div>
+	</div>
+	<div style="font-weight: 700" data-bind="if: cP() === 'production'">
+		<div class="row">
+			<label class="first"></label>
+			<label>$metal$</label>
+			<label>$crystal$</label>
+			<label>$deuterium$</label>
+		</div>
+		<div class="row">
+			<label class="first">$per hour$</label>
+			<label class="undermark" data-bind="text: prodH.metal"></label>
+			<label class="undermark" data-bind="text: prodH.crystal"></label>
+			<label class="undermark" data-bind="text: prodH.deuterium"></label>
+		</div>
+		<div class="row">
+			<label class="first">$per day$</label>
+			<label class="undermark" data-bind="text: prodD.metal"></label>
+			<label class="undermark" data-bind="text: prodD.crystal"></label>
+			<label class="undermark" data-bind="text: prodD.deuterium"></label>
+		</div>
+		<div class="row">
+			<label class="first">$per week$</label>
+			<label class="undermark" data-bind="text: prodW.metal"></label>
+			<label class="undermark" data-bind="text: prodW.crystal"></label>
+			<label class="undermark" data-bind="text: prodW.deuterium"></label>
+		</div>
+		<div class="row">
+			<label class="first">$rate$</label>
+			<label data-bind="text: rate.metal"></label>
+			<label data-bind="text: rate.crystal"></label>
+			<label data-bind="text: rate.deuterium"></label>
+		</div>
+	</div>
+</div>
