@@ -1,0 +1,335 @@
+{
+  "about": {
+    "message": "About"
+  },
+  "activate_skynet": {
+    "message": "Activate Skynet for this universe"
+  },
+  "age": {
+    "message": "Age"
+  },
+  "amount": {
+    "message": "Amount"
+  },
+  "animation": {
+    "message": "Animation"
+  },
+  "attack": {
+    "message": "Attack"
+  },
+  "auto_collapse_events": {
+    "message": "Hide Events automatically"
+  },
+  "available": {
+    "message": "Inventory"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "changes": {
+    "message": "Changes"
+  },
+  "change_galaxy_rows": {
+    "message": "Change row height in galaxy view"
+  },
+  "change_layout": {
+    "message": "Change layout (recommended for high resolution)"
+  },
+  "change_planet_list_layout": {
+    "message": "Change planet list layout"
+  },
+  "close": {
+    "message": "X"
+  },
+  "collapse_header": {
+    "message": "Collapse headers where possible"
+  },
+  "colors": {
+    "message": "Colors"
+  },
+  "crystal": {
+    "message": "Crystal"
+  },
+  "Danish": {
+    "message": "Danish"
+  },
+  "deactivate_finished_research": {
+    "message": "deactivate unnecessary research"
+  },
+  "debris_color": {
+    "message": "Color for marked debris"
+  },
+  "debris_size": {
+    "message": "Minimum size for marked debris"
+  },
+  "defense": {
+    "message": "Defense"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "deuterium": {
+    "message": "Deuterium"
+  },
+  "developer": {
+    "message": "Developer"
+  },
+  "DialogTitle": {
+    "message": "$1 $2"
+  },
+  "donate_message": {
+    "message": "If you like Skynet, and want to send me a little motivation, please use the button below."
+  },
+  "enhance_event_list": {
+    "message": "Enhance event list"
+  },
+  "enhance_spy": {
+    "message": "Enhance Espionage Reports (Analyse Resources)"
+  },
+  "expedition": {
+    "message": "Expedition"
+  },
+  "expo_points": {
+    "message": "Expopoints"
+  },
+  "ExtensionDescription": {
+    "message": "The next generation ogaming..."
+  },
+  "ExtensionName": {
+    "message": "Skynet"
+  },
+  "fleet": {
+    "message": "Fleet"
+  },
+  "flight_time": {
+    "message": "Flight Time"
+  },
+  "gain": {
+    "message": "Gain"
+  },
+  "galaxy": {
+    "message": "Galaxy"
+  },
+  "galaxy_row_size": {
+    "message": "Row height (px)"
+  },
+  "galaxy_show_stats": {
+    "message": "Show Standings"
+  },
+  "general": {
+    "message": "General"
+  },
+  "hint": {
+    "message": "Hint"
+  },
+  "hint_ignore": {
+    "message": "Planet will be grayed out in the galaxy view"
+  },
+  "history": {
+    "message": "History"
+  },
+  "Hungarian": {
+    "message": "Hungarian"
+  },
+  "ignore": {
+    "message": "Ignore"
+  },
+  "Italian": {
+    "message": "Italian"
+  },
+  "layout": {
+    "message": "Layout"
+  },
+  "loot": {
+    "message": "Possible Loot ($1%)"
+  },
+  "mark_debris": {
+    "message": "Mark Debris"
+  },
+  "mark_position_in_galaxy": {
+    "message": "Highlight selected position in galaxy view."
+  },
+  "metal": {
+    "message": "Metal"
+  },
+  "most_wanted": {
+    "message": "most wanted"
+  },
+  "never": {
+    "message": "never"
+  },
+  "new_report": {
+    "message": "New Report"
+  },
+  "no_ship": {
+    "message": "No Ship"
+  },
+  "other": {
+    "message": "Other"
+  },
+  "outdated_data": {
+    "message": "No or outdated information"
+  },
+  "overall": {
+    "message": "Overall"
+  },
+  "overall_production": {
+    "message": "Overall Production"
+  },
+  "overall_resources": {
+    "message": "Overall Resources"
+  },
+  "per_day": {
+    "message": "Per Day"
+  },
+  "per_hour": {
+    "message": "Per Hour"
+  },
+  "per_week": {
+    "message": "Per Week"
+  },
+  "personal_max_expo_points": {
+    "message": "Personal maximum expedition fleet size (Expopoints)"
+  },
+  "planet": {
+    "message": "Planet"
+  },
+  "Polish": {
+    "message": "Polish"
+  },
+  "Portuguese": {
+    "message": "Portuguese"
+  },
+  "position": {
+    "message": "Position"
+  },
+  "position_in_galaxy_color": {
+    "message": "Color for highlighted position"
+  },
+  "prefer_fast_transport": {
+    "message": "Use Small Cargo if possible"
+  },
+  "problem": {
+    "message": "Problem"
+  },
+  "production": {
+    "message": "Production"
+  },
+  "Raidar": {
+    "message": "Raidar"
+  },
+  "rate": {
+    "message": "Ratio"
+  },
+  "required_capacity": {
+    "message": "Required Capacity"
+  },
+  "reset_config": {
+    "message": "Delete settings"
+  },
+  "resource_ratio": {
+    "message": "Resource Ratio"
+  },
+  "resources": {
+    "message": "Resources"
+  },
+  "revoke_ignore": {
+    "message": "Revoke Ignore"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "send_espionage_on_expedition": {
+    "message": "Send one espionage probe on expedition"
+  },
+  "send_transporters_only_on_expedition": {
+    "message": "Send transporters only on expedition"
+  },
+  "set_mission_colonize": {
+    "message": "Set mission \"Colonization\", if fleet contains Colony Ships"
+  },
+  "set_mission_espionage": {
+    "message": "Set mission \"Espionage\", if fleet contains Espionage Probes only"
+  },
+  "set_mission_recycle": {
+    "message": "Set mission \"Recycle debris field\", if fleet contains Recycler"
+  },
+  "settings": {
+    "message": "Settings"
+  },
+  "ship": {
+    "message": "Ship"
+  },
+  "ship_for_instant_attack": {
+    "message": "Ship for instant attack"
+  },
+  "show_expedition_button": {
+    "message": "Show Button for Expedition"
+  },
+  "show_osimulate": {
+    "message": "Show OSimulate button"
+  },
+  "show_production": {
+    "message": "Show production"
+  },
+  "show_return_countdown": {
+    "message": "Show Countdown for Fleet recall"
+  },
+  "show_speedsim": {
+    "message": "Show SpeedSim button"
+  },
+  "show_summary": {
+    "message": "Show Summary on Overview Page"
+  },
+  "show_transport_button": {
+    "message": "Show Transport Button"
+  },
+  "show_trashsim": {
+    "message": "Show TrashSim Button"
+  },
+  "Spanish": {
+    "message": "Spanish"
+  },
+  "spyreport": {
+    "message": "Espionage Reports"
+  },
+  "stationary": {
+    "message": "Stationary"
+  },
+  "storage_cap_reached": {
+    "message": "Capacity reached"
+  },
+  "storage": {
+    "message": "Storage Capacity"
+  },
+  "strongest_ship_for_expedition": {
+    "message": "Strongest Ship for Expedition"
+  },
+  "Swedish": {
+    "message": "Swedish"
+  },
+  "tester": {
+    "message": "Tester"
+  },
+  "timer": {
+    "message": "Timer"
+  },
+  "transit": {
+    "message": "On Transit"
+  },
+  "translator": {
+    "message": "Translator"
+  },
+  "transport_capacity": {
+    "message": "Transport Capacity"
+  },
+  "transport": {
+    "message": "Transport"
+  },
+  "Turkish": {
+    "message": "Turkish"
+  },
+  "update_needed": {
+    "message": "Page load necessary"
+  }
+}

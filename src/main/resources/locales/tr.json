@@ -1,0 +1,335 @@
+{
+  "about": {
+    "message": "Hakkında"
+  },
+  "activate_skynet": {
+    "message": "Giriş yaptığınız evren için Skynet'i aktif hale getirin."
+  },
+  "age": {
+    "message": "Geçen Süre"
+  },
+  "amount": {
+    "message": "Miktar"
+  },
+  "animation": {
+    "message": "Animasyon"
+  },
+  "attack": {
+    "message": "Saldırı"
+  },
+  "auto_collapse_events": {
+    "message": "Hide Events automatically"
+  },
+  "available": {
+    "message": "Envanter"
+  },
+  "cancel": {
+    "message": "Iptal"
+  },
+  "changes": {
+    "message": "Değişiklikler"
+  },
+  "change_galaxy_rows": {
+    "message": "Galaksi görünümünde satır yüksekliğini değiştir."
+  },
+  "change_layout": {
+    "message": "Düzeni Değiştir (Yüksek çözünürlük tavsiye edilir.)"
+  },
+  "change_planet_list_layout": {
+    "message": "Gezegen listesinin düzenini değiştir."
+  },
+  "close": {
+    "message": "X"
+  },
+  "collapse_header": {
+    "message": "Collapse headers where possible"
+  },
+  "colors": {
+    "message": "Renkler"
+  },
+  "crystal": {
+    "message": "Kristal"
+  },
+  "Danish": {
+    "message": "Danimarkalı"
+  },
+  "deactivate_finished_research": {
+    "message": "Gereksiz araştırmaları devre dışı bırak"
+  },
+  "debris_color": {
+    "message": "İşaretli harabeyi renklendir"
+  },
+  "debris_size": {
+    "message": "İşaretli enkaz için minimum boyut"
+  },
+  "defense": {
+    "message": "Defans"
+  },
+  "delete": {
+    "message": "Sil"
+  },
+  "deuterium": {
+    "message": "Deuterium"
+  },
+  "developer": {
+    "message": "Geliştirici"
+  },
+  "DialogTitle": {
+    "message": "$1 $2"
+  },
+  "donate_message": {
+    "message": "Eğer Skynet'i beğendiyseniz ve beni motive etmek istiyorsanız, lütfen aşağıdaki butonu kullanın."
+  },
+  "enhance_event_list": {
+    "message": "Etkinlik listesini geliştirin"
+  },
+  "enhance_spy": {
+    "message": "Casusluk Raporlarını geliştirin. (Analiz Kaynakları)"
+  },
+  "expedition": {
+    "message": "Keşif"
+  },
+  "expo_points": {
+    "message": "Keşif Puanları"
+  },
+  "ExtensionDescription": {
+    "message": "Gelecek nesil için ogame..."
+  },
+  "ExtensionName": {
+    "message": "Skynet"
+  },
+  "fleet": {
+    "message": "Filo"
+  },
+  "flight_time": {
+    "message": "Uçuş Süresi"
+  },
+  "gain": {
+    "message": "Kâr"
+  },
+  "galaxy": {
+    "message": "Galaksi"
+  },
+  "galaxy_row_size": {
+    "message": "Satır Yüksekliği (px)"
+  },
+  "galaxy_show_stats": {
+    "message": "Sıralamayı göster"
+  },
+  "general": {
+    "message": "Genel"
+  },
+  "hint": {
+    "message": "İpucu"
+  },
+  "hint_ignore": {
+    "message": "Galaksi görünümünde gezegen gri renkte olacaktır."
+  },
+  "history": {
+    "message": "Geçmiş"
+  },
+  "Hungarian": {
+    "message": "Macarca"
+  },
+  "ignore": {
+    "message": "Engelle/YokSay"
+  },
+  "Italian": {
+    "message": "Italyanca"
+  },
+  "layout": {
+    "message": "Düzen(leme)"
+  },
+  "loot": {
+    "message": "Tahmini Ganimet ($1%)"
+  },
+  "mark_debris": {
+    "message": "Harabeyi İşaretle"
+  },
+  "mark_position_in_galaxy": {
+    "message": "Galaksi görünümünde seçili pozisyonu vurgulayın."
+  },
+  "metal": {
+    "message": "Metal"
+  },
+  "most_wanted": {
+    "message": "En çok Aranan"
+  },
+  "never": {
+    "message": "Asla"
+  },
+  "new_report": {
+    "message": "Yeni Rapor"
+  },
+  "no_ship": {
+    "message": "Gemi Yok"
+  },
+  "other": {
+    "message": "Diğer"
+  },
+  "outdated_data": {
+    "message": "No or outdated information"
+  },
+  "overall": {
+    "message": "Toplam"
+  },
+  "overall_production": {
+    "message": "Toplam Üretim"
+  },
+  "overall_resources": {
+    "message": "Toplam Kaynaklar"
+  },
+  "per_day": {
+    "message": "Günlük"
+  },
+  "per_hour": {
+    "message": "Saatlik"
+  },
+  "per_week": {
+    "message": "Haftalık"
+  },
+  "personal_max_expo_points": {
+    "message": "Kişisel azami keşif filo büyüklüğü (Keşif Puanları)"
+  },
+  "planet": {
+    "message": "Gezegen"
+  },
+  "Polish": {
+    "message": "Lehçe"
+  },
+  "Portuguese": {
+    "message": "Portekizce"
+  },
+  "position": {
+    "message": "Pozisyon"
+  },
+  "position_in_galaxy_color": {
+    "message": "Vurgulanmış pozisyonları renklendirin"
+  },
+  "prefer_fast_transport": {
+    "message": "Mümkün olduğunda küçük nakliyeyi kullanın"
+  },
+  "problem": {
+    "message": "Problem"
+  },
+  "production": {
+    "message": "Üretim"
+  },
+  "Raidar": {
+    "message": "Raidar"
+  },
+  "rate": {
+    "message": "Oran"
+  },
+  "required_capacity": {
+    "message": "Gerekli Kapasite"
+  },
+  "reset_config": {
+    "message": "Ayarları Sil"
+  },
+  "resource_ratio": {
+    "message": "Kaynak Oranı"
+  },
+  "resources": {
+    "message": "Kaynaklar"
+  },
+  "revoke_ignore": {
+    "message": "Yoksaymayı Iptal Et"
+  },
+  "save": {
+    "message": "Kaydet"
+  },
+  "send_espionage_on_expedition": {
+    "message": "Keşfe tek casus sondası gönder"
+  },
+  "send_transporters_only_on_expedition": {
+    "message": "Keşfe sadece nakliyeleri gönder"
+  },
+  "set_mission_colonize": {
+    "message": "Görevi Ayarla \"Kolonileştirmek\", Eğer filonda Koloni Gemisi varsa"
+  },
+  "set_mission_espionage": {
+    "message": "Görevi Ayarla \"Casusluk\", Eğer filonda sadece Casus Sondası varsa"
+  },
+  "set_mission_recycle": {
+    "message": "Görevi Ayarla \"Enkaz Alanını Sök\", Eğer filonda geri dönüşümcü varsa"
+  },
+  "settings": {
+    "message": "Ayarlar"
+  },
+  "ship": {
+    "message": "Gemi"
+  },
+  "ship_for_instant_attack": {
+    "message": "Anlık saldırı için gemi"
+  },
+  "show_expedition_button": {
+    "message": "Keşif için Butonu Göster"
+  },
+  "show_osimulate": {
+    "message": "OSimulate Butonunu Göster "
+  },
+  "show_production": {
+    "message": "Üretimi Göster"
+  },
+  "show_return_countdown": {
+    "message": "Filo Geri Çağırma için Geri Sayımı Göster"
+  },
+  "show_speedsim": {
+    "message": "SpeedSim Butonunu Göster"
+  },
+  "show_summary": {
+    "message": "Genel Bakış Sayfasında Özeti Göster"
+  },
+  "show_transport_button": {
+    "message": "Nakliye Butonunu Göster"
+  },
+  "show_trashsim": {
+    "message": "TrashSim Butonunu Göster"
+  },
+  "Spanish": {
+    "message": "Ispanyolca"
+  },
+  "spyreport": {
+    "message": "Casusluk Raporları"
+  },
+  "stationary": {
+    "message": "Mevcut Bulunan"
+  },
+  "storage_cap_reached": {
+    "message": "Kapasite Dolum Süresi"
+  },
+  "storage": {
+    "message": "Depo Kapasitesi"
+  },
+  "strongest_ship_for_expedition": {
+    "message": "Keşif için En Güçlü Gemi"
+  },
+  "Swedish": {
+    "message": "İsveççe"
+  },
+  "tester": {
+    "message": "Tester"
+  },
+  "timer": {
+    "message": "Kronometre"
+  },
+  "transit": {
+    "message": "On Transit"
+  },
+  "translator": {
+    "message": "Çevirmen"
+  },
+  "transport_capacity": {
+    "message": "Taşıma Kapasitesi"
+  },
+  "transport": {
+    "message": "Nakliye"
+  },
+  "Turkish": {
+    "message": "Türk"
+  },
+  "update_needed": {
+    "message": "Sayfanın yüklenmesi gerekiyor"
+  }
+}

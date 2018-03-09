@@ -1,0 +1,335 @@
+{
+  "about": {
+    "message": "Om"
+  },
+  "activate_skynet": {
+    "message": "Aktivera Skynet för det här universumet"
+  },
+  "age": {
+    "message": "Ålder"
+  },
+  "amount": {
+    "message": "Mängd"
+  },
+  "animation": {
+    "message": "Animation"
+  },
+  "attack": {
+    "message": "Attack"
+  },
+  "auto_collapse_events": {
+    "message": "Hide Events automatically"
+  },
+  "available": {
+    "message": "Lager"
+  },
+  "cancel": {
+    "message": "Avbryt"
+  },
+  "changes": {
+    "message": "Ändringar"
+  },
+  "change_galaxy_rows": {
+    "message": "Ändra radhöjd i Galaxvyn"
+  },
+  "change_layout": {
+    "message": "Ändra Layout (rekommenderas för hög upplösning)"
+  },
+  "change_planet_list_layout": {
+    "message": "Ändra layout för planetlista"
+  },
+  "close": {
+    "message": "X"
+  },
+  "collapse_header": {
+    "message": "Fäll ihop rubrik när det är möjligt"
+  },
+  "colors": {
+    "message": "Färger"
+  },
+  "crystal": {
+    "message": "Kristall"
+  },
+  "Danish": {
+    "message": "Danska"
+  },
+  "deactivate_finished_research": {
+    "message": "Inaktivera onödiga forskningar"
+  },
+  "debris_color": {
+    "message": "Färg på markerat vrakfält"
+  },
+  "debris_size": {
+    "message": "Minsta mängd för att markera vrakfält"
+  },
+  "defense": {
+    "message": "Försvar"
+  },
+  "delete": {
+    "message": "Ta bort"
+  },
+  "deuterium": {
+    "message": "Deuterium"
+  },
+  "developer": {
+    "message": "Utvecklare"
+  },
+  "DialogTitle": {
+    "message": "$1 $2"
+  },
+  "donate_message": {
+    "message": "Om du gillar Skynet och vill skicka lite motivation, klicka på knappen nedan."
+  },
+  "enhance_event_list": {
+    "message": "Förbättra eventlistan"
+  },
+  "enhance_spy": {
+    "message": "Förbättra spionrapporter (Analysera resurser)"
+  },
+  "expedition": {
+    "message": "Expedition"
+  },
+  "expo_points": {
+    "message": "Expeditionspoäng"
+  },
+  "ExtensionDescription": {
+    "message": "Nästa generations Ogameing..."
+  },
+  "ExtensionName": {
+    "message": "Skynet"
+  },
+  "fleet": {
+    "message": "Flotta"
+  },
+  "flight_time": {
+    "message": "Flygtid"
+  },
+  "gain": {
+    "message": "Tjäna"
+  },
+  "galaxy": {
+    "message": "Galax"
+  },
+  "galaxy_row_size": {
+    "message": "Radhöjd (px)"
+  },
+  "galaxy_show_stats": {
+    "message": "Visa ställning"
+  },
+  "general": {
+    "message": "Allmänt"
+  },
+  "hint": {
+    "message": "Ledtråd"
+  },
+  "hint_ignore": {
+    "message": "Planeten kommer bli grå i Galaxvyn"
+  },
+  "history": {
+    "message": "Historik"
+  },
+  "Hungarian": {
+    "message": "Ungerska"
+  },
+  "ignore": {
+    "message": "Ignorera"
+  },
+  "Italian": {
+    "message": "Italiensk"
+  },
+  "layout": {
+    "message": "Layout"
+  },
+  "loot": {
+    "message": "Möjlig Plundring ($1%)"
+  },
+  "mark_debris": {
+    "message": "Markera vrakfält"
+  },
+  "mark_position_in_galaxy": {
+    "message": "Markera vald position i Galaxvyn."
+  },
+  "metal": {
+    "message": "Metall"
+  },
+  "most_wanted": {
+    "message": "önskas"
+  },
+  "never": {
+    "message": "aldrig"
+  },
+  "new_report": {
+    "message": "Ny rapport"
+  },
+  "no_ship": {
+    "message": "Inga skepp"
+  },
+  "other": {
+    "message": "Annat"
+  },
+  "outdated_data": {
+    "message": "No or outdated information"
+  },
+  "overall": {
+    "message": "Sammanfattning"
+  },
+  "overall_production": {
+    "message": "Sammanfattning Produktion"
+  },
+  "overall_resources": {
+    "message": "Sammanfattning Resurser"
+  },
+  "per_day": {
+    "message": "Per Dag"
+  },
+  "per_hour": {
+    "message": "Per Timme"
+  },
+  "per_week": {
+    "message": "Per Vecka"
+  },
+  "personal_max_expo_points": {
+    "message": "Personlig maxstorlek på Expeditionsflottan (Expeditionspoäng)"
+  },
+  "planet": {
+    "message": "Planet"
+  },
+  "Polish": {
+    "message": "Polska"
+  },
+  "Portuguese": {
+    "message": "Portugisiska"
+  },
+  "position": {
+    "message": "Position"
+  },
+  "position_in_galaxy_color": {
+    "message": "Färg på markerad position"
+  },
+  "prefer_fast_transport": {
+    "message": "Använd små transportskepp om möjligt"
+  },
+  "problem": {
+    "message": "Problem"
+  },
+  "production": {
+    "message": "Produktion"
+  },
+  "Raidar": {
+    "message": "Raidar"
+  },
+  "rate": {
+    "message": "Ratio"
+  },
+  "required_capacity": {
+    "message": "Kapacitet som krävs"
+  },
+  "reset_config": {
+    "message": "Radera inställningar"
+  },
+  "resource_ratio": {
+    "message": "Resursratio"
+  },
+  "resources": {
+    "message": "Resurser"
+  },
+  "revoke_ignore": {
+    "message": "Återkalla Ignorera"
+  },
+  "save": {
+    "message": "Spara"
+  },
+  "send_espionage_on_expedition": {
+    "message": "Skicka en spionsond på expedition"
+  },
+  "send_transporters_only_on_expedition": {
+    "message": "Skicka endast transporter på expedition"
+  },
+  "set_mission_colonize": {
+    "message": "Välj uppdrag \"Kolonisera\", om flottan innehåller koloniskepp"
+  },
+  "set_mission_espionage": {
+    "message": "Välj uppdrag \"Spionera\", Om flottan enbart består av spionsonder"
+  },
+  "set_mission_recycle": {
+    "message": "Välj uppdrag \"Återvinn\", om flottan innehåller återvinnare"
+  },
+  "settings": {
+    "message": "Inställningar"
+  },
+  "ship": {
+    "message": "Skepp"
+  },
+  "ship_for_instant_attack": {
+    "message": "Skepp för omgående attack"
+  },
+  "show_expedition_button": {
+    "message": "Visa knapp för expedition"
+  },
+  "show_osimulate": {
+    "message": "Visa OSimulate knapp"
+  },
+  "show_production": {
+    "message": "Visa produktion"
+  },
+  "show_return_countdown": {
+    "message": "Visa nedräkning för flottans returtid"
+  },
+  "show_speedsim": {
+    "message": "Visa SpeedSim knapp"
+  },
+  "show_summary": {
+    "message": "Visa Sammanfattning på översiktssidan"
+  },
+  "show_transport_button": {
+    "message": "Visa Transportera-knapp"
+  },
+  "show_trashsim": {
+    "message": "Visa TrashSim knapp"
+  },
+  "Spanish": {
+    "message": "Spanska"
+  },
+  "spyreport": {
+    "message": "Spionrapporter"
+  },
+  "stationary": {
+    "message": "I lager"
+  },
+  "storage_cap_reached": {
+    "message": "Kapacitet nådd"
+  },
+  "storage": {
+    "message": "Lagringskapacitet"
+  },
+  "strongest_ship_for_expedition": {
+    "message": "Starkaste skepp för expedition"
+  },
+  "Swedish": {
+    "message": "Svenska"
+  },
+  "tester": {
+    "message": "Testare"
+  },
+  "timer": {
+    "message": "Timer"
+  },
+  "transit": {
+    "message": "På väg"
+  },
+  "translator": {
+    "message": "Översättare"
+  },
+  "transport_capacity": {
+    "message": "Transportkapacitet"
+  },
+  "transport": {
+    "message": "Transport"
+  },
+  "Turkish": {
+    "message": "Turkiska"
+  },
+  "update_needed": {
+    "message": "Sidladdning behövs"
+  }
+}

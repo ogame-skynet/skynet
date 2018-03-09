@@ -1,0 +1,335 @@
+{
+  "about": {
+    "message": "Om"
+  },
+  "activate_skynet": {
+    "message": "Aktiver Skynet for denne univers"
+  },
+  "age": {
+    "message": "Alder"
+  },
+  "amount": {
+    "message": "Antal"
+  },
+  "animation": {
+    "message": "Animation"
+  },
+  "attack": {
+    "message": "Angrib"
+  },
+  "auto_collapse_events": {
+    "message": "Hide Events automatically"
+  },
+  "available": {
+    "message": " Inventar"
+  },
+  "cancel": {
+    "message": "Annuller"
+  },
+  "changes": {
+    "message": "Ændringer"
+  },
+  "change_galaxy_rows": {
+    "message": " Ændre rækkehøjden i galakse oversigt"
+  },
+  "change_layout": {
+    "message": "Skift layout (Anbefalet for høje opløsninger)"
+  },
+  "change_planet_list_layout": {
+    "message": "Ændre planet liste layout"
+  },
+  "close": {
+    "message": "X"
+  },
+  "collapse_header": {
+    "message": "Kollaps headere hvor det er muligt"
+  },
+  "colors": {
+    "message": "Farver"
+  },
+  "crystal": {
+    "message": "Krystal"
+  },
+  "Danish": {
+    "message": "Danske"
+  },
+  "deactivate_finished_research": {
+    "message": "Deaktiver unødvendig forskning"
+  },
+  "debris_color": {
+    "message": "Farve for markeret ruinmark"
+  },
+  "debris_size": {
+    "message": "Minimum størrelsen for markeret ruinmark"
+  },
+  "defense": {
+    "message": "Forsvar"
+  },
+  "delete": {
+    "message": "Slet"
+  },
+  "deuterium": {
+    "message": "Deuterium"
+  },
+  "developer": {
+    "message": "Udvikler"
+  },
+  "DialogTitle": {
+    "message": "$1 $2"
+  },
+  "donate_message": {
+    "message": "Hvis du kan lide Skynet, og gerne vil sende mig lidt motivation, så vær venlig og bruge knappen nedunder."
+  },
+  "enhance_event_list": {
+    "message": "Forbedret arrangement liste"
+  },
+  "enhance_spy": {
+    "message": "Forbedret spionage rapporter (Analyser ressourcer)"
+  },
+  "expedition": {
+    "message": "Ekspedition"
+  },
+  "expo_points": {
+    "message": "Ekspeditions point"
+  },
+  "ExtensionDescription": {
+    "message": "Den næste generation af ogaming..."
+  },
+  "ExtensionName": {
+    "message": "Skynet"
+  },
+  "fleet": {
+    "message": "Flåde"
+  },
+  "flight_time": {
+    "message": "Flyve tid"
+  },
+  "gain": {
+    "message": "Profit"
+  },
+  "galaxy": {
+    "message": "Galakse"
+  },
+  "galaxy_row_size": {
+    "message": "Rækkens højde (px)"
+  },
+  "galaxy_show_stats": {
+    "message": "Vis placeringer"
+  },
+  "general": {
+    "message": "Generelt"
+  },
+  "hint": {
+    "message": "Hint"
+  },
+  "hint_ignore": {
+    "message": "Planeterne vil blive gråt ud i galakse oversigten"
+  },
+  "history": {
+    "message": "Historik"
+  },
+  "Hungarian": {
+    "message": "Ungarsk"
+  },
+  "ignore": {
+    "message": "Ignorer"
+  },
+  "Italian": {
+    "message": "Italiensk"
+  },
+  "layout": {
+    "message": "Layout"
+  },
+  "loot": {
+    "message": "Mulige udbytte ($1%)"
+  },
+  "mark_debris": {
+    "message": "Marker ruinmark"
+  },
+  "mark_position_in_galaxy": {
+    "message": "Highlight udvalgte positioner i galakse oversigten."
+  },
+  "metal": {
+    "message": "Metal"
+  },
+  "most_wanted": {
+    "message": "mest ønskede"
+  },
+  "never": {
+    "message": "aldrig"
+  },
+  "new_report": {
+    "message": "Ny rapport"
+  },
+  "no_ship": {
+    "message": "Ingen Skibe"
+  },
+  "other": {
+    "message": "Andre"
+  },
+  "outdated_data": {
+    "message": "Ingen eller forældet information"
+  },
+  "overall": {
+    "message": "Samlet"
+  },
+  "overall_production": {
+    "message": "Samlet Produktion"
+  },
+  "overall_resources": {
+    "message": "Samlede Ressourcer"
+  },
+  "per_day": {
+    "message": "Per Dag"
+  },
+  "per_hour": {
+    "message": "Per Time"
+  },
+  "per_week": {
+    "message": "Per Uge"
+  },
+  "personal_max_expo_points": {
+    "message": "Personlig maksimal ekspeditions flåde størrelse (Ekspeditions point)"
+  },
+  "planet": {
+    "message": "Planet"
+  },
+  "Polish": {
+    "message": "Polsk"
+  },
+  "Portuguese": {
+    "message": "Portugisisk"
+  },
+  "position": {
+    "message": "Position"
+  },
+  "position_in_galaxy_color": {
+    "message": "Farve for highlightet position"
+  },
+  "prefer_fast_transport": {
+    "message": "Brug Lille Transporter hvis muligt"
+  },
+  "problem": {
+    "message": "Problem"
+  },
+  "production": {
+    "message": "Produktion"
+  },
+  "Raidar": {
+    "message": "Raidar"
+  },
+  "rate": {
+    "message": "Ration"
+  },
+  "required_capacity": {
+    "message": " Nødvendig Kapacitet"
+  },
+  "reset_config": {
+    "message": "Slet Indstillinger"
+  },
+  "resource_ratio": {
+    "message": "Ressource Ration"
+  },
+  "resources": {
+    "message": "Ressourcer"
+  },
+  "revoke_ignore": {
+    "message": "Ophæv Ignorer"
+  },
+  "save": {
+    "message": "Gem"
+  },
+  "send_espionage_on_expedition": {
+    "message": "Send en spionage sonde på ekspedition"
+  },
+  "send_transporters_only_on_expedition": {
+    "message": "Send kun transportere på ekspedition"
+  },
+  "set_mission_colonize": {
+    "message": "Set \"Colonization\" som mission, hvis flåden indeholder en Koloniskib"
+  },
+  "set_mission_espionage": {
+    "message": "Set \"Espionage\" som mission, hvis flåden indeholder en Spionage sonde"
+  },
+  "set_mission_recycle": {
+    "message": "Set \"Recycle debris field\" som mission, hvis flåden indeholder en Recycler"
+  },
+  "settings": {
+    "message": "Indstillinger"
+  },
+  "ship": {
+    "message": "Skibe"
+  },
+  "ship_for_instant_attack": {
+    "message": "Skibe til øjeblikkelig angreb"
+  },
+  "show_expedition_button": {
+    "message": "Vis Knap til Ekspedition"
+  },
+  "show_osimulate": {
+    "message": "Vis OSimulate knap"
+  },
+  "show_production": {
+    "message": "Vis produktion"
+  },
+  "show_return_countdown": {
+    "message": "Vis Nedtælling for flåde tilbagekaldelse"
+  },
+  "show_speedsim": {
+    "message": "Vis SpeedSim knap"
+  },
+  "show_summary": {
+    "message": "Vis Opsummering på Oversigt siden"
+  },
+  "show_transport_button": {
+    "message": "Vis Transport knap"
+  },
+  "show_trashsim": {
+    "message": "Vis TrashSim knap"
+  },
+  "Spanish": {
+    "message": "Spansk"
+  },
+  "spyreport": {
+    "message": "Spionage Rapporter"
+  },
+  "stationary": {
+    "message": "Stationer"
+  },
+  "storage_cap_reached": {
+    "message": "Kapaciteten er nået"
+  },
+  "storage": {
+    "message": " Lagerkapacitet"
+  },
+  "strongest_ship_for_expedition": {
+    "message": "Stærkeste Skib til Ekspedition"
+  },
+  "Swedish": {
+    "message": "Svensk"
+  },
+  "tester": {
+    "message": "Tester"
+  },
+  "timer": {
+    "message": "Timer"
+  },
+  "transit": {
+    "message": "På Transit"
+  },
+  "translator": {
+    "message": "Oversætter"
+  },
+  "transport_capacity": {
+    "message": "Transport Kapacitet"
+  },
+  "transport": {
+    "message": "Transport"
+  },
+  "Turkish": {
+    "message": "Tyrkisk"
+  },
+  "update_needed": {
+    "message": "Side genindlæsning er nødvendig"
+  }
+}

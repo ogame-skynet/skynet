@@ -1,0 +1,335 @@
+{
+  "about": {
+    "message": "Acerca de"
+  },
+  "activate_skynet": {
+    "message": "Activar Skynet en este universo"
+  },
+  "age": {
+    "message": "Age"
+  },
+  "amount": {
+    "message": "Cantidad"
+  },
+  "animation": {
+    "message": "Animation"
+  },
+  "attack": {
+    "message": "Attack"
+  },
+  "auto_collapse_events": {
+    "message": "Hide Events automatically"
+  },
+  "available": {
+    "message": "Inventario"
+  },
+  "cancel": {
+    "message": "Cancelar"
+  },
+  "changes": {
+    "message": "Changes"
+  },
+  "change_galaxy_rows": {
+    "message": "Cambiar la altura de la fila en la visión de galaxia"
+  },
+  "change_layout": {
+    "message": "Cambiar diseño (recomendado para alta resolución)"
+  },
+  "change_planet_list_layout": {
+    "message": "Cambiar el diseño de la lista de planetas"
+  },
+  "close": {
+    "message": "X"
+  },
+  "collapse_header": {
+    "message": "Esconder las cabeceras cuando sea posible"
+  },
+  "colors": {
+    "message": "Colores"
+  },
+  "crystal": {
+    "message": "Cristal"
+  },
+  "Danish": {
+    "message": "Danés"
+  },
+  "deactivate_finished_research": {
+    "message": "Desactivar investigación innecesaria"
+  },
+  "debris_color": {
+    "message": "Color para escombros marcados"
+  },
+  "debris_size": {
+    "message": "Tamaño mínimo para escombros marcados"
+  },
+  "defense": {
+    "message": "Defense"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "deuterium": {
+    "message": "Deuterio"
+  },
+  "developer": {
+    "message": "Desarrollador"
+  },
+  "DialogTitle": {
+    "message": "$1 $2"
+  },
+  "donate_message": {
+    "message": "Si te gusta Skynet y quieres enviarme una pequeña motivación, utiliza por favor el botón de abajo."
+  },
+  "enhance_event_list": {
+    "message": "Mejorar la lista de eventos"
+  },
+  "enhance_spy": {
+    "message": "Mejorar los Reportes de Espionaje (Analizar los recursos)"
+  },
+  "expedition": {
+    "message": "Expedición"
+  },
+  "expo_points": {
+    "message": "Puntos de expedición"
+  },
+  "ExtensionDescription": {
+    "message": "La siguiente generación ogamera..."
+  },
+  "ExtensionName": {
+    "message": "Skynet"
+  },
+  "fleet": {
+    "message": "Flota"
+  },
+  "flight_time": {
+    "message": "Tiempos de vuelo"
+  },
+  "gain": {
+    "message": "Gain"
+  },
+  "galaxy": {
+    "message": "Galaxia"
+  },
+  "galaxy_row_size": {
+    "message": "Altura de la fila (px)"
+  },
+  "galaxy_show_stats": {
+    "message": "Mostrar Clasificación"
+  },
+  "general": {
+    "message": "General"
+  },
+  "hint": {
+    "message": "Hint"
+  },
+  "hint_ignore": {
+    "message": "El planeta aparecerá en gris en la visión de galaxia"
+  },
+  "history": {
+    "message": "Historia"
+  },
+  "Hungarian": {
+    "message": "Húngaro"
+  },
+  "ignore": {
+    "message": "Ignorar"
+  },
+  "Italian": {
+    "message": "Italiano"
+  },
+  "layout": {
+    "message": "Diseño"
+  },
+  "loot": {
+    "message": "Posible botín ($1%)"
+  },
+  "mark_debris": {
+    "message": "Marcar escombros"
+  },
+  "mark_position_in_galaxy": {
+    "message": "Resaltar la posición seleccionada en la visión de galaxia."
+  },
+  "metal": {
+    "message": "Metal"
+  },
+  "most_wanted": {
+    "message": "Más buscado"
+  },
+  "never": {
+    "message": "Nunca"
+  },
+  "new_report": {
+    "message": "New Report"
+  },
+  "no_ship": {
+    "message": "No Ship"
+  },
+  "other": {
+    "message": "Otros"
+  },
+  "outdated_data": {
+    "message": "No or outdated information"
+  },
+  "overall": {
+    "message": "General"
+  },
+  "overall_production": {
+    "message": "Producción General"
+  },
+  "overall_resources": {
+    "message": "Recursos Generales"
+  },
+  "per_day": {
+    "message": "Por Día"
+  },
+  "per_hour": {
+    "message": "Por Hora"
+  },
+  "per_week": {
+    "message": "Por Semana"
+  },
+  "personal_max_expo_points": {
+    "message": "Tamaño máximo de la flota de expedición (Puntos de expedición)"
+  },
+  "planet": {
+    "message": "Planeta"
+  },
+  "Polish": {
+    "message": "Polish"
+  },
+  "Portuguese": {
+    "message": "Portugués"
+  },
+  "position": {
+    "message": "Position"
+  },
+  "position_in_galaxy_color": {
+    "message": "Color para la posición resaltada"
+  },
+  "prefer_fast_transport": {
+    "message": "Usar Nave pequeña de carga si es posible"
+  },
+  "problem": {
+    "message": "Problema"
+  },
+  "production": {
+    "message": "Producción"
+  },
+  "Raidar": {
+    "message": "Raidar"
+  },
+  "rate": {
+    "message": "Ratio"
+  },
+  "required_capacity": {
+    "message": "Capacidad requerida"
+  },
+  "reset_config": {
+    "message": "Borrar ajustes"
+  },
+  "resource_ratio": {
+    "message": "Resource Ratio"
+  },
+  "resources": {
+    "message": "Recursos"
+  },
+  "revoke_ignore": {
+    "message": "Revocar ignorar"
+  },
+  "save": {
+    "message": "Guardar"
+  },
+  "send_espionage_on_expedition": {
+    "message": "Enviar una sonda de espionaje en expedición"
+  },
+  "send_transporters_only_on_expedition": {
+    "message": "Enviar transportes sólo en expedición"
+  },
+  "set_mission_colonize": {
+    "message": "Seleccionar misión \"Colonización\", si la flota contiene Colonizadores"
+  },
+  "set_mission_espionage": {
+    "message": "Seleccionar misión \"Espionaje\", si la flota contiene sólo Sondas de espionaje"
+  },
+  "set_mission_recycle": {
+    "message": "Seleccionar misión \"Reciclar campo de escombros\", si la flota contiene Recicladores"
+  },
+  "settings": {
+    "message": "Ajustes"
+  },
+  "ship": {
+    "message": "Naves"
+  },
+  "ship_for_instant_attack": {
+    "message": "Ship for instant attack"
+  },
+  "show_expedition_button": {
+    "message": "Mostrar botón para expedición"
+  },
+  "show_osimulate": {
+    "message": "Mostrar botón de OSimulate"
+  },
+  "show_production": {
+    "message": "Mostrar producción"
+  },
+  "show_return_countdown": {
+    "message": "Mostrar la cuenta regresiva al retirar la flota"
+  },
+  "show_speedsim": {
+    "message": "Mostrar botón de SpeedSim"
+  },
+  "show_summary": {
+    "message": "Mostrar Resumen en Visión General"
+  },
+  "show_transport_button": {
+    "message": "Mostrar botón de transporte"
+  },
+  "show_trashsim": {
+    "message": "Mostrar botón de TrashSim"
+  },
+  "Spanish": {
+    "message": "Español"
+  },
+  "spyreport": {
+    "message": "Reportes de espionaje"
+  },
+  "stationary": {
+    "message": "Estacionario"
+  },
+  "storage_cap_reached": {
+    "message": "Capacidad total"
+  },
+  "storage": {
+    "message": "Capacidad de carga"
+  },
+  "strongest_ship_for_expedition": {
+    "message": "Naves más fuertes para Expedición"
+  },
+  "Swedish": {
+    "message": "Sueco"
+  },
+  "tester": {
+    "message": "Tester"
+  },
+  "timer": {
+    "message": "Temporizador"
+  },
+  "transit": {
+    "message": "En proceso"
+  },
+  "translator": {
+    "message": "Traductor"
+  },
+  "transport_capacity": {
+    "message": "Capacidad de Transporte"
+  },
+  "transport": {
+    "message": "Transporte"
+  },
+  "Turkish": {
+    "message": "Turco"
+  },
+  "update_needed": {
+    "message": "La carga de la página es necesaria"
+  }
+}
