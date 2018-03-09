@@ -23,38 +23,6 @@ The build system is [Gulp][gulp].
             - firefox: Firefox specific scripts
     - templates: HTML templates used by the extension
 
-## External Libraries ##
-
-### jQuery 2.2.1 ###
-http://code.jquery.com/jquery-2.2.1.min.js
-
-### jQuery Nanoscroller 0.8.7 ###
-https://github.com/jamesflorentino/nanoScrollerJS/releases/tag/0.8.7  
-The zip file contains the same minified version like this addon.
-
-### jQuery UI 1.11.4 ###
-This is a custom build.
-To review this version open the following link: http://jqueryui.com/themeroller/?ffDefault=Verdana%2C%20sans&fwDefault=bold&fsDefault=11px&cornerRadius=6px&bgColorHeader=333333&bgTextureHeader=gloss_wave&bgImgOpacityHeader=25&borderColorHeader=333333&fcHeader=ffffff&iconColorHeader=ffffff&bgColorContent=000000&bgTextureContent=inset_soft&bgImgOpacityContent=25&borderColorContent=666666&fcContent=ffffff&iconColorContent=cccccc&bgColorDefault=555555&bgTextureDefault=glass&bgImgOpacityDefault=20&borderColorDefault=666666&fcDefault=eeeeee&iconColorDefault=cccccc&bgColorHover=0078a3&bgTextureHover=glass&bgImgOpacityHover=40&borderColorHover=59b4d4&fcHover=ffffff&iconColorHover=ffffff&bgColorActive=444444&bgTextureActive=glass&bgImgOpacityActive=30&borderColorActive=555555&fcActive=ffffff&iconColorActive=222222&bgColorHighlight=eeeeee&bgTextureHighlight=highlight_soft&bgImgOpacityHighlight=80&borderColorHighlight=cccccc&fcHighlight=2e7db2&iconColorHighlight=4b8e0b&bgColorError=ffc73d&bgTextureError=glass&bgImgOpacityError=40&borderColorError=ffb73d&fcError=111111&iconColorError=a83300&bgColorOverlay=5c5c5c&bgTextureOverlay=flat&bgImgOpacityOverlay=50&opacityOverlay=80&bgColorShadow=cccccc&bgTextureShadow=flat&bgImgOpacityShadow=30&opacityShadow=60&thicknessShadow=7px&offsetTopShadow=-7px&offsetLeftShadow=-7px&cornerRadiusShadow=8px&ctl=themeroller
-It will open the official ThemeRoller of jQuery UI.
-Click the orange **Download theme** Button.
-Now uncheck the **Toggle All** checkbox.
-In the Widgets Section please check:
-
-- Accordion
-- Button
-- Dialog
-- Tabs
-- Tooltip
-
-Now add `.skynet` as **CSS Scope**
-
-Download the custom theme for Skynet.
-
-The files that Skynet uses will contain date stamps that will be different on every download!
-
-### knockout.js 3.4.2 ###
-http://knockoutjs.com/downloads/knockout-3.4.2.js
-
 ##Gulp
 
 To install all dependencies use: `npm install`
@@ -85,4 +53,34 @@ Choose universe **Bermuda**
 Username **Skynet**  
 Passwort: huxi54-Turta
 
+## External Libraries ##
+
+ - [jQuery v3.3.1][jquery]
+
+ - [jQuery UI - v1.12.1][jqueryui]  
+    This is a custom build. To review this version open the provided link. It will open the official
+    ThemeRoller of jQuery UI.  
+    Click the orange **Download theme** Button.  
+    Now uncheck the **Toggle All** checkbox.  
+    In the Widgets Section please check:
+    - Accordion
+    - Button
+    - Dialog
+    - Tabs
+    - Tooltip
+    
+    Now add `.skynet` as **CSS Scope** and download the custom theme for Skynet.
+    
+    The files used by Skynet have a new timestamp with every download!
+
+ - [Knockout JavaScript library v3.4.2][knockout]
+ 
+ - [nanoScrollerJS - v0.8.7][nanoscroller]  
+    The zip file contains the same minified version like this addon.
+
 [gulp]: https://github.com/gulpjs/gulp
+[jquery]: https://code.jquery.com/jquery-3.3.1.slim.min.js
+[jqueryui]: http://jqueryui.com/themeroller/?scope=.skynet&folderName=skynet&ctl=themeroller&bgImgOpacityError=40&bgImgOpacityHighlight=80&bgImgOpacityActive=30&bgImgOpacityHover=40&bgImgOpacityDefault=20&bgImgOpacityContent=25&bgImgOpacityHeader=25&cornerRadiusShadow=8px&offsetLeftShadow=-7px&offsetTopShadow=-7px&thicknessShadow=7px&opacityShadow=60&bgImgOpacityShadow=30&bgTextureShadow=flat&bgColorShadow=cccccc&opacityOverlay=80&bgImgOpacityOverlay=50&bgTextureOverlay=flat&bgColorOverlay=5c5c5c&iconColorError=a83300&fcError=111111&borderColorError=ffb73d&bgTextureError=glass&bgColorError=ffc73d&iconColorHighlight=4b8e0b&fcHighlight=2e7db2&borderColorHighlight=cccccc&bgTextureHighlight=highlight_soft&bgColorHighlight=eeeeee&iconColorActive=222222&fcActive=ffffff&borderColorActive=555555&bgTextureActive=glass&bgColorActive=444444&iconColorHover=ffffff&fcHover=ffffff&borderColorHover=59b4d4&bgTextureHover=glass&bgColorHover=0078a3&iconColorDefault=cccccc&fcDefault=eeeeee&borderColorDefault=666666&bgTextureDefault=glass&bgColorDefault=555555&iconColorContent=cccccc&fcContent=ffffff&borderColorContent=666666&bgTextureContent=inset_soft&bgColorContent=000000&iconColorHeader=ffffff&fcHeader=ffffff&borderColorHeader=333333&bgTextureHeader=gloss_wave&bgColorHeader=333333&cornerRadius=6px&fwDefault=bold&fsDefault=11px&ffDefault=Verdana%2C%20sans
+[knockout]: http://knockoutjs.com/downloads/knockout-3.4.2.js
+[mocha]: https://mochajs.org/
+[nanoscroller]: https://github.com/jamesflorentino/nanoScrollerJS/releases/tag/0.8.7
