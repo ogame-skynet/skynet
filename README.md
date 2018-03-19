@@ -8,21 +8,27 @@ The build system is [Gulp][gulp].
 
 ## Structure ##
 
-- src: all source code
-    - css: Cascading style sheets
-    - ext: External resources like jQuery, jQuery UI and Knockout
-    - gfx: Graphics
-    - i18n: Translations
-    - js: JavaScript resources
-        - backend: used in the background of the extension
-            - chrome: Chrome specific scripts
-            - firefox: Firefox specific scripts
-        - common: used both in the background and the content scripts
-        - content: content script usage only
-            - chrome: Chrome specific scripts
-            - firefox: Firefox specific scripts
-    - templates: HTML templates used by the extension
-
+    skynet /
+    ├── dist /
+    │   ├── chrome /            : Chrome distribution
+    │   └── firefox /           : Firefox distribution
+    ├── legacy /                : old code that is not yet migrated
+    │   ├── css /               : Cascading style sheets
+    │   ├── ext /               : External resources like jQuery, jQuery UI and Knockout
+    │   ├── js /                : JavaScript resources
+    │   │   ├── backend /       : used in the background of the extension
+    │   │   │   ├── chrome /    : Chrome specific scripts
+    │   │   │   └── firefox /   : Firefox specific scripts
+    │   │   ├── common /        : used both in the background and the content scripts
+    │   │   └── content /       : content script usage only
+    │   │       ├── chrome /    : Chrome specific scripts
+    │   │       └── firefox /   : Firefox specific scripts
+    │   └── templates /         : HTML templates used by the extension
+    └── src /                   : refactored and new code
+        └── main /
+            ├── js /            : JavaScript ECMAScript 2015, 2016, 2017
+            └── resources /     : Resources like images, locales and the manifest template
+    
 ##Gulp
 
 To install all dependencies use: `npm install`
@@ -32,6 +38,13 @@ In Addition Gulp-CLI should be installed globally: `npm i -g gulp-cli`
 With Gulp default task, the whole extension is build for Chrome and Firefox: `gulp`
 
 The destination directory is **dist**.
+
+## Chrome
+
+To test the extension in Chrome, you should have installed the
+[Chrome Apps & Extensions Developer Tool][chrome-apps-extension].  
+This is started separately.  
+You can then load the extension from the Chrome dist folder using **Load unpacked**.
 
 ###Firefox XPI
 
@@ -78,6 +91,7 @@ Passwort: huxi54-Turta
  - [nanoScrollerJS - v0.8.7][nanoscroller]  
     The zip file contains the same minified version like this addon.
 
+[chrome-apps-extension]: https://chrome.google.com/webstore/detail/chrome-apps-extensions-de/ohmmkhmmmpcnpikjeljgnaoabkaalbgc
 [gulp]: https://github.com/gulpjs/gulp
 [jquery]: https://code.jquery.com/jquery-3.3.1.slim.min.js
 [jqueryui]: http://jqueryui.com/themeroller/?scope=.skynet&folderName=skynet&ctl=themeroller&bgImgOpacityError=40&bgImgOpacityHighlight=80&bgImgOpacityActive=30&bgImgOpacityHover=40&bgImgOpacityDefault=20&bgImgOpacityContent=25&bgImgOpacityHeader=25&cornerRadiusShadow=8px&offsetLeftShadow=-7px&offsetTopShadow=-7px&thicknessShadow=7px&opacityShadow=60&bgImgOpacityShadow=30&bgTextureShadow=flat&bgColorShadow=cccccc&opacityOverlay=80&bgImgOpacityOverlay=50&bgTextureOverlay=flat&bgColorOverlay=5c5c5c&iconColorError=a83300&fcError=111111&borderColorError=ffb73d&bgTextureError=glass&bgColorError=ffc73d&iconColorHighlight=4b8e0b&fcHighlight=2e7db2&borderColorHighlight=cccccc&bgTextureHighlight=highlight_soft&bgColorHighlight=eeeeee&iconColorActive=222222&fcActive=ffffff&borderColorActive=555555&bgTextureActive=glass&bgColorActive=444444&iconColorHover=ffffff&fcHover=ffffff&borderColorHover=59b4d4&bgTextureHover=glass&bgColorHover=0078a3&iconColorDefault=cccccc&fcDefault=eeeeee&borderColorDefault=666666&bgTextureDefault=glass&bgColorDefault=555555&iconColorContent=cccccc&fcContent=ffffff&borderColorContent=666666&bgTextureContent=inset_soft&bgColorContent=000000&iconColorHeader=ffffff&fcHeader=ffffff&borderColorHeader=333333&bgTextureHeader=gloss_wave&bgColorHeader=333333&cornerRadius=6px&fwDefault=bold&fsDefault=11px&ffDefault=Verdana%2C%20sans
