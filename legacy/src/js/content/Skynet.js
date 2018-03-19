@@ -4,11 +4,6 @@
 /* exported Skynet */
 
 const Skynet = (function() {
-	(new Observer(document.documentElement)).listenToOnce('#eventboxContent', function() {
-		Observer.create(this).listenToOnce('#eventListWrap', function() {
-			detectEvents(this);
-		});
-	}, true);
 	var dlg, script;
 	const settings = ko.observableArray().extend({rateLimit: 50});
 	//noinspection JSUnresolvedVariable,JSUnresolvedFunction
@@ -190,6 +185,12 @@ const Skynet = (function() {
 			showSummarySmall(config, args[2], args[3]);
 		}
 	});
+
+	(new Observer(document.documentElement)).listenToOnce('#eventboxContent', function() {
+		Observer.create(this).listenToOnce('#eventListWrap', function() {
+			detectEvents(this);
+		});
+	}, true);
 
 	return _s;
 
