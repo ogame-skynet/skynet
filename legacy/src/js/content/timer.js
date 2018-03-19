@@ -43,7 +43,11 @@ const Timer = (function (_s) {
 
 	trigger();
 	trigger(true);
-	$().unload(function () {
+	//$().unload(function () {
+	//	clearTimeout(to);
+	//});
+	$(window).on("unload", function(e) {
+		console.log("Will this ever be called?");
 		clearTimeout(to);
 	});
 
