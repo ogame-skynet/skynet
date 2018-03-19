@@ -1,35 +1,62 @@
 {
-	"manifest_version": 2,
-	"name": "__MSG_ExtensionName__",
-	"description": "__MSG_ExtensionDescription__",
-	"version": "",
-	"version_name": "",
-	"author": "The Team",
-	"homepage_url": "https://github.com/ogame-skynet/skynet#readme",
-	"default_locale": "en",
-	"icons": {
-		"16": "gfx/icon_16.png",
-		"48": "gfx/icon_48.png",
-		"128": "gfx/icon_128.png"
-	},
-	"content_scripts": [
-		{
-			"matches": [
-				"*://*.ogame.gameforge.com/*"
-			],
-			"exclude_globs": [
-				"*board*",
-				"*support*"
-			],
-			"js": [
-				"js/content.js"
-			]
-		}
-	],
-	"applications": {
-		"gecko": {
-			"id": "jid1-j57LkwpAWjGJXw@jetpack",
-			"strict_min_version": "57"
-		}
-	}
+  "manifest_version": 2,
+  "name": "__MSG_ExtensionName__",
+  "description": "__MSG_ExtensionDescription__",
+  "version": "",
+  "version_name": "",
+  "author": "The Team",
+  "homepage_url": "https://github.com/ogame-skynet/skynet#readme",
+  "default_locale": "en",
+  "icons": {
+    "16": "gfx/icon_16.png",
+    "48": "gfx/icon_48.png",
+    "128": "gfx/icon_128.png"
+  },
+  "background": {
+    "scripts": [
+      "js/background.js"
+    ],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "css": [
+        "ext/nanoscroller.css",
+        "css/standard.css"
+      ],
+      "exclude_globs": [
+        "*board*",
+        "*support*"
+      ],
+      "js": [
+        "ext/knockout-3.4.2.js",
+        "ext/jquery-3.3.1.min.js",
+        "ext/jquery-ui.min.js",
+        "ext/jquery.nanoscroller.min.js",
+        "js/content.js"
+      ],
+      "matches": [
+        "*://*.ogame.gameforge.com/*"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "permissions": [
+    "storage",
+    "tabs",
+    "*://*.ogame.gameforge.com/"
+  ],
+  "web_accessible_resources": [
+    "ext/jquery-ui.min.css",
+    "ext/images/*",
+    "css/images.css",
+    "gfx/*",
+    "templates/*"
+  ],
+  "applications": {
+    "gecko": {
+      "id": "jid1-j57LkwpAWjGJXw@jetpack",
+      "strict_min_version": "57"
+    }
+  }
 }

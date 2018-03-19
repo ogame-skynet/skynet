@@ -2,6 +2,9 @@ import concat from 'gulp-concat';
 import del from 'del';
 import gulp from 'gulp';
 import jsonTransform from 'gulp-json-transform';
+//import merge from 'merge-stream';
+//import notify from 'gulp-notify';
+import order from 'gulp-order';
 import rename from 'gulp-rename';
 
 const chrome_dir = 'dist/chrome';
@@ -29,6 +32,21 @@ const paths = {
 	manifest: {
 		src: 'src/main/resources/manifest.json'
 	},
+	legacy: {
+		js: {
+			backend: {
+				chrome: 'legacy/src/js/backend/chrome/*.js',
+				firefox: 'legacy/src/js/backend/firefox/*.js',
+				src: 'legacy/src/js/backend/*.js'
+			},
+			common: 'legacy/src/js/common/*.js',
+			content: {
+				chrome: 'legacy/src/js/content/chrome/*.js',
+				firefox: 'legacy/src/js/content/firefox/*.js',
+				src: 'legacy/src/js/content/*.js'
+			}
+		}
+	},
 	styles: {
 		src: 'legacy/src/css/**/*.css',
 		dest: '/css'
@@ -41,10 +59,30 @@ const paths = {
 
 const clean = () => del([chrome_dir, ff_dir]);
 
+const backgroundJS = () => {
+	return gulp.src(
+		[paths.legacy.js.common, paths.legacy.js.backend.chrome, paths.legacy.js.backend.src])
+		.pipe(order(['**/common/*.js', '**/chrome/!(main.js)', '**/Skynet.js', '**/!(main.js)',
+			'**/chrome/main.js'], {base: 'legacy/src/js'}))
+		.pipe(concat('background.js'))
+		.pipe(gulp.dest(paths.dist.chrome + '/js'));
+};
+
 const contentJS = () => {
-	return gulp.src('src/main/js/**/*')
+
+	return gulp.src(
+		[paths.legacy.js.common, paths.legacy.js.content.chrome, paths.legacy.js.content.src])
+		//.pipe(notify('Before order: <%= file.path %>'))
+		.pipe(order(
+			['**/common/*.js', '**/chrome/!(main.js)', '**/observer.js', '**/Skynet.js', '**/!(main.js)',
+				'**/chrome/main.js'], {base: 'legacy/src/js'}))
+		//.pipe(notify('After order: <%= file.path %>'))
 		.pipe(concat('content.js'))
 		.pipe(gulp.dest(paths.dist.chrome + '/js'));
+
+	//return gulp.src('src/main/js/**/*')
+	//	.pipe(concat('content.js'))
+	//	.pipe(gulp.dest(paths.dist.chrome + '/js'));
 };
 
 const extRes = () => {
@@ -103,10 +141,11 @@ const templates = () => {
 };
 
 const build = gulp.series(clean,
-	gulp.parallel(contentJS, extRes, locales, resources, styles, templates));
-export {build, clean, contentJS, extRes, locales, resources, styles, templates};
+	gulp.parallel(backgroundJS, contentJS, extRes, locales, resources, styles, templates));
+export {build, clean, backgroundJS, contentJS, extRes, locales, resources, styles, templates};
 
 /*
  * Export a default task
  */
+//noinspection JSUnusedGlobalSymbols
 export default build;
