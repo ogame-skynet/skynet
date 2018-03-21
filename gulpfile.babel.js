@@ -72,7 +72,7 @@ const contentJS = () => {
 
 	return gulp.src(
 		[paths.legacy.js.common, paths.legacy.js.content.chrome, paths.legacy.js.content.src])
-		//.pipe(notify('Before order: <%= file.path %>'))
+	//.pipe(notify('Before order: <%= file.path %>'))
 		.pipe(order(
 			['**/common/*.js', '**/chrome/!(main.js)', '**/observer.js', '**/Skynet.js', '**/!(main.js)',
 				'**/chrome/main.js'], {base: 'legacy/src/js'}))
@@ -93,7 +93,7 @@ const extRes = () => {
 
 const locales = () => {
 	return gulp.src(paths.locales.src)
-		.pipe(rename(function(path) {
+		.pipe(rename((path) => {
 			path.dirname += '/' + path.basename.substr(-2);
 			path.basename = 'messages';
 		}))
@@ -106,7 +106,7 @@ const resources = (done) => {
 		.pipe(gulp.dest(paths.dist.chrome + paths.gfx.dest))
 		.pipe(gulp.dest(paths.dist.firefox + paths.gfx.dest));
 	gulp.src(paths.manifest.src)
-		.pipe(jsonTransform(function(data) {
+		.pipe(jsonTransform((data) => {
 			const json = {};
 			Object.keys(data).forEach((key) => {
 				if (key === 'version') {
@@ -127,7 +127,7 @@ const resources = (done) => {
 
 const styles = () => {
 	return gulp.src([paths.styles.src]
-		.filter(function(value) {
+		.filter((value) => {
 			return value !== '';
 		}))
 		.pipe(gulp.dest(paths.dist.chrome + paths.styles.dest))
@@ -142,7 +142,7 @@ const templates = () => {
 
 const build = gulp.series(clean,
 	gulp.parallel(backgroundJS, contentJS, extRes, locales, resources, styles, templates));
-export {build, clean, backgroundJS, contentJS, extRes, locales, resources, styles, templates};
+export { build, clean, backgroundJS, contentJS, extRes, locales, resources, styles, templates };
 
 /*
  * Export a default task

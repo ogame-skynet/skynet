@@ -1,6 +1,9 @@
 # PhpStorm project files
 .idea
 *.iml
+
 node_modules
+*.lock
+*.log
 
 dist
