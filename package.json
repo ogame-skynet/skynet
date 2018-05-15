@@ -22,22 +22,22 @@
     "webextension-polyfill": "^0.2.1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
     "del": "^3.0.0",
-    "eslint": "^4.19.0",
+    "eslint": "^4.19.1",
     "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-if": "^2.0.2",
     "gulp-json-transform": "^0.4.5",
     "gulp-notify": "^3.2.0",
     "gulp-order": "^1.1.1",
-    "gulp-rename": "^1.2.2",
+    "gulp-rename": "^1.2.3",
     "merge-stream": "^1.0.1",
-    "uglifyjs-webpack-plugin": "^1.2.4",
-    "web-ext": "^2.5.0",
-    "web-ext-types": "^2.0.1",
-    "webpack": "^4.1.1"
+    "uglifyjs-webpack-plugin": "^1.2.5",
+    "web-ext": "^2.6.0",
+    "web-ext-types": "^2.1.0",
+    "webpack": "^4.8.3"
   },
   "scripts": {
     "build": "gulp --require babel-register --gulpfile tasks",
