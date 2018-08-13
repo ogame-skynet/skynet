@@ -65,7 +65,8 @@ const backgroundJS = () => {
 		.pipe(order(['**/common/*.js', '**/chrome/!(main.js)', '**/Skynet.js', '**/!(main.js)',
 			'**/chrome/main.js'], {base: 'legacy/src/js'}))
 		.pipe(concat('background.js'))
-		.pipe(gulp.dest(paths.dist.chrome + '/js'));
+		.pipe(gulp.dest(paths.dist.chrome + '/js'))
+		.pipe(gulp.dest(paths.dist.firefox + '/js'));
 };
 
 const contentJS = () => {
@@ -78,7 +79,8 @@ const contentJS = () => {
 				'**/chrome/main.js'], {base: 'legacy/src/js'}))
 		//.pipe(notify('After order: <%= file.path %>'))
 		.pipe(concat('content.js'))
-		.pipe(gulp.dest(paths.dist.chrome + '/js'));
+		.pipe(gulp.dest(paths.dist.chrome + '/js'))
+		.pipe(gulp.dest(paths.dist.firefox + '/js'));
 
 	//return gulp.src('src/main/js/**/*')
 	//	.pipe(concat('content.js'))
@@ -118,6 +120,8 @@ const resources = (done) => {
 					json[key] = version;
 				} else if (key === 'applications') {
 					// ignore for Chrome
+				} else if (key === 'background_ff') {
+					// ignore
 				} else {
 					json[key] = data[key];
 				}
@@ -125,6 +129,25 @@ const resources = (done) => {
 			return json;
 		}, 2))
 		.pipe(gulp.dest(paths.dist.chrome));
+	gulp.src(paths.manifest.src)
+		.pipe(jsonTransform((data) => {
+			const json = {};
+			Object.keys(data).forEach((key) => {
+				if (key === 'version') {
+					json[key] = version;
+				} else if (key === 'version_name') {
+					// ignore for Firefox
+				} else if (key === 'background') {
+					json[key] = data['background_ff'];
+				} else if (key === 'background_ff') {
+					// ignore
+				} else {
+					json[key] = data[key];
+				}
+			});
+			return json;
+		}, 2))
+		.pipe(gulp.dest(paths.dist.firefox));
 	done();
 };
 
