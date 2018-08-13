@@ -59,26 +59,6 @@ This usually creates a second profile so that the other extensions do not interf
 With `about:debugging` you get to the page for managing the extensions. Here you should activate the debugging of
 add-ons and can load add-ons temporarily.
 
-###Firefox XPI
-
-To test with Firefox the following settings are suggested (about:config).
-
-	xpinstall.signatures.required: false
-	extensions.jid1-j57LkwpAWjGJXw@jetpack.sdk.console.logLevel: info
-
-After switching to the build/firefox folder, you can use `jpm xpi` to create the Firefox addon.
-
-The file has a cryptic name. Please rename it to match the correct name.
-
-The checksum of the XPI package can not be used. The XPI generated under Windows 10 using JPM 1.0.4 is different to the XPI from Linux Mint 17.3.  
-The content of both files is equal.  
-**Conclusion**: To check if the provided source fits to the uglified result, compare the contents of the XPI.
-
-The addon can be tested on page: http://pioneers.en.ogame.gameforge.com/  
-Choose universe **Bermuda**  
-Username **Skynet**  
-Passwort: huxi54-Turta
-
 ## External Libraries ##
 
  - [jQuery v3.3.1][jquery]
