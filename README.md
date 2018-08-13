@@ -30,6 +30,7 @@ for Chrome and Firefox.
     │       └── resources /     : Resources like images, locales and the manifest template
     └── tasks /                 : Gulp tasks for the build system
     
+
 ##Usage
 
 The build system is [Node.js][nodejs] based.  
