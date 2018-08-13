@@ -72,7 +72,7 @@ const contentJS = () => {
 
 	return gulp.src(
 		[paths.legacy.js.common, paths.legacy.js.content.chrome, paths.legacy.js.content.src])
-	//.pipe(notify('Before order: <%= file.path %>'))
+		//.pipe(notify('Before order: <%= file.path %>'))
 		.pipe(order(
 			['**/common/*.js', '**/chrome/!(main.js)', '**/observer.js', '**/Skynet.js', '**/!(main.js)',
 				'**/chrome/main.js'], {base: 'legacy/src/js'}))
@@ -85,10 +85,13 @@ const contentJS = () => {
 	//	.pipe(gulp.dest(paths.dist.chrome + '/js'));
 };
 
-const extRes = () => {
-	return gulp.src(paths.extJS.src)
+const extRes = (done) => {
+	gulp.src(paths.extJS.src)
 		.pipe(gulp.dest(paths.dist.chrome + paths.extJS.dest))
 		.pipe(gulp.dest(paths.dist.firefox + paths.extJS.dest));
+	gulp.src('./node_modules/webextension-polyfill/dist/browser-polyfill.min.js')
+		.pipe(gulp.dest(paths.dist.chrome + paths.extJS.dest));
+	done();
 };
 
 const locales = () => {
@@ -142,7 +145,7 @@ const templates = () => {
 
 const build = gulp.series(clean,
 	gulp.parallel(backgroundJS, contentJS, extRes, locales, resources, styles, templates));
-export { build, clean, backgroundJS, contentJS, extRes, locales, resources, styles, templates };
+export {build, clean, backgroundJS, contentJS, extRes, locales, resources, styles, templates};
 
 /*
  * Export a default task
