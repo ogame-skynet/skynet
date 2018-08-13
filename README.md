@@ -38,8 +38,11 @@ The build system uses [Gulp] and [webpack], as well as [ESlint] and [Babel],
 
 To install all dependencies use: `yarn install`
 
-As you can see, the package.json contains some hopefully self-explanatory tasks.
-These are started like this, for example: `yarn run build`
+The following lines are not yet correct. At the moment Skynet is built over the commandline with
+the `gulp` command.
+
+    As you can see, the package.json contains some hopefully self-explanatory tasks.
+    These are started like this, for example: `yarn run build`
 
 ## Chrome
 
